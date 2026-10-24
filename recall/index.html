@@ -6208,6 +6208,26 @@ function renderPrint(){
   app.innerHTML=h;
 }
 
+/* ---------- first-open welcome ---------- */
+function welcome(){
+  modal((box,close)=>{
+    const th=()=>get("theme")||"auto",lg=()=>root.getAttribute("data-lang")||"ml";
+    const draw=()=>{
+      box.innerHTML=`<div class="qz"><h2 style="padding-right:34px">Welcome</h2><p class="mu">Two quick choices. You can change them any time in ⚙ at the top.</p>
+        <b>How should it look?</b>
+        <div class="row2" id="wt"><button type="button" data-v="light" class="${th()==="light"?"primary":""}">Light</button><button type="button" data-v="dark" class="${th()==="dark"?"primary":""}">Dark</button><button type="button" data-v="auto" class="${th()==="auto"?"primary":""}">Same as my phone</button></div>
+        <b>Memory hooks in</b>
+        <div class="row2" id="wl"><button type="button" data-v="ml" class="${lg()==="ml"?"primary":""}">English + Malayalam</button><button type="button" data-v="en" class="${lg()==="en"?"primary":""}">English only</button></div>
+        <button type="button" class="primary" id="wgo" style="margin-top:6px">Start studying</button></div>`;
+      box.querySelectorAll("#wt button").forEach(b=>b.onclick=()=>{const v=b.dataset.v;set("theme",v==="auto"?null:v);applyTheme(v==="auto"?null:v);draw()});
+      box.querySelectorAll("#wl button").forEach(b=>b.onclick=()=>{set("lang",b.dataset.v);applyLang(b.dataset.v);draw()});
+      box.querySelector("#wgo").onclick=()=>{set("welcomed","1");close()};
+    };
+    draw();
+  });
+}
+if(!PRINT&&!get("welcomed"))setTimeout(welcome,250);
+
 /* ---------- router ---------- */
 let SEARCHING=false;
 function route(){
