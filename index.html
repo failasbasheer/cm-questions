@@ -22,6 +22,8 @@ h1{font:600 1.7rem/1.2 var(--display);margin:0;text-wrap:balance}
 .q.done{border-color:var(--accent)}
 .q h2{font:600 1.02rem/1.35 var(--body);margin:0}
 .q h2 .n{display:inline-block;min-width:1.6em;color:var(--accent)}
+.date{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.92rem;color:var(--muted)}
+.date input{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
 .hint{font-size:.85rem;color:var(--muted);margin:0}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opts button{font:inherit;font-size:.95rem;cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:8px 14px;text-align:left}
@@ -80,6 +82,8 @@ const list=document.getElementById("list");
 Q.forEach(([q,opts,multi],i)=>{
   const s=document.createElement("section");s.className="q";s.id="q"+i;
   s.innerHTML=`<h2><span class="n">${i+1}</span>${q}</h2>${multi?'<p class="hint">Tap all that apply.</p>':""}<div class="opts" role="group" aria-label="${q.replace(/"/g,"")}">${opts.map((o,k)=>`<button type="button" id="o${i}_${k}" aria-pressed="false">${o}</button>`).join("")}</div>`;
+  if(i===0){const d=document.createElement("label");d.className="date";d.innerHTML='Or pick the exact date: <input type="date" id="examDate">';s.appendChild(d);
+    d.querySelector("input").onchange=e=>{s.classList.toggle("done",A[0].size>0||!!e.target.value);update()}}
   list.appendChild(s);
   s.querySelectorAll("button").forEach((b,k)=>b.onclick=()=>{
     if(multi){A[i].has(k)?A[i].delete(k):A[i].add(k)}else{const had=A[i].has(k);A[i].clear();if(!had)A[i].add(k)}
@@ -90,12 +94,15 @@ Q.forEach(([q,opts,multi],i)=>{
 const extra=document.getElementById("extra");extra.oninput=update;
 function text(){
   let t="📚 Community Medicine – my answers\n";
-  Q.forEach(([q,opts],i)=>{t+=`\n${i+1}. ${q}\n→ ${A[i].size?[...A[i]].sort((a,b)=>a-b).map(k=>opts[k]).join(", "):"(skipped)"}\n`});
+  const ed=document.getElementById("examDate")?.value;
+  Q.forEach(([q,opts],i)=>{let ans=A[i].size?[...A[i]].sort((a,b)=>a-b).map(k=>opts[k]).join(", "):"";
+    if(i===0&&ed){const d=new Date(ed+"T00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"});ans=ans?`${ans} (exact date: ${d})`:`Exact date: ${d}`}
+    t+=`\n${i+1}. ${q}\n→ ${ans||"(skipped)"}\n`});
   if(extra.value.trim())t+=`\n13. Important questions / anything else:\n${extra.value.trim()}\n`;
   return t;
 }
 function update(){
-  const n=A.filter(s=>s.size).length;
+  const n=A.filter((s,i)=>s.size||(i===0&&document.getElementById("examDate")?.value)).length;
   document.getElementById("prog").textContent=`${n} of 12 answered`+(n<12?" (you can still send)":" ✓");
   document.getElementById("send").href="https://wa.me/?text="+encodeURIComponent(text());
 }
