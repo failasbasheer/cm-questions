@@ -48,14 +48,14 @@ textarea{font:inherit;font-size:.95rem;width:100%;box-sizing:border-box;min-heig
   </header>
   <div id="list" style="display:flex;flex-direction:column;gap:14px"></div>
   <section class="q">
-    <h2><span class="n">13</span>Important questions from your teacher or previous years' papers <span style="font-weight:400;color:var(--muted)">(optional)</span></h2>
+    <h2><span class="n">14</span>Important questions from your teacher or previous years' papers <span style="font-weight:400;color:var(--muted)">(optional)</span></h2>
     <p class="hint">Type them here, or send photos separately on WhatsApp. Anything else I should know can go here too.</p>
     <textarea id="extra" aria-label="Important questions (optional)"></textarea>
   </section>
 </main>
 
 <div class="bar"><div class="in">
-  <span class="prog" id="prog">0 of 12 answered</span>
+  <span class="prog" id="prog">0 of 13 answered</span>
   <button class="send" id="submit" type="button">Submit answers</button>
   <a class="copy" id="send" href="#" target="_blank" rel="noopener">WhatsApp</a>
   <span class="toast" id="toast" hidden></span>
@@ -74,6 +74,7 @@ const Q=[
 ["How many hours a day can you study before the exam?",["2–3 hours","4–6 hours","7+ hours"],0],
 ["Did the last recall pack (OBG) help?",["Yes, same style","Yes, but make it shorter","Didn't use it much","Change something (write below)"],0],
 ["How do you want it?",["Phone page like last time","Printable PDF","Both"],0],
+["Light or dark mode for the notes?",["Light mode","Dark mode","Follow my phone's setting"],0],
 ["Do you want practice questions (quiz yourself) too?",["Yes, quiz me","Only essay skeletons","Both"],0],
 ["Memory hooks in which language?",["English","Malayalam + English mix"],0]
 ];
@@ -98,12 +99,12 @@ function text(){
   Q.forEach(([q,opts],i)=>{let ans=A[i].size?[...A[i]].sort((a,b)=>a-b).map(k=>opts[k]).join(", "):"";
     if(i===0&&ed){const d=new Date(ed+"T00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"});ans=ans?`${ans} (exact date: ${d})`:`Exact date: ${d}`}
     t+=`\n${i+1}. ${q}\n→ ${ans||"(skipped)"}\n`});
-  if(extra.value.trim())t+=`\n13. Important questions / anything else:\n${extra.value.trim()}\n`;
+  if(extra.value.trim())t+=`\n${Q.length+1}. Important questions / anything else:\n${extra.value.trim()}\n`;
   return t;
 }
 function update(){
   const n=A.filter((s,i)=>s.size||(i===0&&document.getElementById("examDate")?.value)).length;
-  document.getElementById("prog").textContent=`${n} of 12 answered`+(n<12?" (you can still send)":" ✓");
+  document.getElementById("prog").textContent=`${n} of ${Q.length} answered`+(n<Q.length?" (you can still send)":" ✓");
   document.getElementById("send").href="https://wa.me/?text="+encodeURIComponent(text());
 }
 const TOPIC="cm-anuna-5e56621078d5999cc6c2";
