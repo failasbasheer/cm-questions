@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}[hidden]{display:none!important}</style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><meta name="theme-color" content="#0f6e64"><meta name="apple-mobile-web-app-capable" content="yes"><style>body{margin:0}[hidden]{display:none!important}</style>
 <title>Community Medicine Exam Prep</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
@@ -37,8 +37,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
 .stat b{display:block;font:600 1.3rem var(--display);color:var(--accent)} .stat span{font-size:.78rem;color:var(--muted)}
-.bnav{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-.bnav a{display:flex;align-items:center;justify-content:center;min-height:56px;color:var(--muted);text-decoration:none;font-weight:600;font-size:.92rem}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(5,1fr);background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bnav a{display:flex;align-items:center;justify-content:center;min-height:56px;color:var(--muted);text-decoration:none;font-weight:600;font-size:.84rem;text-align:center}
 .bnav a.on{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
 body{padding-bottom:84px}
 .grp{font:600 .78rem var(--body);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
@@ -101,6 +101,19 @@ textarea.ans{width:100%;min-height:130px;font:inherit;padding:10px;border:1px so
 .bars{display:flex;flex-direction:column;gap:8px;margin-top:6px} .bars div{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 /* print: dense two-column pages, no wasted space */
+.plan{background:var(--accent-soft);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0 4px;display:flex;flex-direction:column;gap:6px}
+.plan .dl{font-size:1.02rem}.plan .dl b{font:600 1.7rem var(--display);color:var(--accent)}
+.plan ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.plan li a{display:flex;justify-content:space-between;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--fg);text-decoration:none;min-height:44px}
+.plan li span{color:var(--muted);font-size:.85rem;white-space:nowrap}
+.panel label.dt{flex:1 1 100%;display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.9rem}
+.panel input[type=date]{flex:1;font:inherit;font-size:16px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg)}
+.sheet h3{font:600 1.05rem var(--body);color:var(--accent);margin:18px 0 6px}
+.sheet table{width:100%;border-collapse:collapse;font-size:.93rem}
+.sheet td{border-top:1px solid var(--line);padding:6px 6px;vertical-align:top}
+.sheet td:first-child{font-weight:600;width:38%}.sheet td:last-child{color:var(--muted);font-size:.8rem;white-space:nowrap;text-align:right}
+.sheet .hk{margin:4px 0;font-size:.93rem}
+#sf{width:100%;font:inherit;font-size:16px;min-height:44px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);margin:8px 0}
 .spot{outline:3px solid var(--warn)!important;outline-offset:3px;border-radius:10px;position:relative;z-index:25;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{50%{outline-offset:6px}}
 .tour{position:fixed;left:12px;right:12px;z-index:70;max-width:560px;margin:0 auto;background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
@@ -125,6 +138,11 @@ body.print .fig svg{max-width:100%;border:0}
 body.print .fig{margin:3px 0;break-inside:avoid}
 body.print .fig figcaption{display:none}
 body.print .note{column-span:all}
+body.print .sheet h3{font-size:10pt;margin:8px 0 3px;break-after:avoid}
+body.print .sheet table{font-size:8.6pt}
+body.print .sheet td{padding:2px 4px}
+body.print .sheet .hk{font-size:8.6pt;margin:1px 0}
+body.print .plan,body.print #sf{display:none}
 @page{size:A4;margin:8mm}
 </style>
 
@@ -140,13 +158,15 @@ body.print .note{column-span:all}
       <button class="t" id="lang" type="button">Hooks: English only</button>
       <button class="t" id="popq" type="button">Pop-up quizzes: On</button>
       <button class="t" id="tourbtn" type="button">Take the tour</button>
+      <button class="t" id="instbtn" type="button">Install on home screen</button>
+      <label class="dt">Exam date <input type="date" id="exd" aria-label="Exam date"></label>
     </div>
     <span id="qn"></span>
   </div>
   <div id="app"></div>
 </div>
 <nav class="bnav" id="bnav" aria-label="Main">
-  <a href="#/" data-r="">Home</a><a href="#/quiz" data-r="quiz">Quiz</a><a href="#/exam" data-r="exam">MCQ test</a><a href="#/revise" data-r="revise">Revise</a>
+  <a href="#/" data-r="">Home</a><a href="#/quiz" data-r="quiz">Quiz</a><a href="#/exam" data-r="exam">MCQ test</a><a href="#/sheet" data-r="sheet">Night sheet</a><a href="#/revise" data-r="revise">Revise</a>
 </nav>
 
 <script>
@@ -257,7 +277,7 @@ hookEn:"Diphtheria: IP 2–6 days; about 95 carriers for every 5 cases; gravis i
 draw:"Flow: management of contacts by immunization status (<2 yr: nothing; >2 yr: booster; non-immunized: antibiotic + 1000–2000 units antitoxin + active immunization).",
 sk:[
 ["Definition",["Acute infection by **toxigenic Corynebacterium diphtheriae**; types: anterior nasal, **faucial**, laryngeal; also skin, conjunctiva, vulva","Exotoxin causes: greyish/yellowish **false membrane** (well-defined edges, cannot be wiped away) over tonsils, pharynx, larynx; congestion, oedema, tissue destruction; enlarged regional nodes; toxaemia","CFR about **10%** in untreated; under 5: **1 in 5** dies"],"159–160"],
-["Problem statement",["Rare in developed countries (routine vaccination); occasional cases in non-immunized","Epidemics due to falling coverage, **waning adult immunity**, population movement, irregular vaccine supply → need for **boosters**; age shift to older children and adults","**2012: about 4,490** cases globally","**India**: endemic, declining; **1987: about 12,952**; **2013: 4,090 cases, 64 deaths, CFR ~2.61%**"],"160"],
+["Problem statement",["Rare in developed countries (routine vaccination); occasional cases in non-immunized","Epidemics due to falling coverage, **waning adult immunity**, population movement, irregular vaccine supply → need for **boosters**; age shift to older children and adults","**2012: about 4,490** cases globally","**India**: endemic, declining; **1987: about 12,952**; **2013: 4,090 cases, 64 deaths, CFR printed as ~2.61** (as printed; 64/4,090 works out near 1.6%)"],"160"],
 ["Agent factors",["**Gram-positive, non-motile**; no invasive power, powerful **exotoxin**","Types: **gravis, mitis, belfanti, intermedius**; gravis more severe","Non-toxigenic strain becomes toxigenic with **beta phage**; toxin → **myocarditis, paralysis**","Sensitive to penicillin, killed by heat; short survival in dust/fomites"],"160"],
 ["Source, infective material, infectivity",["**Cases**: subclinical to frank; mild cases (running nose, sore throat) spread more","**Carriers**: **95 carriers for 5 cases**; temporary (~1 month) or chronic (~1 year); **nasal carriers more dangerous** than throat; carrier rate **0.1–5%**; **immunization does not prevent carrier state**","Infective material: nasopharyngeal secretions, skin lesion discharge, fomites, possibly dust","Infectivity untreated **14–28 days**; non-communicable when **≥2 cultures from nose and throat, 24 hours apart, are negative**"],"160"],
 ["Host and environmental factors",["**Age 1–5 years**; shift to school age with immunization; both sexes","Infants of immune mothers protected first weeks/months; earlier natural immunity via inapparent (skin) infection; by **6–8 years ~75%** have protective antitoxin in developing countries","Disease only if antitoxin absent or **<0.01 Lf unit/ml**; immunity depends on antitoxin","All seasons; **winter** favours spread"],"160"],
@@ -379,8 +399,8 @@ sk:[
 ["Outcomes: RR/MDR/XDR-TB on second-line treatment",["**Cured**: completed without failure AND **≥3 consecutive negative cultures ≥30 days apart** after intensive phase","**Treatment failed**: stopped or ≥2 drugs changed for lack of conversion by end of IP (cut-off **8 months** if none defined), reversion in CP, new resistance to FQ/injectables, or ADRs","Died; lost to follow-up (interrupted ≥2 months); not evaluated; success = cured + completed","**Conversion**: 2 consecutive negative cultures ≥30 days apart; **reversion**: 2 consecutive positives after conversion (counted only in CP)","Apply revised definitions from a set changeover date (e.g. 1 January)"],"180–181"]]},
 
 {id:"r17",type:"essay",pages:"182–186",q:"Describe case finding in tuberculosis: sputum examination, newer diagnostic methods and the tuberculin test.",
-hook:"Sputum **2 samples (spot + early morning)**; smear positive aakan **10,000 bacilli/ml** venam. Mantoux **1 TU PPD RT23, 0.1 ml, 72 hr**; **≥10 mm positive, <6 negative**. **CBNAAT 90 minutes**.",
-hookEn:"Sputum: 2 samples (one spot, one early morning); a smear is positive only with at least 10,000 bacilli per ml. Mantoux: 1 TU PPD RT23 in 0.1 ml, read at 72 hours; 10 mm or more is positive, under 6 mm negative. Xpert MTB/RIF gives results in 90 minutes.",
+hook:"Sputum **2 samples (spot + early morning)**; smear positive aakan **10,000 bacilli/ml** venam. Mantoux **1 TU PPD RT23, 0.1 ml, 72 hr**; **>10 mm positive (text; group table ≥10), <6 negative**. **CBNAAT 90 minutes**.",
+hookEn:"Sputum: 2 samples (one spot, one early morning); a smear is positive only with at least 10,000 bacilli per ml. Mantoux: 1 TU PPD RT23 in 0.1 ml, read at 72 hours; over 10 mm is positive (the group table uses 10 mm or more), under 6 mm negative. Xpert MTB/RIF gives results in 90 minutes.",
 draw:"Table: sputum smear grading (0 / scanty 1–9 per 100 fields / 1+ 10–99 per 100 fields / 2+ 1–10 per field / 3+ >10 per field).",
 sk:[
 ["Control components",["Control = reduction of prevalence and incidence","**Curative**: case finding + treatment; **preventive**: BCG; most powerful = **case finding + treatment**"],"182"],
@@ -391,7 +411,7 @@ sk:[
 ["False results",["**False-positive**: stain in scratches, transfer of AFB between slides, environmental mycobacteria, acid-fast particles","**False-negative**: poor collection (inadequate sample, wrong container, stored too long), faulty processing/staining, inadequate reading, administrative errors"],"183"],
 ["Other methods",["**Fluorescence microscopy** (auramine): field 5–10× bigger, 1–2 minutes per smear; **LED microscopy**: cheaper, as accurate as fluorescence, better than ZN → phase in","**Chest X-ray**: for smear-negative PTB and children; not routine in smear-positive; pleural/pericardial effusion; **essential in miliary TB**; haemoptysis, pneumothorax","**Culture** = cornerstone of definitive diagnosis: **Lowenstein-Jensen**, Middlebrook 7H10/7H11, liquid media; at least **4 weeks** (+4 weeks for DST); solid + liquid = **gold standard**","Rapid culture: micro-colony detection on 7H11 (<7 days), MODS, **BACTEC 460** (radiometric, ¹⁴C palmitic acid, half the time), **MGIT 960** (fluorescence, O₂ use, monitors every 60 minutes), MB/BacT (colorimetric CO₂), ESP II"],"183–184"],
 ["Molecular and other tests",["**PCR**: 10–1000 organisms; results within a day; target **IS6110**","TMA/NAA: hours; distinguishes M. tuberculosis complex from NTM","**Cartridge-based NAAT**: sensitivity near liquid culture; detects **rifampicin resistance** (marker of MDR)","**GeneXpert MTB/RIF**: PCR for M. tuberculosis + **rpoB** mutations; molecular beacons; result from unprocessed sputum in **90 minutes**, minimal biohazard and training","**FAST Plaque TB**: phage-based, more sensitive than smear","**Serology** (TB STAT-PAK, Insta test TB, MycoDot, ELISAs with LAM, 38 kDa, A60): low sensitivity in smear-negative, HIV and endemic areas; value in India not established"],"184–185"],
-["Tuberculin test",["Discovered by **Von Pirquet (1907)**; positive = past or present infection; **only means** of measuring prevalence of infection","WHO standard tuberculins: **PPD-S** and **PPD-RT 23**; 5 TU PPD-S = 0.1 µg/0.1 ml; 1 TU RT 23 = 5 TU PPD-S; India: **PPD-RT 23 with Tween 80** (prevents adsorption to glass); **1 TU** for standard Mantoux","**Mantoux**: **1 TU in 0.1 ml intradermally**, flexor surface of **left forearm**, midway elbow–wrist; bevel up; wheal **6–10 mm**","Read at 48–96 hours, ideally **72 hours**; measure **induration** (transverse diameter)","**≥10 mm positive; <6 mm negative; 6–9 mm doubtful** (TB or atypical); none = '0'","Strong reactors (**≥20 mm**) more risk; **92%** of new cases occur in reactors"],"185"],
+["Tuberculin test",["Discovered by **Von Pirquet (1907)**; positive = past or present infection; **only means** of measuring prevalence of infection","WHO standard tuberculins: **PPD-S** and **PPD-RT 23**; 5 TU PPD-S = 0.1 µg/0.1 ml; 1 TU RT 23 = 5 TU PPD-S; India: **PPD-RT 23 with Tween 80** (prevents adsorption to glass); **1 TU** for standard Mantoux","**Mantoux**: **1 TU in 0.1 ml intradermally**, flexor surface of **left forearm**, midway elbow–wrist; bevel up; wheal **6–10 mm**","Read at 48–96 hours, ideally **72 hours**; measure **induration** (transverse diameter)","**Text: 'exceeding 10 mm' = positive (the group table below uses ≥10 mm); <6 mm negative; 6–9 mm doubtful** (TB or atypical); none = '0'","Strong reactors (**≥20 mm**) more risk; **92%** of new cases occur in reactors"],"185"],
 ["Positive cut-offs by group",["**≥5 mm**: HIV-positive; recent contacts; fibrotic changes on X-ray; transplant/immunosuppressed (≥15 mg/day prednisone ≥1 month)","**≥10 mm**: recent immigrants (<5 years) from high-prevalence countries; HIV-negative injection drug users; mycobacteriology lab staff; residents/employees of high-risk settings (prisons, nursing homes, hospitals, AIDS facilities, shelters); high-risk conditions (gastrectomy, ≥10% below ideal weight, diabetes, silicosis, chronic kidney disease, leukaemia, lymphoma, head/neck/lung cancer); **children <4 years** or exposed to high-risk adults","**≥15 mm**: persons with no risk factors"],"185"],
 ["Negative test, two-step test, limitations",["Negative test does **not exclude TB**: malignancy, Hodgkin's, HIV, malnutrition, severe bacterial infection (incl. TB), viral infection (measles, chickenpox, glandular fever), recent live vaccine, steroids, faulty injection","**Two-step testing** (adults retested periodically, e.g. health workers): if first negative, second test **1–3 weeks** later; positive second = previous infection (**booster effect**)","Lacks specificity: cross-reactions, BCG, boosting; hypersensitivity ≠ protection","'Must be approached with respect, administered with care, read with deliberation and interpreted with sentient discrimination'","Case finding is useless unless followed by **chemotherapy**"],"185–186"]]},
 
@@ -411,7 +431,7 @@ sk:[
 ["Long-course and short-course",["Long-course: INH + 1–2 companion drugs, **18 months**; daily or bi-weekly regimens","Short-course: **Wallace Fox (1972, British MRC)**: rifampicin or pyrazinamide shortens treatment","Advantages: rapid conversion, fewer failures, less resistance, better compliance, earlier non-infectious; disadvantage: cost","6-month regimens: **2 months 4 drugs** (H, R, Z + S or E) then **2 drugs** (H + R or thioacetazone), fully supervised"],"188"],
 ["DOTS",["Ensures cure by giving the most effective medicine and **confirming it is taken**; only strategy proven worldwide","Intensive phase: health worker watches every dose; continuation: **weekly multiblister combipack**, first dose observed, empty pack returned","Patient-wise boxes; **alternate-day (thrice-weekly)** treatment"],"188"],
 ["Treatment categories (Table 3)",["**Category I (Red box)**: new smear-positive, new smear-negative, new extrapulmonary, new others: **2(HRZE)3 + 4(HR)3**; sputum at **2 months**: negative → CP, test at 4 and 6 months; positive → one more month IP; complete in 7 months","**Category II (Blue box)**: previously treated smear-positive relapse, failure, treatment after default, others: **2(HRZES)3 + 1(HRZE)3 + 5(HRE)3**; sputum at **3 months**: negative → CP, test at 5 months and end; positive → one more month IP, test at 4 months, culture and DST (possible MDR)","Doses: **H 600 mg, R 450 mg, Z 1500 mg, E 1200 mg, S 750 mg**; >60 kg extra R 150 mg; >50 years S 500 mg","Cat I smear-positive at **5 months** = failure → Cat II afresh","Seriously ill EPTB: meningitis, disseminated, pericarditis, peritonitis, bilateral pleurisy, **spinal TB with neurological complications**, intestinal and genitourinary TB"],"188"],
-["Non-DOTS and interrupted treatment",["Daily self-administered **non-DOTS** only for adverse reaction or inability to comply: **ND1** = 2(SHE) + 10(HE) (new smear-positive or seriously ill EPTB); **ND2** = 12(HE) (smear-negative or not seriously ill EPTB)","Tables 4–6: action depends on treatment received, length of interruption, sputum result","Interruption **<2 weeks** → continue; **2–7 weeks** → sputum (if positive after 1 month of treatment: extra month IP, or restart); **≥8 weeks** + positive = **default** → Cat I again or Cat II","Cat I must complete **24 doses** of IP; Cat II **36 doses**"],"189–190"],
+["Non-DOTS and interrupted treatment",["Daily self-administered **non-DOTS** only for adverse reaction or inability to comply: **ND1** = 2(SHE) + 10(HE) (new smear-positive or seriously ill EPTB); **ND2** = 12(HE) (smear-negative or not seriously ill EPTB)","Tables 4–6: action depends on treatment received, length of interruption, sputum result","Cat I (Table 5): interruption **<2 weeks** → continue; **2–7 weeks** → start again if <1 month treated (no sputum), otherwise sputum: negative → continue, positive → **1 extra month IP** (1–2 months treated) or Cat II (>2 months treated); **≥8 weeks** + positive = **default** → start Cat I again (<1 month treated) or **Cat II** (≥1 month treated); negative → continue","Cat I must complete **24 doses** of IP; Cat II **36 doses**"],"189–190"],
 ["Final word",["Main problem is not new drugs but applying existing ones; **adequate and regular drug intake** (compliance) is the cornerstone"],"196"]]},
 
 {id:"r19",type:"short",pages:"190–193, 198–200",q:"Short note: Drug-resistant tuberculosis (MDR-TB, XDR-TB) and DOTS-Plus",
@@ -648,7 +668,7 @@ sk:[
 ["Hepatitis E: diagnosis, treatment, prevention",["Not clinically distinguishable; **IgM and IgG antibodies**; **RT-PCR** for RNA in blood/stool","Self-limiting; no specific treatment; hospitalize fulminant cases and symptomatic pregnant women; recovery always complete; **no specific Ig**","Prevention: quality public water supply, sanitary waste disposal; hand washing, avoid water/ice of unknown purity, WHO safe food practices","First **vaccine registered in China 2011** (not available globally)"],"219"],
 ["Hepatitis D",["Worldwide, uneven; highest in **Italy, Middle East, Central Asia, West Africa, South America**","High risk: multiple transfusions, IV drug abusers and contacts","Routes like HBV but **not sexually transmitted**; **depends on HBV replication** (HBsAg envelope)","**Incubation 2–12 weeks** (shorter in carriers superinfected than in simultaneous co-infection)","Perinatal spread occurs but not prevalent in Asia","Patterns: **Mediterranean** – endemic in hep B patients, intimate contact; **non-endemic (USA, N. Europe)** – blood/blood product exposure, drug addicts, haemophiliacs","Prevented by **hepatitis B vaccine** in HBV-susceptibles; does **not** protect HBV carriers from superinfection"],"220"],
 ["Hepatitis G and nomenclature",["**HGV discovered 1996**; prevalence unknown; link with blood transfusion in India; a **flavivirus**","Table 3: HAV = picornavirus (genus Hepatovirus); **IgM anti-HAV** = recent infection (+ up to 4–6 months)","HBV = hepadnavirus; **HBsAg** surface antigen; **HBeAg** = replication and high infectivity; **anti-HBs** = immunity (past infection, HBIG or vaccine); anti-HBe in carrier = lower titre; anti-HBc = past infection; **IgM anti-HBc** = recent (4–6 months)","HCV = flavivirus, genus Hepacivirus, common cause of post-transfusion hepatitis","HDV: needs HBV; HDAg early; anti-HDV = past/present infection","HEV: enterically transmitted; large epidemics in Asia, N. Africa; perhaps a calicivirus","**IG** contains anti-HAV only; **HBIG** high anti-HBV titre"],"220"],
-["Table 2: A vs B vs C",["**Incubation**: A **10–50 days (avg 25–30)** | B **50–180 days (avg 60–90)** | C **2 weeks–6 months (avg 40–120 days)**","**Age**: A children, young adults | B **15–29 yrs** | C adults","**Season**: A all year, peak autumn | B, C all year","**Route**: A faecal–oral | B, C parenteral","**Virus in blood**: A 2 wk before to ≤1 wk after jaundice | B, C months to years","**Stool**: A 2 wk before to 2 wk after | B absent | C probably absent","**Saliva/semen**: A rare | B frequently present | C unknown","**Onset**: A abrupt | B, C insidious; **fever** common in A","**Aminotransferase raised**: A 1–3 weeks | B, C 1–6+ months","**Chronicity**: A none | B **5–10%** | C **≥50%**","**Mortality (icteric)**: A **<0.5%** | B **<1–2%** | C **0.5–1%**","**HBsAg**: present only in B","**Ig**: regularly prevents jaundice in A; in B only if potent against HBV; C unknown"],"219"]]},
+["Table 2: A vs B vs C",["**Incubation**: A **10–50 days (avg 25–30)** | B **50–180 days (avg 60–90)** (as printed in Table 2; text p.215 says 30–180, avg ~75) | C **2 weeks–6 months (avg 40–120 days)**","**Age**: A children, young adults | B **15–29 yrs** | C adults","**Season**: A all year, peak autumn | B, C all year","**Route**: A faecal–oral | B, C parenteral","**Virus in blood**: A 2 wk before to ≤1 wk after jaundice | B, C months to years","**Stool**: A 2 wk before to 2 wk after | B absent | C probably absent","**Saliva/semen**: A rare | B frequently present | C unknown","**Onset**: A abrupt | B, C insidious; **fever** common in A","**Aminotransferase raised**: A 1–3 weeks | B, C 1–6+ months","**Chronicity**: A none | B **5–10%** | C **≥50%**","**Mortality (icteric)**: A **<0.5%** | B **<1–2%** | C **0.5–1%**","**HBsAg**: present only in B","**Ig**: regularly prevents jaundice in A; in B only if potent against HBV; C unknown"],"219"]]},
 
 {id:"i9",type:"essay",pages:"221–228",q:"Describe the epidemiology and control of acute diarrhoeal diseases.",
 hook:"Diarrhoea = '**3-il kooduthal loose stool**, pakshe **consistency maattam** aanu important'. 4 types: **Watery, Bloody, Persistent (≥14 days), Malnutrition-ode**. Peak age **6–11 maasam** (weaning). Sheet anchor = **ORT**.",
@@ -1319,7 +1339,7 @@ sk:[
 ["1. Control of cases",["**(a) Early diagnosis**: in epidemics clinically (fever + painful buboes); '**rat falls**' warn of outbreak; confirm bacteriologically; bipolar bacilli on smear = prima facie diagnosis","**(b) Notification**: promptly; required under **IHR**","**(c) Isolation**: recommended; **all pneumonic** (incl. suspected) must be isolated","**(d) Treatment**: start **without waiting** for confirmation; untreated mortality ~**50%**, pneumonic **100%**","Drug of choice **streptomycin 30 mg/kg/day IM in 2 divided doses for 7–10 days**; **tetracycline 30–40 mg/kg/day** orally (alternative or combined); **gentamicin 2 mg/kg loading then 1.7 mg/kg 8-hourly IV**; penicillin ineffective; sulphonamides if nothing else","**(e) Disinfection** of sputum, discharges, articles; dead bodies handled aseptically"],"296"],
 ["2. Control of fleas",["Most effective way to break rodent → flea → man chain; **flea control must precede or coincide with anti-rodent measures**","Insecticide by prior susceptibility test: **DDT 10%** or **BHC 3%** dust; if resistant, **carbaryl 2%** or **malathion 5%**; **2–3 g per sq metre**; organochlorines effective **2–4 months**","Remove food and vessels first; spray entire floor, walls up to **3 feet**, backs of doors, thatched roofs, crevices, rat runs, clothing, bedding, pets; **insufflate burrows** with dust blower","Spray radius **5 miles** around infected locality; flea index should drop to **zero within 48 hours**"],"296"],
 ["3. Control of rodents",["Continuous mass destruction; long-term: better sanitation, housing, quality of life"],"296"],
-["4. Vaccination",["For **prevention, not control** (WHO); give **at least a week before** an expected outbreak; **2 doses**","**Haffkine 1897** (inoculated himself); current vaccine = Haffkine's, **modified by Sokhey**: **formalin-killed**; grown in casein hydrolysate broth 2 weeks at 27°C, killed by **0.1% formalin** 3 days at 37°C; **2000 million organisms per ml**","SC **0.5 ml and 1.0 ml**, **7–14 days** apart; single dose not dependable; emergency single dose = double the second dose (**3 ml** adult male)","Immunity starts **5–7 days**, lasts **about 6 months**; boosters **6-monthly** for those at continuing risk (geologists, biologists, anthropologists); reactions subside in 1–2 days; for travellers to hyperendemic areas","**Table 3**: adult males **1.0 / 1.5 ml**, booster 1.0 ml; adult females **0.75 / 1.0 ml**, booster 0.75 ml; children 1–4 y **0.2 ml**, 5–10 y **0.3 ml**, 11–16 y **0.4 ml** (2nd dose = double the first; booster = same as first); **infants under 6 months not immunized**"],"296"],
+["4. Vaccination",["For **prevention, not control** (WHO); give **at least a week before** an expected outbreak; **2 doses**","**Haffkine 1897** (inoculated himself); current vaccine = Haffkine's, **modified by Sokhey**: **formalin-killed**; grown in casein hydrolysate broth 2 weeks at 27°C, killed by **0.1% formalin** 3 days at 37°C; **2000 million organisms per ml**","SC **0.5 ml and 1.0 ml** (text; Table 3 prints adult males 1.0 / 1.5 ml, as printed), **7–14 days** apart; single dose not dependable; emergency single dose = double the second dose (**3 ml** adult male)","Immunity starts **5–7 days**, lasts **about 6 months**; boosters **6-monthly** for those at continuing risk (geologists, biologists, anthropologists); reactions subside in 1–2 days; for travellers to hyperendemic areas","**Table 3**: adult males **1.0 / 1.5 ml**, booster 1.0 ml; adult females **0.75 / 1.0 ml**, booster 0.75 ml; children 1–4 y **0.2 ml**, 5–10 y **0.3 ml**, 11–16 y **0.4 ml** (2nd dose = double the first; booster = same as first); **infants under 6 months not immunized**"],"296"],
 ["5. Chemoprophylaxis",["For all **plague contacts** and exposed medical, nursing, public health staff","**Tetracycline 500 mg 6-hourly for 5 days** (adults); cheaper: **sulfonamide 2–3 g daily for 5–7 days**"],"296–297"],
 ["6. Surveillance",["Where natural foci exist or past infection: cover microbiology, serology, entomology, mammalogy, epidemiology, ecology","Surveillance of natural foci should **replace quarantine** (ineffective)"],"297"],
 ["7. Health education",["Facts about plague; **prompt reporting of dead rats** and suspected cases","Doctors: think of plague in fever with lymphadenopathy or multiple pneumonia cases"],"297"],
@@ -1487,7 +1507,7 @@ sk:[
 ["Agent factors",["**M. leprae**: acid-fast, intra- and extracellular, in clumps called **globi**; affinity for **Schwann cells** and RE cells; dormant bacilli cause relapse","Load highest in lepromatous: **2–7 billion per gram** of leproma; >20 antigens; **phenolic glycolipid (PGL)** may be the specific antigen","Grown in **9-banded armadillo** and nude mouse; **not cultivable** in artificial medium","**Source**: MB cases (LL, BL) most important; inapparent infections too; all 'active leprosy' considered infectious; natural infection in armadillos, mangabey monkeys, chimpanzees","**Portal of exit**: **nose** (major), also ulcerated skin of bacteriologically positive cases","**Infectivity**: highly infectious, **low pathogenicity**; made non-infectious by dapsone ~**90 days** or rifampicin **3 weeks**","**Attack rate**: **4.4–12%** of household contacts of lepromatous cases show leprosy within 5 years"],"316–317"],
 ["Host factors",["**Age**: any age; endemic areas → acquired in childhood (youngest 2½ months, South India); incidence peaks **10–20 years**; **leprosy in children = disease active and spreading**","**Sex**: higher in males (difference least below 15 years, more in adults and lepromatous cases)","**Migration**: rural → urban spread","**Prevalence pool**: inflow (new cases, relapse, immigration) vs outflow (cure/inactivation, death, emigration)","**Inactivation**: spontaneous regression ~**90%** in children with tuberculoid leprosy over 20 years; 77.7% self-healing (Culion); 10.9% per year (Noordeen)","**Immunity**: **CMI** gives resistance; **complete breakdown of CMI in lepromatous** (lepromin negative); antibodies higher towards LL end; anergy due to suppressed **interleukin-2**","**Genetic**: HLA-linked genes influence type of immune response"],"317"],
 ["Environment, transmission, incubation",["Environment: presence of infectious cases; **humidity** favours survival; viable **9 days** in dried nasal secretion, **46 days** in moist soil; **overcrowding, poor ventilation**","Transmission not established with certainty: (A) **droplet infection** (aerosols; nose as exit and respiratory tract as entry); (B) **contact** (direct, or indirect via soil, clothes, linen; first lesions on exposed feet and legs, 91% on extremities in Philippines); (C) others: insect vectors, tattooing needles (not proven important)","Incubation: average **3–5 years** or more for lepromatous; tuberculoid shorter; up to **20 years**; some prefer the term **'latent period'**"],"317–318"],
-["Classification",["Classifications: **Madrid**, **Ridley–Jopling**, **Indian**; based on clinical, bacteriological, immunological, histological status","**Indian (1981)**, official classification of Hind Kusht Nivaran Sangh, **clinico-bacterial**: (a) **Indeterminate**: 1–2 vague hypopigmented macules, definite sensory impairment, bacteriologically negative; (b) **Tuberculoid**: 1–2 well-defined flat or raised lesions, anaesthetic, negative; (c) **Borderline**: **4 or more** lesions, sensory impairment, variable positivity, progresses to lepromatous untreated; (d) **Lepromatous**: diffuse infiltration or numerous shiny, smooth, **symmetrical** lesions, **positive**; (e) **Pure neuritic**: nerve involvement, **no skin lesion**, negative","Madrid: indeterminate, tuberculoid (flat; raised), borderline, lepromatous (no pure neuritic)","**Ridley–Jopling**: immuno-histological scale **TT, BT, BB, BL, LL**; no neuritic type; needs full research facilities","**WHO 1981 (operational, for chemotherapy)**: **MB** = LL, BL, BB with **BI ≥ 2** at any site; **PB** = I, TT, BT with **BI < 2** at all sites; 1987: any smear-positive = MB; 1993: when in doubt treat as **MB**","Clinical grouping (number of lesions): **PB 1–5 skin lesions**; **MB more than six skin lesions** (p.318); MDT definition: PB = 1–5 lesions and/or only one nerve; **MB = 6 or more lesions and/or more than one nerve** (p.322)"],"318, 322"]]},
+["Classification",["Classifications: **Madrid**, **Ridley–Jopling**, **Indian**; based on clinical, bacteriological, immunological, histological status","**Indian (1981)**, official classification of Hind Kusht Nivaran Sangh, **clinico-bacterial**: (a) **Indeterminate**: 1–2 vague hypopigmented macules, definite sensory impairment, bacteriologically negative; (b) **Tuberculoid**: 1–2 well-defined flat or raised lesions, anaesthetic, negative; (c) **Borderline**: **4 or more** lesions, sensory impairment, variable positivity, progresses to lepromatous untreated; (d) **Lepromatous**: diffuse infiltration or numerous shiny, smooth, **symmetrical** lesions, **positive**; (e) **Pure neuritic**: nerve involvement, **no skin lesion**, negative","Madrid: indeterminate, tuberculoid (flat; raised), borderline, lepromatous (no pure neuritic)","**Ridley–Jopling**: immuno-histological scale **TT, BT, BB, BL, LL**; no neuritic type; needs full research facilities","**WHO 1981 (operational, for chemotherapy)**: **MB** = LL, BL, BB with **BI ≥ 2** at any site; **PB** = I, TT, BT with **BI < 2** at all sites; 1987: any smear-positive = MB; 1993: when in doubt treat as **MB**","Clinical grouping (number of lesions): **PB 1–5 skin lesions**; **MB more than six skin lesions** (as printed on p.318; p.322 says 6 or more); MDT definition: PB = 1–5 lesions and/or only one nerve; **MB = 6 or more lesions and/or more than one nerve** (p.322)"],"318, 322"]]},
 
 {id:"s2",type:"essay",pages:"321–329",q:"Discuss the control of leprosy. Add a note on multidrug therapy (MDT).",
 hook:"Medical measures **9**: 'Estimate, Early detect, MDT, Surveil, Immuno, Chemo, Deformity, Rehab, Health-ed' — pinne Social support, Programme management, Evaluation. MDT: MB = **3 marunnu × 12 dose (18 masathinullil)**; PB = **2 marunnu × 6 dose (9 masathinullil)**. Surveillance: PB **2 kollam**, MB **5 kollam**.",
@@ -1501,7 +1521,7 @@ sk:[
 ["Anti-leprosy drugs",["Only **bactericidal** drugs used: rifampicin, dapsone, clofazimine, ethionamide, protionamide","**Rifampicin**: only highly bactericidal drug; single **1500 mg** or 3–4 daily 600 mg kill **99%**; works monthly; hepatotoxic; watch **1 hour** (shock); never alone","**Dapsone**: cheap, **1–2 mg/kg**, weakly bactericidal; side-effects haemolytic anaemia, methaemoglobinaemia, agranulocytosis, hepatitis, neuropathy, psychosis, lepra reaction, **DDS syndrome**; Hb not <60%; iron given","**Clofazimine**: anti-leprosy + **anti-inflammatory** (suppresses reactions); **darkish red** discoloration of skin, urine, sweat (reversible); replace by ethionamide/protionamide if unacceptable","**Ethionamide/protionamide**: kill 98% in 4–5 days; cross-resistant; more toxic and costly","Newer: **ofloxacin** (22 doses kill 99.9%; trial 400 mg + rifampicin 600 mg daily × 28 days); **minocycline** 100 mg daily (not in infants, children, pregnancy); **clarithromycin** 500 mg daily (99% killed in 28 days, 99.9% by 56 days)"],"322–323"],
 ["WHO regimens and duration",["**Adult MB**: rifampicin **600 mg once monthly supervised**; dapsone **100 mg daily** self-administered; clofazimine **300 mg once monthly supervised + 50 mg daily** self-administered (ethionamide/protionamide 250–375 mg daily if clofazimine unacceptable)","**Adult PB**: rifampicin **600 mg once monthly supervised**; dapsone **100 mg (1–2 mg/kg) daily**","**Child 10–14 yrs MB**: rifampicin **450 mg monthly**; dapsone **50 mg daily**; clofazimine **150 mg monthly + 50 mg every other day**","**Child 10–14 yrs PB**: rifampicin **450 mg monthly**; dapsone **50 mg daily**; under 10: reduced doses","Duration: **MB blister packs 12 months within 18 months**; **PB 6 months within 9 months**","Returning defaulter gets new MDT course if: reddish/raised lesions, new lesions, new nerve involvement, lepromatous nodules, reversal reaction or ENL (not counted as new case)","MDT **not contraindicated in HIV**; **continue in pregnancy** (leprosy worsens in pregnancy; MDT safe; mild infant skin discoloration from clofazimine)"],"323–324"],
 ["IV–VI. Surveillance, immunoprophylaxis, chemoprophylaxis",["Surveillance: **PB** examined at least once a year for **minimum 2 years**; **MB** once a year for **minimum 5 years** after treatment; 'release from control' not used with MDT","Immunoprophylaxis: BCG alone or with killed M. leprae / atypical mycobacteria: protective efficacy **28–60%**; high **BCG coverage** helps","Chemoprophylaxis: contacts (esp. MB) at higher risk, but results with dapsone, acedapsone, rifampicin inconsistent → **too premature** as a public health measure"],"326–327"],
-["VII–IX. Deformities, rehabilitation, health education",["~**25%** of untreated patients develop anaesthesia/deformity of hands and feet; disability graded 0–2 (see disability card)","Rehabilitation begins at diagnosis; '**preventive rehabilitation**'; community-based rehabilitation","Health education: **patient and family** (regular treatment, contact examination, self-care, protect children); **public** (not hereditary, bacterial like TB, curable, not all infectious, needs sympathy; remove stigma)"],"327–328"],
+["VII–IX. Deformities, rehabilitation, health education",["~**25%** of patients **not treated at an early stage** develop anaesthesia/deformity of hands and feet; disability graded 0–2 (see disability card)","Rehabilitation begins at diagnosis; '**preventive rehabilitation**'; community-based rehabilitation","Health education: **patient and family** (regular treatment, contact examination, self-care, protect children); **public** (not hereditary, bacterial like TB, curable, not all infectious, needs sympathy; remove stigma)"],"327–328"],
 ["Social support, programme management, evaluation",["**Social support**: travel help, foodgrains, clothes, children's education, job placement, slum improvement via voluntary agencies and Social Welfare","**Programme management**: infrastructure, trained staff, drugs, vehicles, funds; NLEP incorporates these (details Park ch. 7, p.422)","**Epidemiological indicators**: **incidence** (most sensitive index of transmission; only index of effectiveness) and **prevalence** (case load, planning)","**Core indicators**: (1) number and rate of **new cases per 100,000/year**; (2) rate of **new cases with grade-2 disability per 100,000/year**; (3) **treatment completion/cure rate**","Case detection indicators: % new cases with **grade-2 disability**; % **child cases** (<15 yrs: active recent transmission); % **female**; % **MB** (since 1997, **more than five** anaesthetic patches or smear positive = MB)","Quality of services: % correctly diagnosed; % defaulters; number of relapses; % developing new disability during MDT"],"328–329"],
 ["Anti-leprosy activities in India",["**1874**: Mission to Lepers (now Leprosy Mission) founded by Baily at **Chamba**, HP (later Purulia); about 150 voluntary bodies now","Hind Kusht Nivaran Sangh (ex-BELRA), Gandhi Memorial Leprosy Foundation (Wardha), German Leprosy Relief Association, Damien Foundation, Danish Save the Child Fund, **JALMA** (ICMR, 1975); National Leprosy Organization 1965","**National Leprosy Control Programme 1954** → **eradication programme (NLEP) 1983**; details Park ch. 7, p.422"],"329"]]},
 
@@ -1619,7 +1639,7 @@ draw:"Bar diagram or pie: routes of HIV transmission in India 2011–12 (heteros
 sk:[
 ["Definition",["**Acquired immuno-deficiency syndrome** ('**slim disease**'); fatal illness by retrovirus **HIV**; breaks down immune system → opportunistic infections, neurological disorders, unusual malignancies","Infected for life; AIDS = **last stage** of HIV infection; 'modern pandemic'"],"343"],
 ["Problem statement: world",["Emerged early 1980s; key indicators: people living with HIV **35.2 million (2012)**; new infections **2.3 million (2012)** (peak **3.2 million in 1997**); AIDS deaths **1.6 million (2012)**; **9.7 million** on ART (2012)","WHO/UNAIDS epidemic types: **low-level** (<5% in any sub-population); **concentrated** (>5% in at least one sub-population but **<1% in urban pregnant women**); **generalized** (**>1% in pregnant women**)","Vision: **zero discrimination, zero new infections, zero AIDS deaths**; women ~half of PLHIV (~60% in sub-Saharan Africa); HIV leading cause of death in women of reproductive age","2013 WHO: start ART at **CD4 <500**; eligible rose 16.7 → 25.9 million; 'Treatment 2.0' (2010); Global health sector strategy **2011–2015** (4 directions)"],"343–344"],
-["Problem statement: India",["Heterogeneous; Thailand pattern: high-risk group → **bridge population** (clients, STD patients, migrants, truckers) → general population; shift when prevalence reaches **5%**, lag **2–3 years**","2012: **20.89 lakh** PLHIV; adult prevalence **0.27%** (males 0.32, females 0.22; was 0.49% in 2001); youth 15–24: 0.11%","Routes 2011–12: **heterosexual 88.2%**, parent-to-child 5.0%, IDU 1.7%, homosexual 1.5%, blood 1.0%","Prevalence 2010–11: ANC 0.35, migrants 0.99, truckers 2.59, FSW 2.67, MSM 4.43, IDU 7.14, **transgenders 8.82%** (concentrated epidemic)","Drivers: paid sex, sex between men, injecting drugs; 8.68 lakh FSW, 3.13 lakh high-risk MSM, 1.77 lakh IDU, 110 lakh bridge population; ~**1.16 lakh** new adult infections, 14,500 child; 1.48 lakh deaths (2011); free ART since **2004** saved >1.5 lakh lives"],"344–345"],
+["Problem statement: India",["Heterogeneous; Thailand pattern: high-risk group → **bridge population** (clients, STD patients, migrants, truckers) → general population; shift when prevalence reaches **5%**, lag **2–3 years**","2012: **20.89 lakh** PLHIV; adult prevalence **0.27%** (males 0.32, females 0.22; was 0.49% in 2001); youth 15–24: 0.11%","Routes 2011–12: **heterosexual 88.2%**, parent-to-child 5.0%, IDU 1.7%, homosexual 1.5%, blood 1.0%","Prevalence 2010–11: ANC 0.35 (2012–13 figure), migrants 0.99, truckers 2.59, FSW 2.67, MSM 4.43, IDU 7.14, **transgenders 8.82%** (concentrated epidemic)","Drivers: paid sex, sex between men, injecting drugs; 8.68 lakh FSW, 3.13 lakh high-risk MSM, 1.77 lakh IDU, 110 lakh bridge population; ~**1.16 lakh** new adult infections, 14,500 child; 1.48 lakh deaths (2011); free ART since **2004** saved >1.5 lakh lives"],"344–345"],
 ["Agent factors",["Called **LAV** (French), **HTLV-III** (USA); named **HIV in May 1986**","1/10,000 mm; RNA (two strands) + enzymes; replicates in **T4 lymphocytes**; latent; crosses **blood–brain barrier**; mutates rapidly; **HIV-1 and HIV-2**","Killed by heat; inactivated by ether, acetone, **20% ethanol**, beta-propiolactone; relatively resistant to ionizing radiation and UV","Reservoir: **cases and carriers** (lifelong; symptomless carrier infects for years)","Source: highest in **blood, semen, CSF**; lower in tears, saliva, breast milk, urine, cervical/vaginal secretions"],"345"],
 ["Host factors and immunology",["Age: sexually active **20–49 years**; sex ratio equal in Africa; high-risk: male homosexuals/bisexuals, prostitutes and partners, **IV drug users**, transfusion recipients, **haemophiliacs**, STD clients","Depletion of **CD4+ T-helper** cells; helper:suppressor ratio **reversed**; profound **lymphopenia (<500/cu mm)**; antibodies few and ineffective"],"345–346"],
 ["Mode of transmission",["(a) **Sexual**: first and foremost an STD; male→female **twice** as likely; **anal** > vaginal; risk higher with menstruation, abrasions; adolescent girls and women >45 more prone; **STD raises risk 8–10 times**; most infectious in **window period** and late disease","(b) **Blood**: transfusion risk **>95%** per infected unit; needles much lower per exposure but IDUs share repeatedly; any unsterile skin piercing; no transmission via albumin, immunoglobulin, hepatitis vaccines","(c) **Mother-to-child**: placenta, delivery, breast-feeding; **20–25%** without intervention; prevented by ARV prophylaxis, elective caesarean, avoiding breast-feeding (<2% with triple drugs in industrialized countries)","**Not** by mosquitoes, casual or household contact, food, water"],"346–347"],
@@ -1774,7 +1794,7 @@ hookEn:"CVD = IHD, hypertension, stroke, congenital heart disease, plus RHD in d
 sk:[
 ["Definition",["Group of diseases of the heart and vascular system; major: **ischaemic heart disease, hypertension, cerebrovascular disease (stroke), congenital heart disease**; RHD important in developing countries"],"365"],
 ["World",["NCD deaths 36 million, of which **17 million** due to CVD; >1/3 in middle-aged adults","Developed countries: heart disease and stroke = 1st and 2nd causes of adult death","2008 CVD deaths **17,327 thousand** (**30.5%** of all deaths); highest in Western Pacific (27.32%) and Europe (26.45%); SEAR 20.86%","SEAR: CVD ~**25%** of NCD DALYs lost; of these IHD ~40%, cerebrovascular ~19%, RHD 6%, inflammatory heart disease ~6%, others ~29%","Urban > rural (tobacco, lack of physical activity, fast food, obesity); worrying early age of CVD deaths in developing countries","Declining in industrialized countries, mainly due to **primary prevention**, less to treatment"],"365"],
-["India",["~**46.9 million** CVD patients (2010); **2.33 million** CVD deaths (2008)","~**1.2 million** IHD and ~**0.8 million** stroke deaths per year","Highest loss of productive years (35–64 yrs) of any country","CVD prevalence **2–3 times** higher urban than rural; IHD prevalence 96.7 per 1000 urban, 27.1 rural (one study)"],"365"],
+["India",["~**46.9 million** CVD patients (2010); **2.33 million** CVD deaths (2008)","~**1.2 million** IHD and ~**0.8 million** stroke deaths per year","Highest loss of productive years (35–64 yrs) of any country","CVD prevalence **2–3 times** higher urban than rural; IHD prevalence 96.7 per 1000 urban, 27.1 rural (one study; Park prints the rural figure as '27.1 per cent')"],"365"],
 ["Risk factors",["'**Lag-time**' effect: present mortality reflects past exposure to inappropriate nutrition, **insufficient physical activity**, tobacco","Biological factors: overweight, central obesity, high BP, dyslipidaemia, diabetes, **low cardio-respiratory fitness**","Persistently high cholesterol can precipitate CHD; unhealthy diet = high saturated fat, salt, refined carbohydrate; low fruit & vegetables","Table 2 (convincing, decreased risk): **regular physical activity**, linoleic acid, fish & fish oils (EPA, DHA), vegetables & fruits, potassium, low–moderate alcohol (for CHD); convincing increased risk: myristic & palmitic acids, trans fatty acids, high sodium, overweight, high alcohol (for stroke)","Tobacco, inappropriate diet and physical inactivity explain at least **75–85%** of new CHD cases"],"365–366"]]},
 
 {id:"n4",type:"essay",pages:"366–369",q:"Describe the epidemiology of coronary heart disease: definition, burden, India and risk factors.",
@@ -1829,7 +1849,7 @@ sk:[
 ["Rule of halves",["'Iceberg' disease: in developed countries only **half** of hypertensives are aware; half of those are treated; half of those are adequately treated","Fig. 1 circles: community → normotensive / hypertensive → undiagnosed / diagnosed → untreated / treated → inadequately / adequately treated"],"373–374"],
 ["Magnitude",["Incidence has limited value (variable readings, unclear 'normal', insidious)","World: raised BP → **7.5 million** deaths (**12.8%**), **57 million DALYs** (3.7%)","CV risk **doubles for each 20/10 mm Hg** rise (some age groups); complications: heart failure, PVD, renal impairment, retinal haemorrhage, visual impairment","Treating to **<140/90** reduces complications","Global prevalence ~**40%** in adults 25+ (2008); numbers rose from **600 million (1980) to 1 billion (2008)**; high-income countries 35%","**India** (ICMR 2007–08, IDSP, 7 states incl. **Kerala**): prevalence **17–21%**, marginal rural–urban difference, rises with age, more in executive/service jobs"],"374"],
 ["Tracking of blood pressure",["Persistence of rank order of BP from childhood into adult life: low stays low, high gets higher","Used to identify children and adolescents at risk"],"374"],
-["Non-modifiable risk factors",["(a) **Age**: BP rises with age (except some primitive societies with low calorie & salt intake)","(b) **Sex**: men higher from adolescence; difference narrows/reverses late in life (post-menopause)","(c) **Genetic**: polygenic; MZ twins more correlated; children of 2 normotensive parents **3%** vs 2 hypertensive parents **45%**","(d) **Ethnicity**: higher in black communities (5–20 mm Hg difference)"],"374–375"],
+["Non-modifiable risk factors",["(a) **Age**: BP rises with age (except some primitive societies with low calorie & salt intake)","(b) **Sex**: men higher from adolescence; difference narrows/reverses late in life (post-menopause)","(c) **Genetic**: polygenic; MZ twins more correlated; children of 2 normotensive parents **3%** vs 2 hypertensive parents **45%**","(d) **Ethnicity**: higher in black communities (difference from slightly <5 mm Hg in 2nd decade to nearly 20 mm Hg in 6th)"],"374–375"],
 ["Modifiable risk factors",["(a) **Obesity**: more weight gain → more risk; weight loss lowers BP; **central obesity** (waist-hip ratio)","(b) **Salt**: high intake **7–8 g/day** raises BP; Japan (>400 mmol/day) high, primitive societies (<60 mmol/day) virtually none; **potassium** lowers BP (also calcium, magnesium suggested)","(c) **Saturated fat** raises BP and cholesterol","(d) **Dietary fibre**: inverse relation","(e) **Alcohol**: raises systolic more; returns to normal with abstinence","(f) **Heart rate**: higher in hypertensives","(g) **Physical activity**: indirect effect on BP **by reducing body weight**","(h) **Environmental stress**: sympathetic over-activity (higher noradrenaline)","(i) **Socio-economic status**: post-transitional societies → higher in lower classes; transitional → upper classes","(j) **Others**: oral contraception = commonest cause of secondary hypertension; noise, vibration, temperature, humidity"],"375"]]},
 
 {id:"n8",type:"essay",pages:"375–377",q:"Discuss the prevention and control of hypertension.",
@@ -2242,7 +2262,7 @@ sk:[["Measures (7)",["**Nutrition**: canteen compulsory if >250 workers","**Comm
 sk:[["Occupational dermatitis",["Causes: physical (heat, friction, X-rays), chemical (acids, alkalies, dyes, solvents, tar), biological, plant products","Primary irritants vs sensitizers (allergic, few cases)","Prevention: pre-selection, protective clothing & barrier creams, personal hygiene, periodic inspection"],"809"],["Radiation hazards",["Luminous dials, X-rays, uranium mining, welding (UV, infrared)","Effects: burns, dermatitis, blood dyscrasias; cancer, genetic effects","Prevention: shielding, film badge monitoring (≤6-monthly), protective clothing, ventilation, examinations, no pregnant women in continuous exposure"],"809"]]},
 
 {id:"o12",type:"short",pages:"818–819",q:"Short note: Occupational health in India",
-sk:[["Occupational health in India",["Directive Principles: health and strength of workers not abused; just and humane conditions of work","Reports: Adarkar (1945), Health Survey & Development Committee (1946), Bedford (1946), Jones (1947)","Laws: Factories Act 1948, Coal Mines Labour Welfare Act 1947, ESI Act 1948","Directorate General Factory Advice Service (1945); **Central Labour Institute, Mumbai (1960)** + regional institutes Kanpur, Kolkata, Chennai","Research: Central Mining Research Station (Dhanbad), Industrial Toxicology Research Centre (Lucknow), **Occupational Health Research Institute (Ahmedabad, ICMR)**, NEERI (Nagpur), AIIH&PH (Kolkata)"],"818–819"]]},
+sk:[["Occupational health in India",["Directive Principles: health and strength of workers not abused; just and humane conditions of work","Reports: Adarkar (1945), Health Survey & Development Committee (1946), Bedford (1946), Jones (1947)","Laws: Factories Act 1948, Coal Mines Labour Welfare Act 1947, ESI Act 1948","Directorate General, Factory Inspection and Advisory Service (1945); **Central Labour Institute, Mumbai (1960)** + regional institutes Kanpur, Kolkata, Chennai","Research: Central Mining Research Station (Dhanbad), Industrial Toxicology Research Centre (Lucknow), **Occupational Health Research Institute (Ahmedabad, ICMR)**, NEERI (Nagpur), AIIH&PH (Kolkata)"],"818–819"]]},
 
 {id:"o14",type:"short",pages:"810–811",q:"Short note: Health problems due to industrialization",
 hookEn:"7 problems = **E-C-F-M-A-S-M**: Environment, Communicable, Food, Mental, Accidents, Social, Morbidity/mortality.",
@@ -2434,7 +2454,7 @@ sk:[
 ["Health care delivery",["The 'large hospital' serves only a small part of the population within a small radius, mostly curative: '**ivory towers of disease**'","Rising costs → search for 'alternative' models that are inexpensive and have the basic essentials for rural people"],"895"],
 ["The model (Fig. 1)",["**INPUTS** = health status/health problems (needs and demands) + resources; priorities set by planning","**HEALTH CARE SERVICES**: meet needs using knowledge and resources; comprehensive and community-based","**HEALTH CARE SYSTEM**: delivers the services; management sector","**OUTPUT** = changed health status: lives saved, deaths averted, diseases prevented, cases treated, life prolonged"],"897"],
 ["Community diagnosis: data needed",["Assessment of health status and problems is the first requisite for planned health care = **Community Diagnosis**","1. Morbidity and mortality statistics; 2. Demographic conditions; 3. Environmental conditions; 4. Socio-economic factors; 5. Cultural background, attitudes, beliefs, practices; 6. Medical and health services available; 7. Other services available","Problems are then **ranked by priority** for allocation of resources"],"897"],
-["Demographic profile",["Large population base; high fertility; low/declining mortality; 'young' population (about **35.35%** below 15 years); illiteracy close to **34.62%**; **dependency ratio 62 per 100**","Table 3: population **1364 million** (2014); CBR **21.6**, CDR **7.0** (2012); growth **1.6%** (2011); doubling time 30 years; rural **68.84%**; adult literacy **74.04%**; density **394**/sq km; sex ratio **940**; average family size 2.5; female age at marriage **21.2** years; per capita GNP **Rs 60,603**"],"897"],
+["Demographic profile",["Large population base; high fertility; low/declining mortality; 'young' population (about **35.35%** below 15 years in text; Table 3 gives **30.0%** for 2012, as printed); illiteracy close to **34.62%**; **dependency ratio 62 per 100**","Table 3: population **1364 million** (2014); CBR **21.6**, CDR **7.0** (2012); growth **1.6%** (2011); doubling time 30 years; rural **68.84%**; adult literacy **74.04%**; density **394**/sq km; sex ratio **940**; average family size 2.5; female age at marriage **21.2** years; per capita GNP **Rs 60,603**"],"897"],
 ["Mortality profile",["Death rate declined from **21 (1965) to 7.0 (2012)**; life expectancy about **66 years** (2012)","IMR 2012: world about 35, developed countries 5, **India 42**","Urban death rate **5.6**, rural **7.6** (2012); highest Odisha **8.5**, Delhi **4.2**; IMR lowest **Kerala 12**, highest **Madhya Pradesh 56**","Death rate highest in **0–4 years** (malnutrition and infection); **15–25%** of deaths due to infectious and parasitic diseases","Table 5 (2012, total): child mortality 52, IMR 42, neonatal 29, early neonatal 23, late neonatal 6, post-neonatal 13, perinatal 28, still birth 5"],"898"]]},
 
 {id:"c6",type:"essay",pages:"898–900",q:"Describe the major health problems of India.",
@@ -2456,7 +2476,7 @@ sk:[
 ["Basic resources",["No nation has enough resources for all health needs → assessment, proper allocation, efficient use","(i) **Health manpower**, (ii) **Money and material**, (iii) **Time**"],"900"],
 ["Health manpower",["Includes professional and auxiliary personnel; **auxiliary** (WHO) = '**technical worker in a certain field with less than full professional training**'","Requirements based on (i) health needs and demands, (ii) desired outputs; planning uses ratios (doctor-, nurse-, bed-population)","Annual output: **31,298** allopathic doctors; 9,865 Ayurveda; 1525 Unani; 320 Siddha; 12,785 Homoeopathy graduates"],"900"],
 ["Table 6: Suggested norms for health personnel",["Nurses: **1 per 5,000**","Health worker female and male: **1 per 5,000** (plain); **3,000** tribal and hilly","Trained dai: **one for each village**","Health assistant (male and female): **1 per 30,000** (plain); **20,000** tribal/hilly; supervises **6 health workers**","Pharmacists: **1 per 10,000**; Lab technicians: **1 per 10,000**; ASHA: **1 per 1,000**"],"900"],
-["Maldistribution and stock",["Up to **73.6%** of doctors in urban areas where only **26.4%** of people live; due to lack of amenities, job satisfaction, professional isolation, lack of rural experience","Table 7 (per 10,000): India doctors **6.5**, beds **9.0**, nurses and midwives **10.0**","New categories added (unipurpose → multipurpose; HFA): village health guides, MPWs, technicians, ophthalmic assistants","Table 8 (rural, March 2014): ANMs **217,780**; MPW (M) **55,445**; HA(F)/LHV **13,643**; HA(M) **10,358**; PHC doctors **27,355**; total specialists at CHC 11,798; pharmacists 22,689; lab technicians 16,679; nurse midwives 63,938"],"900–901"],
+["Maldistribution and stock",["Up to **73.6%** of doctors in urban areas where only **26.4%** of people live; due to lack of amenities, job satisfaction, professional isolation, lack of rural experience","Table 7 (per 10,000): India doctors **6.5**, beds **9.0**, nurses and midwives **10.0**","New categories added (unipurpose → multipurpose; HFA): village health guides, MPWs, technicians, ophthalmic assistants","Table 8 (rural, March 2014): ANMs **217,780**; MPW (M) **55,445**; HA(F)/LHV **13,643**; HA(M) **10,358**; PHC doctors **27,355**; total specialists at CHC 11,798 (as printed; the four specialist rows add to less); pharmacists 22,689; lab technicians 16,679; nurse midwives 63,938"],"900–901"],
 ["Money and material",["Developed countries: government health spending about **18%** of GNP (as printed); developing countries **less than 1%**, seldom over 2%","WHO goal: **5% of GNP** on health; India spends about **3%** of GNP on health and family welfare","Invest in preventing diseases (whooping cough, measles, TB, tetanus, diphtheria, malnutrition) rather than prestigious institutions; **cost-effectiveness and cost-benefit analysis** for allocation"],"901"],
 ["Time",["Administrative delays = loss of time; proper use of man-hours","WHO survey of an ANM's time: **45% medical care, 40% travelling, 5% paper work, only 10%** on duties she was trained for"],"901"]]},
 
@@ -2627,7 +2647,7 @@ sk:[
 ["Structure: three principal organs",["**(a) World Health Assembly**: '**Health Parliament**' of Nations and **supreme governing body**; meets **annually, usually in May**, generally at Geneva; delegates of Member States, **one vote each**; functions: (i) determine international health policy and programmes, (ii) review past year's work, (iii) approve next year's budget, (iv) elect Member States to designate persons for **3 years** on the Executive Board; **appoints the Director-General** on Board's nomination; holds '**technical discussions**'","**(b) Executive Board**: originally **18** members, raised to 24, 30, then **31 (1976)**, now **34**; at least three from each region; members '**technically qualified in the field of health**', designated by but **not representing** governments; **one-third renewed every year**; meets **at least twice a year** (January and after the May Assembly); gives effect to Assembly decisions; can act in **emergencies** (epidemics, earthquakes, floods)","**(c) Secretariat**: headed by the **Director-General**, chief technical and administrative officer; gives technical and managerial support to Member States; staff **250 (1948)** → **4475 (1985)** → about **8000 (2010)**; at Geneva **5 Assistant Director-Generals**; **14 divisions** (31 Dec 1985), e.g. epidemiological surveillance, communicable diseases, vector biology, environmental health, public information and education, mental health, diagnostic/therapeutic/**rehabilitative technology**, strengthening of health services, family health, NCDs, health manpower, information systems, personnel, budget and finance"],"921"]]},
 
 {id:"x3",type:"short",pages:"921–922",q:"Short note: WHO regions and the South East Asia Region (SEARO)",
-hook:"6 regions HQ: 'SEA-**Delhi**, Africa-**Brazzaville**, Americas-**Washington**, Europe-**Copenhagen**, EMR-**Alexandria**, WPR-**Manila**'. SEARO = **11 members**, India **1948** muthal.",
+hook:"6 regions HQ: 'SEA-**Delhi**, Africa-**Brazzaville**, Americas-**Washington**, Europe-**Copenhagen**, EMR-**Alexandria**, WPR-**Manila**'. SEARO = **11 members**; India **1948** (Thailand 1947 aanu ettavum nerathe).",
 hookEn:"6 regional HQs: South-East Asia–**New Delhi**, Africa–**Brazzaville**, Americas–**Washington D.C.**, Europe–**Copenhagen**, Eastern Mediterranean–**Alexandria**, Western Pacific–**Manila**. SEARO has **11 members**; India joined in **1948**.",
 draw:"Table of 6 regions with headquarters.",
 sk:[
@@ -3178,7 +3198,7 @@ QUIZ.push(...[
    "5.5"
   ],
   "a": 2,
-  "w": "Park p.232: Bile Salt Agar (pH 8.6) after peptone water tellurite enrichment."
+  "w": "Park p.231: Bile Salt Agar (pH 8.6) after peptone water tellurite enrichment."
  },
  {
   "c": "i12",
@@ -4293,7 +4313,7 @@ QUIZ.push(...[
    "8 g/day"
   ],
   "a": 2,
-  "w": "Park p.375: salt <=5 g/day average."
+  "w": "Park p.376: salt <=5 g/day average."
  },
  {
   "c": "n8",
@@ -4309,15 +4329,15 @@ QUIZ.push(...[
  },
  {
   "c": "n8",
-  "q": "Which lifestyle change gives the biggest SBP fall per Table 2?",
+  "q": "Per Table 2, weight reduction lowers systolic BP by about how much for every 10 kg lost?",
   "o": [
-   "Weight reduction (5-20 mm Hg/10 kg)",
-   "Alcohol moderation",
-   "Sodium restriction",
-   "Physical activity"
+   "5-20 mm Hg",
+   "2-4 mm Hg",
+   "8-14 mm Hg",
+   "1-2 mm Hg"
   ],
   "a": 0,
-  "w": "Park p.376: weight loss 5-20 mm Hg/10 kg; DASH 8-14; sodium 2-8; activity 4-9; alcohol 2-4."
+  "w": "Park p.376: weight loss gives 5-20 mm Hg per 10 kg (DASH diet 8-14, sodium restriction 2-8, physical activity 4-9, alcohol moderation 2-4)."
  },
  {
   "c": "n9",
@@ -5196,7 +5216,7 @@ QUIZ.push(...[
    "Toxic dyes"
   ],
   "a": 2,
-  "w": "Park p.812-813: monthly for lead, toxic dyes, radium; daily for dichromates."
+  "w": "Park p.813: monthly for lead, toxic dyes, radium; daily for dichromates."
  },
  {
   "c": "o3",
@@ -5208,7 +5228,7 @@ QUIZ.push(...[
    "Substitution (prevents phossy jaw)"
   ],
   "a": 3,
-  "w": "Park p.813: substitution of white phosphorus ended 'phossy jaw'."
+  "w": "Park p.814: substitution of white phosphorus ended 'phossy jaw'."
  },
  {
   "c": "o3",
@@ -5220,7 +5240,7 @@ QUIZ.push(...[
    "12"
   ],
   "a": 0,
-  "w": "Park p.812-813: Factories Act 22 diseases, Mines Act 3, Dock Regulations 8."
+  "w": "Park p.813: Factories Act 22 diseases, Mines Act 3, Dock Regulations 8."
  },
  {
   "c": "o4",
@@ -5352,7 +5372,7 @@ QUIZ.push(...[
    "10-25 years"
   ],
   "a": 3,
-  "w": "Park p.808-809: latency 10-25 years."
+  "w": "Park p.809: latency 10-25 years."
  },
  {
   "c": "o9",
@@ -5400,7 +5420,7 @@ QUIZ.push(...[
    "500 cu ft"
   ],
   "a": 3,
-  "w": "Park p.811-812: space 500 cu ft."
+  "w": "Park p.812: space 500 cu ft."
  },
  {
   "c": "o11",
@@ -5796,7 +5816,7 @@ QUIZ.push(...[
    "Up to 8; 30 minutes"
   ],
   "a": 0,
-  "w": "Park p.863-864: group <=30, talk 15-20 min."
+  "w": "Park p.864: group <=30, talk 15-20 min."
  },
  {
   "c": "h4",
@@ -5808,7 +5828,7 @@ QUIZ.push(...[
    "Posters"
   ],
   "a": 1,
-  "w": "Park p.866-867: direct mailing."
+  "w": "Park p.866: direct mailing."
  },
  {
   "c": "h5",
@@ -5820,7 +5840,7 @@ QUIZ.push(...[
    "Machines"
   ],
   "a": 2,
-  "w": "Park p.860-861: carelessness."
+  "w": "Park p.861: carelessness."
  },
  {
   "c": "h5",
@@ -5894,7 +5914,7 @@ QUIZ.push(...[
 {"c":"c3","q":"NHP 1983 goal for IMR by 2000 AD (from 125 in 1978)?","o":["Below 40 per 1000","Below 50 per 1000","Below 60 per 1000","Below 80 per 1000"],"a":2,"w":"Park p.893: IMR from 125 (1978) to below 60."},
 {"c":"c3","q":"NHP 1983 goal for crude birth rate by 2000 AD (from 33)?","o":["15 per 1000","25 per 1000","28 per 1000","21 per 1000"],"a":3,"w":"Park p.893: CBR from 33 to 21 per 1000."},
 {"c":"c4","q":"How many of the 8 Millennium Development Goals are health related?","o":["3","2","4","5"],"a":0,"w":"Park p.893: 3 of 8 goals, 8 of 18 targets and 18 of 48 indicators are health related."},
-{"c":"c4","q":"Which is NOT counted as skilled birth attendance for MDG 5?","o":["Doctors","Traditional birth attendants","Nurses","Midwives"],"a":1,"w":"Park p.894: skilled attendance = doctors, nurses, midwives; traditional birth attendants (trained or untrained) are not included."},
+{"c":"c4","q":"Which is NOT counted as skilled birth attendance for MDG 5?","o":["Doctors","Traditional birth attendants","Nurses","Midwives"],"a":1,"w":"Park p.893: skilled attendance = doctors, nurses, midwives; traditional birth attendants (trained or untrained) are not included."},
 {"c":"c5","q":"In Park's model of health care delivery, the output is ...","o":["health problems and needs","resources","changed health status","health care services"],"a":2,"w":"Park p.897: output = change in health status (lives saved, diseases prevented)."},
 {"c":"c5","q":"Which state has the lowest IMR in India (12 in 2012)?","o":["Tamil Nadu","Goa","Delhi","Kerala"],"a":3,"w":"Park p.898: IMR lowest in Kerala (12), highest in Madhya Pradesh (56)."},
 {"c":"c6","q":"Which is NOT one of the six major health problem groups of India in Park?","o":["Occupational health problems","Nutritional problems","Environmental sanitation problems","Medical care problems"],"a":0,"w":"Park p.898: communicable, non-communicable, nutritional, environmental sanitation, medical care, population."},
@@ -5920,12 +5940,12 @@ QUIZ.push(...[
 {"c":"c14","q":"The MO keeps one day each month for ...","o":["staff meetings at the PHC","school immunization","vaccine stock-taking","tubectomy camps"],"a":0,"w":"Park p.908: one day each month for staff meetings at the PHC."},
 {"c":"c15","q":"An ANM (HW-F) limits her work to how many families?","o":["100-200","350-500","600-800","1,000"],"a":1,"w":"Park p.908: HW(F) limits work to 350-500 families."},
 {"c":"c15","q":"The ANM submits JSY accounts by which day of each month?","o":["1st","15th","7th","30th"],"a":2,"w":"Park p.908-909: JSY accounts submitted by the 7th of each month."},
-{"c":"c16","q":"Malaria smears collected by HW(M) are sent to the PHC laboratory ...","o":["daily","once a week","once a month","twice a week"],"a":3,"w":"Park p.910-911: dispatched to the PHC lab twice a week."},
-{"c":"c16","q":"HW(M) suspects kala-azar in a patient with fever lasting more than ...","o":["15 days","7 days","10 days","30 days"],"a":0,"w":"Park p.911: kala-azar suspected if fever more than 15 days."},
+{"c":"c16","q":"Malaria smears collected by HW(M) are sent to the PHC laboratory ...","o":["daily","once a week","once a month","twice a week"],"a":3,"w":"Park p.910: dispatched to the PHC lab twice a week."},
+{"c":"c16","q":"HW(M) suspects kala-azar in a patient with fever lasting more than ...","o":["15 days","7 days","10 days","30 days"],"a":0,"w":"Park p.910: kala-azar suspected if fever more than 15 days."},
 {"c":"c17","q":"The LHV visits each sub-centre ...","o":["daily","at least once a week on a fixed day","once a fortnight","once a month"],"a":1,"w":"Park p.912: LHV visits each sub-centre at least once a week on a fixed day (covers 6 sub-centres)."},
 {"c":"c17","q":"LHV ensures drug compliance above what level during filaria MDA?","o":["50%","60%","80%","95%"],"a":2,"w":"Park p.912-913: drug compliance more than 80% during MDA."},
 {"c":"c18","q":"HA(M) checks at least what proportion of houses for malaria?","o":["5%","25%","50%","10%"],"a":3,"w":"Park p.913: HA(M) checks minimum 10% of houses."},
-{"c":"c18","q":"HA(M) arranges, with HW(M), destruction of ...","o":["stray dogs","stray cattle","mosquito larvae only","rat burrows"],"a":0,"w":"Park p.913: destruction of stray dogs with HW(M)."},
+{"c":"c18","q":"HA(M) arranges, with HW(M), destruction of ...","o":["stray dogs","stray cattle","mosquito larvae only","rat burrows"],"a":0,"w":"Park p.914: destruction of stray dogs with HW(M)."},
 {"c":"c19","q":"Which feature distinguishes a hospital from a health centre?","o":["Integrated preventive and curative care","No definite catchment area","Responsible for a defined population","Mix of medical and paramedical team"],"a":1,"w":"Park p.914: hospital has no catchment area; health centre is responsible for a definite area and population."},
 {"c":"c19","q":"Under the MPW scheme, the district CMO is assisted by how many Deputy CMOs?","o":["2","4","3","5"],"a":2,"w":"Park p.914: CMO with 3 Deputy CMOs, each in charge of one-third of the district."},
 {"c":"c20","q":"ESI covers employees with wages not exceeding ... per month.","o":["Rs 5,000","Rs 10,000","Rs 25,000","Rs 15,000"],"a":3,"w":"Park p.914: ESI covers wages not exceeding Rs 15,000 per month."},
@@ -5956,6 +5976,413 @@ QUIZ.push(...[
 {"c":"x9","q":"The founder of the Red Cross, Henry Dunant, was moved by the battle of ...","o":["Solferino","Waterloo","Crimea","Verdun"],"a":0,"w":"Park p.925: Dunant after Solferino, 1859; First Geneva Convention 1864."},
 {"c":"x9","q":"From 1950 until the 1980s, CARE in India mainly supplied food to children aged ...","o":["0-3 years","6-11 years","3-6 years","12-15 years"],"a":1,"w":"Park p.924-925: CARE in India from 1950, food for children aged 6-11 years."}
 ]);
+
+const NUMS=[];
+NUMS.push({ch:"Ch 5 · Intestinal", rows:[
+["Polio: incubation period","7–14 days (range 3–35)","p.205"],
+["Polio: paralytic / subclinical / abortive %","<1% (0.1–1) / 91–96% / 4–8%","p.205"],
+["Polio: most vulnerable age","6 months – 3 years","p.205"],
+["Polio: male : female","3 : 1","p.205"],
+["India polio-free declared","27 March 2014 (last case Howrah, 13 Jan 2011)","p.203, 209"],
+["Wild polio type 2 eradicated","1999 (last type 3 case Nov 2012)","p.203"],
+["IPV schedule","4 doses: 3 at 1–2 month gaps from 6 wk, 4th 6–12 mo after 3rd","p.206"],
+["OPV national schedule","3 doses at 1-month gaps from 6 wk + zero dose; booster 12–18 mo","p.206"],
+["OPV dose / herd immunity","2 drops / herd immunity at about 66% coverage","p.206–207"],
+["OPV stabilized storage","1 year at 4°C; 1 month at 25°C","p.207"],
+["AFP: non-polio AFP rate","≥1 per 100,000 <15 yrs (2 in endemic regions)","p.204"],
+["AFP: adequate stool","2 specimens ≥24 h apart, within 14 days; follow-up at 60 days","p.204"],
+["Pulse polio","0–5 yrs, 2 rounds 4–6 wk apart, Nov–Feb","p.209"],
+["Hepatitis A: incubation","10–50 days (usually 14–28)","p.211"],
+["Hepatitis A: vaccine","Inactivated, 2 doses 6–12 months apart, ~94% protection","p.212"],
+["Hepatitis A: chlorine","1 mg/L free residual, 30 min, pH ≤8.5","p.212"],
+["Hepatitis A: Ig","0.02 ml/kg (1–2 mo); 0.06 ml/kg (3–5 mo)","p.213"],
+["Hepatitis B: incubation","30–180 days (average ~75)","p.215"],
+["Hepatitis B: chronic if infected","80–90% perinatal; 30% <6 yrs; 5% >6 yrs","p.214"],
+["Hepatitis B: India carriers","5% population; 43–45 million HBsAg carriers","p.213"],
+["Hepatitis B: vaccine (adult)","10–20 µg at 0, 1, 6 months; deltoid","p.216"],
+["Hepatitis B: India schedule","Birth dose + 6, 10, 14 weeks","p.216"],
+["Hepatitis B: HBIG","0.05–0.07 ml/kg, within 6 h (not later than 48 h)","p.217"],
+["Hepatitis C","Incubation 2 wk–6 mo; 75–85% chronic; no vaccine","p.217"],
+["Hepatitis E: incubation","3–8 weeks (mean 40 days)","p.218"],
+["Hepatitis E: pregnancy","Third trimester mortality 20%","p.219"],
+["Hepatitis D: incubation","2–12 weeks; needs HBV","p.220"],
+["Diarrhoea: persistent","≥14 days","p.221"],
+["Diarrhoea: peak age","6–11 months","p.224"],
+["ORS (g/litre)","NaCl 2.6, glucose 13.5, KCl 1.5, citrate 2.9 = 20.5 g","p.224"],
+["ORS (mmol/litre)","Na 75, Cl 65, glucose 75, K 20, citrate 10; 245 mOsm/l","p.224"],
+["ORS first 4 hours","About 75 ml/kg body weight","p.225"],
+["Severe dehydration signs","BP <80 mm Hg; skin pinch >2 s; loss ≥10% weight","p.225"],
+["IV rehydration","100 ml/kg: infants 30 in 1 h + 70 in 5 h; older 30 min + 2½ h","p.226"],
+["Zinc in diarrhoea","10 mg/day <6 mo; 20 mg/day >6 mo; 10–14 days","p.227"],
+["Cholera: incubation","A few hours–5 days (commonly 1–2 days)","p.230"],
+["Cholera: area declared free","Twice the IP = 10 days after last case","p.232"],
+["Cholera: chemoprophylaxis","Doxycycline 300 mg single dose (adults)","p.233"],
+["Cholera: Dukoral","2 doses ≥7 days apart (3 if 2–5 yrs); booster 2 yrs","p.233"],
+["Cholera: Sanchol/mORCVAX","2 doses 14 days apart (≥1 yr); no buffer","p.233"],
+["Typhoid: incubation","10–14 days (3 days–3 weeks)","p.235"],
+["Typhoid: Vi vaccine","Single dose from 2 yrs; repeat every 3 years","p.237"],
+["Typhoid: Ty21a","3 capsules days 1, 3, 5; from 5 yrs","p.238"],
+["Food poisoning: incubation","Staph 1–8 h; Salmonella 12–24 h; Cl. perfringens 6–24 h; botulism 18–36 h","p.238–239"],
+["Amoebiasis: metronidazole","30 mg/kg/day in 3 doses for 8–10 days","p.242"],
+["STH: preventive chemotherapy","Yearly if prevalence >20%; twice yearly if >50%","p.245"],
+["Guinea worm: India last case","July 1996 (free after 3 years zero cases)","p.245"]
+]});
+
+NUMS.push({ch:"Ch 5 · Arthropod-borne", rows:[
+["DENGUE: serotypes","4 (DENV-1 to 4)","p.247"],
+["Dengue: extrinsic incubation","8–10 days; then infective for life","p.247"],
+["Dengue: mosquito infected from","Day before onset to 5th day of illness","p.247"],
+["Aedes aegypti best temp / RH","16–30°C; RH 60–80%","p.247"],
+["Dengue fever incubation","3–10 days (commonly 5–6)","p.249"],
+["Tourniquet test","Cuff 5 min; ≥ 10 petechiae per 2.5 × 2.5 cm (DHF usually ≥ 20)","p.249"],
+["DHF criteria","Fever 2–7 d; platelets ≤ 100,000; Hct rise ≥ 20%","p.250–251"],
+["DF probable: lab","WBC ≤ 5000; platelets < 150,000; Hct rise 5–10%","p.250"],
+["Shock: pulse pressure","≤ 20 mmHg (e.g. 100/80)","p.251"],
+["Shock: hypotension","SBP < 80 if < 5 yr; 80–90 older children/adults","p.251"],
+["DSS = WHO grades","DHF III and IV","p.252"],
+["Dengue virus isolation","Specimen within first 6 days; result 1 week or more","p.251"],
+["DHF I–II IV fluid","6 ml/kg/hr 1–2 h → 3; stop after 24 h","p.253"],
+["DHF III–IV IV fluid","10–20 ml/kg/hr for 1 h, then 20→10→6→3","p.254"],
+["Dengue discharge","Platelets > 50,000; afebrile ≥ 24 h; 2–3 d after shock","p.254"],
+["MALARIA: erythrocytic cycle","48 h (Pf, Pv, Po); 72 h (Pm)","p.258"],
+["Malaria incubation (days)","Pf 12; Pv 14; Pm 28; Po 17","p.260"],
+["Malaria EIP in mosquito","10–20 days","p.258"],
+["Paroxysm stages","Cold ¼–1 h; hot 2–6 h; sweating 2–4 h","p.260"],
+["Malaria vectors India","Rural An. culicifacies; urban An. stephensi","p.259"],
+["Thick film","Parasites found about 20 times faster than thin","p.261"],
+["API formula","Confirmed cases/population × 1000; > 2 = high risk","p.262"],
+["ABER formula","Slides examined/population × 100","p.262"],
+["Infant parasite rate","< 1 year; zero for 3 consecutive years = no transmission","p.262"],
+["P. vivax: chloroquine","25 mg/kg over 3 days: 10, 10, 5 mg/kg","p.264"],
+["P. vivax: primaquine","0.25 mg/kg daily × 14 days (supervised)","p.264"],
+["P. falciparum: ACT-SP","Artesunate 4 mg/kg × 3 d + SP (25/1.25 mg/kg) day 1","p.264"],
+["Falciparum primaquine","0.75 mg/kg single dose on day 2","p.264"],
+["NE states Pf","ACT-AL (20/120 mg) twice daily × 3 d + PQ day 2","p.265"],
+["Pf 1st trimester","Quinine 10 mg/kg 3 times daily × 7 days","p.265"],
+["Resistance suspected","No response in 72 h → quinine + doxy/tetracycline","p.263"],
+["Cure / treatment failure","No fever/parasites to day 28; ETF d1–3, LCF d4–28, LPF d7–28","p.266"],
+["Severe malaria cut-offs","Hb < 5; glucose < 40; creatinine > 3; bilirubin > 3","p.266"],
+["Severe: artesunate","2.4 mg/kg IV/IM at 0, 12, 24 h, then daily","p.267"],
+["Severe: quinine","20 mg/kg load, then 10 mg/kg 8-hourly; ≤ 5 mg/kg/h","p.267"],
+["Prophylaxis timing","Doxy 1 day, CQ 1 wk, mefloquine 2–3 wk before; 4 wk after","p.267–268"],
+["Prophylaxis doses","CQ 300 mg base weekly; mefloquine 250 mg weekly; doxy 100 mg daily","p.268"],
+["FILARIA: Mf peak in blood","10 pm – 2 am (nocturnal periodicity)","p.271"],
+["Filaria mosquito cycle (EIP)","10–14 days; clinical incubation 8–16 months","p.271–272"],
+["Filaria vectors India","Culex quinquefasciatus (bancrofti); Mansonia (brugian)","p.272"],
+["DEC dose (bancrofti)","6 mg/kg/day × 12 days = 72 mg/kg","p.274"],
+["MDA regimen","DEC or ivermectin + albendazole, once yearly × 4–6 years","p.270"],
+["Night blood film","20 cu mm, 8.30 pm – midnight; DEC provocation 100 mg","p.273"],
+["DEC mass therapy excludes","Children < 2 yr, pregnant women, seriously ill","p.274"],
+["Uncomplicated ADLA","Paracetamol 1 g; amoxicillin 1.5 g in 3 doses ≥ 8 d; no antifilarial","p.272–273"]
+]});
+
+NUMS.push({ch:"Ch 5 · Zoonoses", rows:[
+["Rabies: incubation (usual)","1–3 months (7 days to many years)","p.277"],
+["Rabies: dog saliva infective before signs","3–4 days (occasionally 5–6)","p.277"],
+["Fixed virus incubation","4–6 days; no Negri bodies","p.277"],
+["Rabies-free area definition","No indigenous case for 2 years","p.276"],
+["Wound washing","Soap and water, at least 15 minutes","p.278"],
+["Suturing of bite wound","Not immediately; after 24–48 h under RIG","p.279"],
+["Category II / III exposure","II: vaccine + wound care; III: + RIG","p.279"],
+["Essen regimen (IM)","Days 0, 3, 7, 14, 28 (5 doses)","p.279"],
+["Zagreb regimen (2-1-1)","2 doses day 0, 1 each on days 7, 21","p.279"],
+["Alternative 4-dose IM","Days 0, 3, 7, 14","p.279"],
+["2-site ID regimen (2-2-2-0-2)","0.1 ml x 2 sites, days 0, 3, 7, 28","p.279–280"],
+["Previously vaccinated PEP","1 dose IM/ID on days 0 and 3; no RIG","p.280"],
+["RIG dose","Human 20 IU/kg; equine/F(ab')2 40 IU/kg","p.280"],
+["RIG not indicated after","7th day of first vaccine dose","p.280"],
+["Rabies PrEP","Days 0, 7, 21 or 28","p.280"],
+["Antibody titre for booster","Booster if <0.5 IU/ml","p.280"],
+["Dog rabies vaccination target","At least 80% of dogs","p.281"],
+["Dog rabies incubation","3–8 weeks (10 days to >1 year)","p.281"],
+["Yellow fever vaccine","17D live, 0.5 ml SC; certificate day 10, 10 years","p.283–284"],
+["YF incubation / mosquito EIP","3–6 days / 8–12 days","p.282–283"],
+["Aedes aegypti index limit","Not more than 1%","p.283"],
+["JE overt : inapparent","1 : 250","p.286"],
+["JE incubation; CFR","5–15 days; 20–40%","p.286"],
+["JE vector extrinsic incubation","9–12 days","p.285"],
+["JE live vaccine","SA 14-14-2: 1 dose + booster at ~1 year","p.286"],
+["KFD: first seen; tick","1957 Shimoga; Haemaphysalis spinigera","p.288"],
+["KFD incubation; CFR","3–8 days; 5–10%","p.289"],
+["Chikungunya: IP; India 2006","4–7 days; 1.39 million cases, 16 states","p.289"],
+["Brucellosis: IP; treatment","1–3 weeks; tetracycline 500 mg 6-hourly ~3 wk","p.291"],
+["Leptospirosis: IP; DOC","10 days (4–20); penicillin 6 MU/day IV","p.292"],
+["Plague: IP","Bubonic/septicaemic 2–7 d; pneumonic 1–3 d","p.295"],
+["Cheopis index","More than 1 = potentially explosive","p.294"],
+["Plague vaccine (text)","0.5 ml then 1.0 ml SC, 7–14 days apart","p.296"],
+["Plague vaccine immunity","Starts 5–7 days; lasts about 6 months","p.296"],
+["Plague treatment","Streptomycin 30 mg/kg/day IM, 7–10 days","p.296"],
+["Plague chemoprophylaxis","Tetracycline 500 mg 6-hourly x 5 days","p.296–297"],
+["Salmonellosis IP","6–72 hours (usually)","p.299"],
+["Scrub typhus: IP; Weil-Felix","10–12 days; Proteus OXK","p.300"],
+["Murine typhus: IP; Weil-Felix","1–2 weeks (12 d); OX-19","p.300"],
+["Indian tick typhus IP","3–7 days","p.301"],
+["Q fever IP; DOC","2–3 weeks; doxycycline","p.301"],
+["Taeniasis IP (adult worm)","8–14 weeks","p.302"],
+["Praziquantel for taeniasis","10 mg/kg single dose (cure ~99%)","p.303"],
+["Hydatid: cysts in right liver lobe","More than 70%","p.304"],
+["Kala-azar: vector; EIP; IP","P. argentipes; 6–9 days; 1–4 months","p.305–306"],
+["Aldehyde test","40% formalin; positive in 2–20 min","p.306"],
+["SSG first line","20 mg/kg/day, 20 days (30 if partial)","p.307"],
+["Miltefosine","100 mg/day (2.5 mg/kg) for 4 weeks","p.307"]
+]});
+
+NUMS.push({ch:"Ch 5 · Surface + HAI", rows:[
+["Trachoma: diagnosis","At least 2 of 4 (follicles, limbal/Herbert's pits, scarring, pannus)","p.308"],
+["Trachoma: mass treatment trigger","More than 5% severe/moderate in children under 10","p.309"],
+["Trachoma: ointment","1% tetracycline, 2×daily 5 days/month ×6 months","p.309"],
+["Tetanus: incubation","6–10 days (1 day to several months)","p.312"],
+["Tetanus: toxoid primary course","2 doses 0.5 ml, 1–2 months apart; 3rd at 1 year; 4th 5 yrs later","p.312"],
+["DPT schedule","3 doses from 6 wks at 4–8 wk gaps; booster 18 mo; DT 5–6 y; TT >10 y","p.312"],
+["Human TIG / equine ATS dose","TIG 250 IU; ATS 1500 IU s.c. after test","p.313"],
+["Wound immunity categories","A <5 y; B 5–10 y; C >10 y; D incomplete/unknown","p.314"],
+["Other wound, category C or D","Toxoid (1 dose / full course) + human TIG","p.314"],
+["Penicillin prophylaxis (tetanus)","Benzathine 1.2 MU IM; useful only within 6 h","p.313"],
+["Neonatal tetanus: pregnant women","2 TT doses, 2nd ≥3 weeks before delivery; 16–36 wks","p.313"],
+["NT: antitoxin for newborn","750 IU within 6 hours of birth","p.313"],
+["NT elimination district","<0.1/1000, TT2 >90%, attended deliveries >75%","p.311"],
+["NT high-risk district","Rate >1/1000, or TT2 <70%, or deliveries <50%","p.311"],
+["Leprosy: PB / MB (MDT definition)","PB 1–5 lesions; MB 6 or more (or >1 nerve)","p.322"],
+["Leprosy: adequate treatment","PB 6 doses in 9 months; MB 12 doses in 18 months","p.322"],
+["Adult MB MDT","Rif 600 monthly; dapsone 100 daily; clofazimine 300 monthly + 50 daily","p.323"],
+["Adult PB MDT","Rifampicin 600 monthly + dapsone 100 daily","p.323"],
+["Child 10–14 y MB","Rif 450 monthly; dapsone 50 daily; clofazimine 150 monthly + 50 alt. days","p.323"],
+["Child 10–14 y PB","Rifampicin 450 monthly + dapsone 50 daily","p.323–324"],
+["Leprosy surveillance after MDT","PB at least 2 years; MB at least 5 years (yearly)","p.326"],
+["Lepromin test","Fernandez >10 mm at 48 h; Mitsuda >5 mm at 21 days","p.320"],
+["Bacterial index scale","0 to 6+; 6+ = >1000 bacilli per field","p.319"],
+["Prednisolone in reaction","12 weeks: 40, 30, 20, 15, 10, 5 mg (2 weeks each)","p.325"],
+["Clofazimine in ENL","100 mg TDS ×4 wk, BD ×4 wk, OD ×1 month","p.325"],
+["Disability grading (hand/foot)","0 sensation + muscle normal; 1 sensation lost; 2 muscle weak too","p.327"],
+["EHF score","2 eyes + 2 hands + 2 feet = 0–12","p.327"],
+["Leprosy case detection: mass survey","Prevalence ≥10 per 1000, coverage ≥95%","p.322"],
+["STD: classical venereal diseases","5: syphilis, gonorrhoea, chancroid, LGV, donovanosis","p.330"],
+["STD: highest age group","20–24 years, then 25–29, then 15–19","p.331"],
+["Syndromic: urethral discharge","Cefixime 400 mg + azithromycin 1 g, single doses","p.333"],
+["Syndromic: genital ulcer (herpes)","Acyclovir 400 mg TDS × 7 days","p.336"],
+["Syndromic: inguinal bubo","Doxycycline 100 mg BD × 21 days + azithromycin 1 g","p.338"],
+["Yaws: incubation","9–90 days (average 21)","p.342"],
+["Yaws: treatment policy","Total mass >10%; juvenile 5–10%; selective <5%","p.342"],
+["Yaws: drugs","Azithromycin 30 mg/kg (max 2 g) or BPG 1.2 MU (0.6 MU <10 y)","p.342"],
+["HIV: window period / antibodies","Antibodies appear in 2–12 weeks","p.347"],
+["HIV India routes 2011–12","Heterosexual 88.2%; parent-to-child 5.0%; IDU 1.7%","p.344"],
+["HIV: mother-to-child risk","20–25% without intervention","p.346"],
+["HIV adult case definition","2 major + 1 minor; children 2 major + 2 minor","p.348"],
+["First-line ART (2013)","TDF + 3TC (or FTC) + EFV; start at CD4 ≤500","p.351–352"],
+["HIV PEP","Within 72 h, 28-day course; HIV test at 3 months","p.353–354"],
+["Hospital infection","Appears >48 hours after admission","p.359"],
+["HAI: urinary criterion","Culture ≥10^5 bacteria/ml","p.359"],
+]});
+
+NUMS.push({ch:"Ch 6 · Non-communicable",rows:[
+["NCD deaths 2008 (world)","36 of 57 million (63%); CVD 47.9%, cancer 21%","p.362"],
+["WHO Global Action Plan headline","25% fall in premature NCD mortality by 2025","p.364"],
+["CVD deaths world 2008","17 million of 36 million NCD deaths (30.5% all)","p.365"],
+["India CVD","46.9 million patients (2010); 2.33 m deaths (2008)","p.365"],
+["CHD India pooled prevalence","Urban 6.4%, rural 2.5%","p.367"],
+["Tobacco+diet+inactivity explain CHD","At least 75–85% of new cases","p.366"],
+["HDL / TC:HDL ratio goals","HDL >40 mg/dl; ratio <3.5","p.369"],
+["CHD prevention diet","Fat 20–30%; sat fat <10%; chol <100 mg/1000 kcal; salt ≤5 g","p.370"],
+["Oslo study MI reduction","47% (1232 men, 5 yrs)","p.372"],
+["BP: Normal","<120 and <80","p.373"],
+["BP: Pre-hypertension","120–139 or 80–90 (as printed)","p.373"],
+["BP: Stage 1 / Stage 2","140–159 or 90–99 / ≥160 or ≥100","p.373"],
+["Essential hypertension","90% of cases; secondary ≤10%","p.373"],
+["Rule of halves","Half aware, half of those treated, half of those controlled","p.373"],
+["Hypertension burden world","7.5 m deaths (12.8%); prevalence ~40% (25+ yrs)","p.374"],
+["Treatment target BP","<140/90, ideally 120/80","p.376"],
+["Lifestyle SBP falls (Table 2)","Wt 5–20/10 kg; DASH 8–14; Na 2–8; activity 4–9; alcohol 2–4","p.376"],
+["Stroke definition","Deficit >24 h or death; TIA <24 h","p.377"],
+["RHD India","5–7/1000 (5–15 yrs); ~1 million cases","p.379"],
+["RF primary episode criteria","2 major or 1 major + 2 minor + strep evidence","p.380"],
+["RF prophylaxis","Benz. penicillin 1.2 MU adult/600,000 child every 3 wk","p.381"],
+["RF prophylaxis duration","≥5 yrs or to 18; carditis 10 yrs or to 25","p.381"],
+["Cancer world 2012","14 m new cases; 8.2 m deaths","p.381"],
+["Cancer: environmental causes","80–90%; at least 1/3 preventable","p.385"],
+["Population-based cancer registry","Base population 2–7 million","p.386"],
+["Cervix screening","Pap at start of sex then every 3 yrs; VIA 5% acetic acid","p.387"],
+["Breast cancer mean age","India 42 vs white women 53","p.389"],
+["Lung cancer India","Smoker risk 8.6 times; 80–90% due to smoking","p.390"],
+["Diabetes world","347 million (>90% type 2); prevalence 10% (25+)","p.393"],
+["Diabetes criteria","FPG ≥7.0 mmol/l (126) or 2-h ≥11.1 (200)","p.395"],
+["IGT / IFG","IGT 2-h 7.8–11.1 (140–200); IFG fasting 6.1–6.9 (110–125)","p.395"],
+["Type 1 diabetes","<30 yrs; immune-mediated >90%; peak 10–14 yrs","p.392"],
+["Dietary fibre in diabetes","Minimum 20 g/day","p.394"],
+["BMI: Normal / Underweight","18.50–24.99 / <18.50","p.399"],
+["BMI: Pre-obese / Class I","25.00–29.99 / 30.00–34.99","p.399"],
+["BMI: Class II / Class III","35.00–39.99 / ≥40.00","p.399"],
+["Waist / WHR risk","Waist ≥102 cm M, ≥88 cm F; WHR >1.0 M, >0.85 F","p.400"],
+["Obesity energy facts","1 kg fat = 7,700 kcal; +100 kcal/day = ~5 kg/yr","p.398"],
+["WHO blindness","Acuity <3/60","p.401"],
+["Visual impairment categories","0 ≥6/18; 1 <6/18–6/60; 2 <6/60–3/60","p.401"],
+["Blindness categories 3–5","3: <3/60–1/60; 4: <1/60–PL; 5: NPL","p.401"],
+["Blind world 2010","285 m impaired; 39 m blind; ~80% avoidable","p.401"],
+["Blindness causes India","Cataract 62.6, refractive 19.7, glaucoma 5.8%","p.402"],
+["Vitamin A prophylaxis","200,000 IU every 6 months, ages 1–6 yrs","p.404"],
+["Vision 2020","Launched 18 Feb 1999; target year 2020","p.404"],
+["RTA India 2011","4.43 lakh accidents; deaths/1000 vehicles 1.2","p.406"],
+["Speed / drink-driving","90% pedestrians survive ≤30 km/h; BAC 0.04 g/dl","p.406"],
+["Helmet / seat-belt","Helmet death ↓~40%; front seat-belt ↓40–50%","p.406"],
+["Drowning","Unconscious ~2 min; brain damage 4–6 min; 359,000 deaths","p.409"],
+["Suicide India","369 per day; rate 36/lakh","p.413"]
+]});
+
+NUMS.push(
+{ch:"Ch 15 · Occupational Health",rows:[
+["ILO/WHO definition year","1950 (Joint Committee)","p.803"],
+["Comfort zone (temperature)","20–27°C (69–80°F)","p.804"],
+["Vibration frequency (white fingers)","10–500 Hz","p.804"],
+["Ionizing radiation limit (ICRP)","5 rem/year, whole body","p.804"],
+["Respirable dust size","<5 µ (pneumoconiosis dust 0.5–3 µ)","p.805–806"],
+["Silicosis first reported in India","Kolar Gold Mines, 1947","p.806"],
+["Silicosis incubation","Few months to 6 years; nodules 3–4 mm","p.806"],
+["Silicosis: mica mines / pottery","34.1% / 15.7%","p.806"],
+["Anthracosis: simple phase / death risk","~12 years exposure / ~2× general population","p.806"],
+["Byssinosis incidence","7–8% (Mumbai, Ahmedabad, Delhi)","p.806"],
+["Textile industry share of factory workers","~35%","p.806"],
+["Bagassosis organism / bagasse control","Thermoactinomyces sacchari / moisture >20%, 2% propionic acid","p.807"],
+["Asbestosis appears after","5–10 years of exposure","p.807"],
+["Farmer's lung","Micropolyspora faeni; hay moisture >30%, 40–50°C","p.807"],
+["Lead: blood level with symptoms","70 µg/100 ml (average 25)","p.807–808"],
+["Lead: urine ALA / urine lead / CPU","ALA >5 mg/L; lead >0.8 mg/L; CPU normal <150 µg/L","p.808"],
+["Lead air limit","<2.0 mg per 10 cu m air","p.808"],
+["Lead notifiable in India since","1924","p.808"],
+["Skin cancer share of occupational cancers","~75%","p.808"],
+["Occupational cancer latency","10–25 years","p.809"],
+["Film badge monitoring interval","Not exceeding 6 months","p.809"],
+["Human factors in accidents","85%","p.810"],
+["Unsafe machines in accidents","10–20%","p.810"],
+["Accidents in first 6 months of job","~50% (next 6 months 23%, then 3%)","p.810"],
+["Accidents preventable","98%","p.810"],
+["Absenteeism (NPC)","8–13% early 1950s → 15–20%; 8–10 days/head/year","p.810"],
+["Canteen threshold","More than 250 workers","p.811, 815"],
+["Toilets","1 per 25 for first 100, then 1 per 50","p.811"],
+["Space per worker","500 cu ft (350 for pre-1948 factories); >14 ft not counted","p.812, 815"],
+["Notifiable diseases: Factories / Mines / Dock","22 / 3 / 8","p.813"],
+["Periodic exam","Yearly; monthly lead, dyes, radium; daily dichromates","p.813"],
+["Ventilation openings","5 sq ft per worker","p.814"],
+["Factory definition","10+ workers with power; 20+ without","p.815"],
+["Safety officer / welfare officer / creche","≥1,000 / ≥500 workers / >30 women","p.815"],
+["Factories Act hours","48 h/week, 9 h/day, overtime total ≤60; adolescents 4½ h","p.815"],
+["Child / adolescent age","<14 barred; 15–18 adolescent (6 am–7 pm)","p.815"],
+["Leave with wages","Adult 1 in 20 (max 30); child 1 in 15 (max 40)","p.815"],
+["ESI contribution","Employer 4.75% of wage bill; employee 1.75%","p.816"],
+["ESI sickness / maternity / funeral","91 days at ~50%; 12 wk (84 d) full wages; ≤₹10,000","p.817–818"]
+]},
+{ch:"Ch 17 · Mental Health",rows:[
+["WHO mental health committee","1950 Expert Committee","p.831"],
+["Neuropsychiatric prevalence (world)","~10% adults; ~450 million","p.831"],
+["India mental morbidity","Not less than 18–20 per 1,000","p.831"],
+["Mental hospitals in India","47, ~10,329 beds","p.831"],
+["Mentally healthy person characteristics","3 (self, others, life demands)","p.831"],
+["Menninger questions","13; help needed if any is definitely 'yes'","p.831–832"],
+["Major mental illnesses (psychoses)","3: schizophrenia, manic-depressive, paranoia","p.832"],
+["Two schizophrenic parents","Child 40× more likely","p.832"],
+["Lifelong needs","7","p.833"],
+["Levels of prevention","3 (primary, secondary, tertiary)","p.833"],
+["Treatable near home","95% of psychiatric cases","p.833"],
+["CMHP elements","9","p.833"],
+["Alcohol deaths worldwide","2.3 million (3.7% of all deaths)","p.835"],
+["Alcohol users in India","20–30% adult males; ~5% females","p.835"],
+["Bangalore: traffic injuries from alcohol","~28%","p.835"],
+["Tobacco deaths","~3 million/yr (6%); ~30% cancer deaths in developed","p.835"],
+["Babies of smoking mothers","~200 g lighter","p.835"],
+["Hirayama","1981, Japanese non-smoking wives","p.835"],
+["GATS India any tobacco","Males 48%, females 20%","p.836"],
+["GATS smoking / smokeless","M 24%, F 3% / M 33%, F 18%","p.836"],
+["Caffeinism","Over 500 mg/day","p.837"],
+["Relapse without break from group","100%","p.838"]
+]},
+{ch:"Ch 19 · Health Education",rows:[
+["Communication components","5: sender, receiver, message, channel, feedback","p.854"],
+["Learning objectives","Cognitive, affective, psychomotor","p.854"],
+["Media systems","3: interpersonal, mass, folk","p.855"],
+["Barriers","4: physiological, psychological, environmental, cultural","p.856"],
+["Functions of health communication","8","p.856"],
+["Alma-Ata declaration","1978","p.857"],
+["Approaches to HE","4: regulatory, service, HE, PHC","p.858"],
+["Aims and objectives","4","p.858"],
+["Sterilization campaign failure","1976 (Congress defeat 1977)","p.858"],
+["Service approach","Basic Health Services, 1960s; failed (felt needs)","p.859"],
+["Models","3: medical, motivation, social intervention","p.859–860"],
+["Adoption stages","Awareness, motivation (interest, evaluation, decision), action","p.860"],
+["Contents of HE","8","p.860–861"],
+["Principles of HE","12","p.861–862"],
+["Illiteracy in India (as cited)","About 25%","p.862"],
+["Lecture","Group ≤30; talk 15–20 min","p.864"],
+["Flipchart size","About 25 × 30 cm","p.864"],
+["Group discussion","6–12 members, circle, leader + recorder","p.864"],
+["Panel discussion","4–8 speakers + chairman","p.865"],
+["Workshop / role play","Usually ≥4 meetings / group ~25","p.865"],
+["CHEB / SEARB","1956 New Delhi / 1983 Bangalore","p.867"]
+]}
+);
+
+NUMS.push({ch:"Ch 21 · Health care of the community", rows:[
+["Levels of health care","3: primary, secondary, tertiary","p.890"],
+["Bhore Committee: comprehensive care","1946","p.891"],
+["UNICEF/WHO: basic health services","1965","p.891"],
+["Alma-Ata conference (PHC)","1978","p.891"],
+["Essential elements of PHC","8 (Alma-Ata Declaration)","p.891"],
+["HFA movement launched (WHA)","1977 (global strategy 1981)","p.892"],
+["NHP 1983: IMR goal by 2000","125 (1978) to below 60","p.893"],
+["NHP 1983: life expectancy goal","52 to 64 years","p.893"],
+["NHP 1983: CDR goal","14 to 9 per 1000","p.893"],
+["NHP 1983: CBR goal","33 to 21 per 1000","p.893"],
+["NHP 1983: NRR goal","1","p.893"],
+["MDG summit; countries; deadline","Sept 2000; 189; 2015","p.893"],
+["Health-related MDGs: goals/targets/indicators","3 of 8 / 8 of 18 / 18 of 48","p.893"],
+["Improved water 'access'","20 litres/person/day within 1 km","p.894"],
+["Population below 15 yrs (text / Table 3)","35.35% / 30.0% (2012)","p.897"],
+["Dependency ratio","62 per 100","p.897"],
+["India CBR / CDR (2012)","21.6 / 7.0 per 1000","p.897"],
+["India IMR 2012 (Kerala / M.P.)","42 (12 / 56)","p.898"],
+["Malaria 2013: cases; deaths","0.8 million (0.44 m Pf); 379","p.899"],
+["Doctors concentrated in urban areas","up to 73.6% (26.4% of people)","p.900"],
+["Norm: nurse; health worker","1 per 5,000; 1 per 5,000 (3,000 hilly)","p.900"],
+["Norm: health assistant","1 per 30,000 (20,000 hilly); 6 HWs","p.900"],
+["Norm: pharmacist; lab technician; ASHA","1/10,000; 1/10,000; 1/1,000","p.900"],
+["WHO goal / India: health spending","5% / about 3% of GNP","p.901"],
+["Sectors of health care system in India","5","p.902"],
+["Village health guide scheme started","2 Oct 1977; 200 hrs, Rs 200/month","p.902"],
+["Anganwadi worker","1 per 400–800 population; Rs 1500/month","p.903"],
+["Sub-centre norm; number (Mar 2014)","1/5,000 (3,000 hilly); 152,326","p.903"],
+["Sub-centre staff: existing → IPHS","2/3 → 3/4 (ANM 1→2, MPW-M 1)","p.904"],
+["PHC norm; number (Mar 2014)","1/30,000 (20,000 hilly); 25,020","p.905"],
+["PHC: Mudaliar 1962; Bhore 1946","40,000; 10,000–20,000","p.904–905"],
+["PHC IPHS: beds; OPD per doctor","6 beds; 40 per day","p.905"],
+["PHC staff: existing → recommended","15 → 24/25 (MO 1→3)","p.906"],
+["CHC norm; number (Mar 2014)","80,000–1.20 lakh; 5,363; 30 beds","p.907"],
+["CHC revised IPHS staff","clinical 15/16; support 64","p.908"],
+["Eye surgeon at CHC","1 per 5 lakh (1 for every five CHCs)","p.907–908"],
+["HW(F) families; JSY accounts by","350–500; 7th of month","p.908–909"],
+["ESI Act; wage limit","1948; Rs 15,000/month","p.914"],
+["CGHS started; now","New Delhi 1954; 320 units, 42.76 lakh","p.915"]
+]},
+{ch:"Ch 22 · International health", rows:[
+["Quarantine detention (14th c.)","40 days","p.918"],
+["First International Sanitary Conference","Paris 1851; code of 137 articles","p.918"],
+["Pan American Sanitary Bureau","1902 (PAHO name 1958)","p.918"],
+["League of Nations Health Organization","1923","p.919"],
+["WHO constitution drafted; conference","1946; 51 nations, New York","p.919"],
+["WHO constitution in force","7 April 1948 (World Health Day)","p.919"],
+["WHO members: 1948 → now","56 → 194 + 2 associate","p.920"],
+["World Health Assembly","annual, usually May; 1 vote each","p.921"],
+["Executive Board","originally 18; now 34; 3-year terms","p.921"],
+["WHO regions","6","p.921"],
+["SEARO HQ; members","New Delhi; 11","p.921"],
+["Region HQs (Africa; Americas; Europe)","Brazzaville; Washington; Copenhagen","p.921"],
+["SEARO joining years","Thailand 1947; India, Myanmar, Sri Lanka 1948","p.922"],
+["UNICEF founded; renamed","1946; 1953","p.922"],
+["GOBI","Growth, Oral rehydration, Breast feeding, Immunization","p.922–923"],
+["UNDP established","1966","p.923"],
+["UNFPA in India since","1974","p.923"],
+["Colombo Plan","Jan 1950; 20 developing + 6 non-regional","p.924"],
+["SIDA (TB); DANIDA (blindness)","since 1979; since 1978","p.924"],
+["Rockefeller chartered; India start","1913; 1920 (hookworm)","p.924"],
+["CARE founded; India start","1945; 1950","p.924"],
+["First Geneva Convention; Red Cross League","1864; 1919","p.925"]
+]});
 
 
 (function(){
@@ -5992,6 +6419,13 @@ tb.onclick=()=>{const d=root.getAttribute("data-theme")?root.getAttribute("data-
 function applyLang(l){root.setAttribute("data-lang",l);lb.textContent=l==="en"?"Hooks: English + Malayalam":"Hooks: English only"}
 applyLang(window.FORCE_LANG||get("lang")||"ml");
 const gear=$("gear"),panel=$("panel"),pq=$("popq");
+const DAY=864e5,sod=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
+const examDate=()=>{const s=get("examDate")||"2026-10-27";const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const exd=$("exd");exd.value=get("examDate")||"2026-10-27";exd.onchange=()=>{if(exd.value){set("examDate",exd.value);if(!location.hash||location.hash==="#/"||location.hash==="#")route()}};
+let DEFER=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();DEFER=e});
+$("instbtn").onclick=()=>{panel.hidden=true;gear.setAttribute("aria-expanded","false");
+  if(DEFER){DEFER.prompt();return}
+  modal((box,close)=>{box.innerHTML=`<div class="qz"><h2 style="padding-right:34px">Install on your phone</h2><p>Open this page once with internet. Then:</p><ol style="margin:0;padding-left:20px"><li><b>Android (Chrome):</b> tap ⋮ then <b>Install app</b> (or <b>Add to Home screen</b>).</li><li><b>iPhone (Safari):</b> tap Share, then <b>Add to Home Screen</b>.</li></ol><p class="mu sm">After that it opens like an app and keeps working without internet.</p><button type="button" class="primary" id="ic">Got it</button></div>`;box.querySelector("#ic").onclick=close})};
 const popOn=()=>get("popq")!=="off";
 const paintPop=()=>{pq.textContent="Pop-up quizzes: "+(popOn()?"On":"Off")};paintPop();
 pq.onclick=()=>{set("popq",popOn()?"off":"on");paintPop()};
@@ -6014,7 +6448,7 @@ function cardEl(q,expanded){
   const sk=c.querySelector(".skel"),rb=c.querySelector(".reveal"),ok=c.querySelector(".ok"),bad=c.querySelector(".bad"),qb=c.querySelector(".qb");
   rb.onclick=()=>{sk.hidden=!sk.hidden;rb.textContent=sk.hidden?"Show skeleton":"Hide skeleton"};
   c._paint=()=>{const v=get(q.id);ok.classList.toggle("on",v==="ok");bad.classList.toggle("on",v==="bad");c.dataset.mark=v||""};
-  ok.onclick=()=>{const was=get(q.id)==="ok";set(q.id,was?null:"ok");paintAll();if(!was)afterOk(q)};
+  ok.onclick=()=>{const was=get(q.id)==="ok";set(q.id,was?null:"ok");if(!was&&q.from)q.from.split(", ").forEach(f=>set(f,"ok"));paintAll();if(!was)afterOk(q)};
   bad.onclick=()=>{set(q.id,get(q.id)==="bad"?null:"bad");paintAll()};
   if(qb)qb.onclick=()=>openCardQuiz(q,false);
   c._paint();return c;
@@ -6103,6 +6537,40 @@ function searchView(words){
   hits.slice(0,40).forEach(i=>{const c=cardEl(i,true);res.appendChild(c);markWords(c,words)});
 }
 
+/* ---------- exam countdown + adaptive plan ---------- */
+const PLAN_ORDER=["LN","LC","15","17","19","21","22","5r","5i","5a","5z","5s","6"];
+const DAILY=70;
+const wt=i=>i.type==="long"?3:i.type==="short"?1:2;
+function planHTML(){
+  const ex=examDate(),days=Math.round((ex-sod(new Date()))/DAY);
+  const when=ex.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+  const units=PLAN_ORDER.filter(n=>CH[n]).map(n=>{const c=CH[n],left=c.items.filter(i=>get(i.id)!=="ok");return{c,left,w:left.reduce((a,i)=>a+wt(i),0)}}).filter(u=>u.left.length);
+  const all=CHAPTERS.flatMap(c=>c.items).filter(i=>i.type!=="long"),done=all.filter(i=>get(i.id)==="ok").length,pct=Math.round(done/all.length*100);
+  const link=(u,extra)=>`<li><a href="#/ch/${u.c.no}"><b>${esc(u.c.nav||u.c.short)}</b><span>${u.left.length} card${u.left.length>1?"s":""} left${extra||""}</span></a></li>`;
+  const revise=`<li><a href="#/revise"><b>Revise your ✗ cards</b><span>${all.filter(i=>get(i.id)==="bad").length} saved</span></a></li><li><a href="#/exam"><b>Take an MCQ test</b><span>no typing</span></a></li><li><a href="#/sheet"><b>Read the last-night sheet</b><span>numbers + hooks</span></a></li>`;
+  if(days<0)return `<div class="plan"><div class="dl">Your exam date has passed (${esc(when)}). Change it in ⚙ if needed.</div></div>`;
+  if(days===0)return `<div class="plan"><div class="dl"><b>Exam day</b> · ${esc(when)}</div><p class="mu sm">Don't learn anything new. Skim the sheet, take a breath, and trust your preparation. Good luck!</p><ul><li><a href="#/sheet"><b>Last-night sheet</b><span>skim only</span></a></li></ul></div>`;
+  if(days===1)return `<div class="plan"><div class="dl"><b>Tomorrow</b> · ${esc(when)}</div><p class="mu sm">Revision day. Only revisit what you saved, test yourself, then sleep early. You have covered ${pct}% of the cards.</p><ul>${revise}</ul></div>`;
+  const study=days-1,total=units.reduce((a,u)=>a+u.w,0),want=total/study,target=Math.max(1,Math.min(DAILY,want));
+  let acc=0;const today=[],next=[];units.forEach(u=>{if(acc<target||!today.length){today.push(u);acc+=u.w}else next.push(u)});
+  const body=units.length?`<p class="sm"><b>Today</b>: aim for these, in this order.${want>DAILY*1.3?" There is a lot to cover, so long essays come first. Do what you can; the plan adjusts each day.":""}</p><ul>${today.map(u=>link(u)).join("")}</ul>${next.length?`<p class="mu sm">Next up: ${next.slice(0,3).map(u=>esc(u.c.nav||u.c.short)).join(", ")}${next.length>3?" …":""}</p>`:""}<p class="mu sm">Then the last day: ✗ cards, an MCQ test and the night sheet.</p>`:`<p class="sm">You have marked every card ✓. Use the time to test yourself.</p><ul>${revise}</ul>`;
+  return `<div class="plan"><div class="dl"><b>${days}</b> day${days>1?"s":""} to your exam · ${esc(when)}</div><p class="mu sm">${pct}% of cards done. The plan updates as you tick cards.</p>${body}</div>`;
+}
+
+/* ---------- last-night sheet ---------- */
+function sheetHTML(){
+  const nums=typeof NUMS!=="undefined"?NUMS:[];
+  let h="";
+  nums.forEach(n=>{h+=`<h3>${esc(n.ch)}</h3><table>${n.rows.map(r=>`<tr><td>${fmt(r[0])}</td><td>${fmt(r[1])}</td><td>${esc(r[2]||"")}</td></tr>`).join("")}</table>`});
+  let hk="";
+  CHAPTERS.forEach(c=>{if(/^L/.test(String(c.no)))return;const list=c.items.filter(i=>i.hook);if(!list.length)return;hk+=`<h3>Memory hooks · ${esc(c.nav||c.short)}</h3>`+list.map(i=>`<p class="hk"><b>${esc(shortTitle(i))}</b>: <span class="hk-ml">${fmt(i.hook)}</span><span class="hk-en">${fmt(i.hookEn||i.hook)}</span></p>`).join("")});
+  return (h||'<p class="mu">Key numbers are being added.</p>')+hk;
+}
+function sheetView(){
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>Last-night sheet</h2><p class="mu sm" style="margin:4px 0 8px">The key numbers, schedules and memory hooks from every chapter. Read it the night before. Every value shows its Park page.</p><input id="sf" type="search" placeholder="Filter: dose, years, polio, ESI…" aria-label="Filter the sheet"><div class="sheet" id="sh">${sheetHTML()}</div>`;
+  const f=$("sf");f.oninput=()=>{const w=norm(f.value).split(/\s+/).filter(Boolean);document.querySelectorAll("#sh tr").forEach(r=>{r.style.display=w.every(x=>norm(r.textContent).includes(x))?"":"none"});document.querySelectorAll("#sh p.hk").forEach(r=>{r.style.display=w.every(x=>norm(r.textContent).includes(x))?"":"none"});};
+}
+
 /* ---------- views ---------- */
 const progress=c=>{const t=c.items.length,d=c.items.filter(i=>get(i.id)==="ok").length;return[d,t]};
 function homeView(){
@@ -6112,7 +6580,7 @@ function homeView(){
   const tile=c=>{const [d,t]=progress(c);return `<a class="tile" href="#/ch/${c.no}"><b>${esc(c.nav||("Ch "+c.no+" · "+c.short))}</b><small>${c.items.length} cards · Park ${esc(String(c.pages).replace(/^Park\s*/,""))}</small><div class="pbar"><i style="width:${t?d/t*100:0}%"></i></div><small>${d} of ${t} done</small></a>`};
   const g=(t,list)=>list.length?`<div class="grp">${t}</div><div class="tiles">${list.map(tile).join("")}</div>`:"";
   app.innerHTML=`<div class="hero"><h1>Community Medicine</h1><p class="mu">Park's Textbook of Preventive and Social Medicine, 23rd ed. Every point shows its Park page. Mark a card ✓ and a quick quiz pops up.</p></div>
-    <div class="stats"><div class="stat"><b>${done}</b><span>cards done</span></div><div class="stat"><b>${acc}</b><span>quiz accuracy</span></div><div class="stat"><b>${bad}</b><span>to revise</span></div></div>
+    ${planHTML()}<div class="stats"><div class="stat"><b>${done}</b><span>cards done</span></div><div class="stat"><b>${acc}</b><span>quiz accuracy</span></div><div class="stat"><b>${bad}</b><span>to revise</span></div></div>
     
     ${g("Long essays: one full 15-mark essay per disease",CHAPTERS.filter(c=>/^L/.test(String(c.no))))}
     ${g("Park chapter 5 · Communicable diseases",real.filter(c=>/^5/.test(String(c.no))))}
@@ -6213,6 +6681,7 @@ function renderPrint(){
       h+=`<article class="q"><h3>Check: is anything missing?</h3><ul>${mapped.map(t=>`<li>${fmt(t)}</li>`).join("")}</ul></article>`;
     }
   });
+  h+=`<div class="chaphead note"><span class="eyebrow">Last-night sheet</span><h2>Key numbers and memory hooks</h2></div><div class="sheet">${sheetHTML()}</div>`;
   app.innerHTML=h;
 }
 
@@ -6221,6 +6690,7 @@ function tour(){
   if(location.hash&&location.hash!=="#/")location.hash="#/";
   const steps=[
     ["Your chapters","Each tile is a chapter with a progress bar. Start with the Long essays: one full 15-mark essay per disease.",()=>document.querySelector(".tile")],
+    ["Your daily plan","This box counts down to your exam and tells you what to finish today. It updates as you tick cards.",()=>document.querySelector(".plan")],
     ["Open a card","Inside a chapter, tap Show skeleton to see the headings and key points. Every point shows its Park page.",null],
     ["Got it? Quick check","Tap ✓ Got it and 3 quick questions pop up. You can skip any question, or turn pop-ups off in ⚙.",null],
     ["Search anything","Type a disease, drug or number. Matching cards open with your words highlighted.",()=>$("q")],
@@ -6274,7 +6744,7 @@ function route(){
   SEARCHING=false;$("qn").textContent="";
   const [v,a]=location.hash.replace(/^#\/?/,"").split("/");
   document.querySelectorAll('#bnav a').forEach(x=>x.classList.toggle('on',x.dataset.r===(v||'')||(!v&&x.dataset.r===''&&!q.length)));
-  if(v==="ch")chapterView(a);else if(v==="quiz")quizView();else if(v==="exam")examView();else if(v==="revise")reviseView();else homeView();
+  if(v==="ch")chapterView(a);else if(v==="quiz")quizView();else if(v==="exam")examView();else if(v==="revise")reviseView();else if(v==="sheet")sheetView();else homeView();
   window.scrollTo(0,0);
 }
 if(PRINT){renderPrint()}else{
@@ -6285,4 +6755,5 @@ if(PRINT){renderPrint()}else{
 })();
 </script>
 
+<script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})</script>
 </html>
