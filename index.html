@@ -42,18 +42,18 @@ textarea{font:inherit;font-size:.95rem;width:100%;box-sizing:border-box;min-heig
 <main>
   <header style="display:flex;flex-direction:column;gap:6px">
     <h1>Community Medicine: quick questions</h1>
-    <p class="lede">Tap your answers (takes 2 minutes). When you're done, press <b>Submit answers</b> at the bottom. Your answers decide how the recall pack is built.</p>
+    <p class="lede">Just 2 taps and one optional box (takes 1 minute). When you're done, press <b>Submit answers</b> at the bottom. Your answers decide how the recall pack is built.</p>
   </header>
   <div id="list" style="display:flex;flex-direction:column;gap:14px"></div>
   <section class="q">
-    <h2><span class="n">13</span>Anything else? Important questions from your teacher, topics you're scared of, previous years' questions…</h2>
-    <p class="hint">Optional. You can also send photos separately on WhatsApp.</p>
-    <textarea id="extra" aria-label="Anything else"></textarea>
+    <h2><span class="n">3</span>Important questions from your teacher or previous years' papers <span style="font-weight:400;color:var(--muted)">(optional)</span></h2>
+    <p class="hint">Type them here, or send photos separately on WhatsApp.</p>
+    <textarea id="extra" aria-label="Important questions (optional)"></textarea>
   </section>
 </main>
 
 <div class="bar"><div class="in">
-  <span class="prog" id="prog">0 of 12 answered</span>
+  <span class="prog" id="prog">0 of 2 answered</span>
   <button class="send" id="submit" type="button">Submit answers</button>
   <a class="copy" id="send" href="#" target="_blank" rel="noopener">WhatsApp</a>
   <span class="toast" id="toast" hidden></span>
@@ -63,17 +63,7 @@ textarea{font:inherit;font-size:.95rem;width:100%;box-sizing:border-box;min-heig
 <script>
 const Q=[
 ["When is the Community Medicine exam?",["Tomorrow","In 2–3 days","In about a week","More than a week"],0],
-["What does the question paper look like?",["Long essays + short notes","Mostly short notes","Short answers / MCQ","Not sure"],0],
-["Communicable diseases (about 50 diseases in Park ch 5): how much should I cover?",["Every disease","Big ones in full + short notes for the rest","Only what the teacher marked"],0],
-["Which parts are you already strong in? (skip or go lighter)",["Communicable diseases","Non-communicable diseases","Occupational health","Mental health","Health education","None, cover everything"],1],
-["How many marks is one long essay?",["10","15","20","Not sure"],0],
-["How many hours a day can you study before the exam?",["2–3 hours","4–6 hours","7+ hours"],0],
-["Did the last recall pack (OBG) help?",["Yes, same style","Yes, but make it shorter","Didn't use it much","Change something (write below)"],0],
-["Memory hooks in which language?",["English","Malayalam + English mix"],0],
-["How do you want it?",["Phone page like last time","Printable PDF","Both"],0],
-["Which communicable disease groups are most important?",["Respiratory (TB, measles, diphtheria…)","Intestinal (polio, hepatitis, cholera, typhoid…)","Arthropod-borne (malaria, dengue, filaria)","Zoonoses (rabies, plague, JE…)","Surface infections (leprosy, tetanus, STD, AIDS…)","Hospital-acquired infections","All equally"],1],
-["Which non-communicable diseases are most important?",["Coronary heart disease","Hypertension","Stroke","Rheumatic heart disease","Cancer","Diabetes","Obesity","Blindness","Accidents & injuries","All equally"],1],
-["Do you want practice questions (quiz yourself) too?",["Yes, quiz me","Only essay skeletons","Both"],0]
+["What does the question paper look like?",["Long essays + short notes","Mostly short notes","Short answers / MCQ","Not sure"],0]
 ];
 const A=Q.map(()=>new Set());
 const list=document.getElementById("list");
@@ -91,12 +81,12 @@ const extra=document.getElementById("extra");extra.oninput=update;
 function text(){
   let t="📚 Community Medicine – my answers\n";
   Q.forEach(([q,opts],i)=>{t+=`\n${i+1}. ${q}\n→ ${A[i].size?[...A[i]].sort((a,b)=>a-b).map(k=>opts[k]).join(", "):"(skipped)"}\n`});
-  if(extra.value.trim())t+=`\n13. Anything else:\n${extra.value.trim()}\n`;
+  if(extra.value.trim())t+=`\n3. Important questions:\n${extra.value.trim()}\n`;
   return t;
 }
 function update(){
   const n=A.filter(s=>s.size).length;
-  document.getElementById("prog").textContent=`${n} of 12 answered`+(n<12?" (you can still send)":" ✓");
+  document.getElementById("prog").textContent=`${n} of 2 answered`+(n<2?" (you can still send)":" ✓");
   document.getElementById("send").href="https://wa.me/?text="+encodeURIComponent(text());
 }
 const TOPIC="cm-anuna-5e56621078d5999cc6c2";
