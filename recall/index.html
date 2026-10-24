@@ -20,24 +20,27 @@ body{background:var(--bg);color:var(--fg);font:17px/1.55 var(--body);margin:0;pa
 h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
 h1{font-size:1.7rem;line-height:1.2} h2{font-size:1.35rem} h3{font-size:1.1rem;line-height:1.35}
 p{margin:0} .mu{color:var(--muted)} .sm{font-size:.9rem}
-button,.btn{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:8px 12px;text-decoration:none;display:inline-block;text-align:center}
+button,.btn{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:10px 14px;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;text-align:center;-webkit-tap-highlight-color:transparent}
 button.primary,.btn.primary{background:var(--accent);color:var(--card);font-weight:600}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* top bar */
-.top{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0 8px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.top{position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 0 6px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .top .row{display:flex;gap:8px;align-items:center}
 .top .home{font:600 1rem var(--display);color:var(--accent);text-decoration:none;white-space:nowrap}
-.top input{flex:1;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg)}
-.top .t{font-size:.8rem;padding:6px 9px;flex:0 0 auto}
-.top .tg{display:flex;gap:6px;flex-wrap:wrap}
+.top input{flex:1;min-width:0;font:inherit;font-size:16px;min-height:44px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg)}
+.top .t{font-size:.9rem;padding:6px 12px;min-height:44px}
+#gear{font-size:1.2rem;width:44px;padding:0;flex:0 0 auto;border-color:var(--line);color:var(--muted)}
+.panel{display:flex;gap:8px;flex-wrap:wrap}.panel[hidden]{display:none}.panel button{flex:1 1 140px;border-color:var(--line);color:var(--fg)}
 #qn{font-size:.85rem;color:var(--muted);min-height:1.1em}
 /* home */
 .hero{display:flex;flex-direction:column;gap:6px;margin:6px 0 14px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
 .stat b{display:block;font:600 1.3rem var(--display);color:var(--accent)} .stat span{font-size:.78rem;color:var(--muted)}
-.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:6px}
-.quick a{padding:14px 10px;font-weight:600}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bnav a{display:flex;align-items:center;justify-content:center;min-height:56px;color:var(--muted);text-decoration:none;font-weight:600;font-size:.92rem}
+.bnav a.on{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
+body{padding-bottom:84px}
 .grp{font:600 .78rem var(--body);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .tile{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--fg);text-decoration:none;min-width:0}
@@ -48,7 +51,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .chaphead{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
 .eyebrow{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
 .filters{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.filters button{font-size:.85rem;padding:5px 10px;border-color:var(--line);color:var(--fg)} .filters button.on{background:var(--accent);color:var(--card);border-color:var(--accent)}
+.filters button{font-size:.9rem;padding:6px 14px;min-height:40px;border-color:var(--line);color:var(--fg)} .filters button.on{background:var(--accent);color:var(--card);border-color:var(--accent)}
 .list{display:flex;flex-direction:column;gap:14px}
 .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .q.short{border-style:dashed}
@@ -74,18 +77,19 @@ mark{background:var(--warn-soft);color:inherit;border-radius:3px;padding:0 1px;b
 .box{fill:var(--card);stroke:var(--line);stroke-width:1.5} .box.hl{stroke:var(--accent);fill:var(--accent-soft)}
 .ln{stroke:currentColor;stroke-width:1.3;fill:none;opacity:.7} .mk{fill:currentColor;opacity:.7}
 /* quiz + modal */
-.ov{position:fixed;inset:0;z-index:50;background:rgba(10,15,14,.6);display:flex;align-items:center;justify-content:center;padding:16px}
-.dlg{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:18px 16px 16px}
+.ov{position:fixed;inset:0;z-index:60;overflow:auto;background:rgba(10,15,14,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg{position:relative;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:18px 16px 16px}
 .dlg .x{position:absolute;top:8px;right:8px;width:34px;height:34px;padding:0;border-radius:50%;font-size:1.3rem;line-height:1;border-color:var(--line);color:var(--muted)}
 body.noscroll{overflow:hidden}
 .qz{display:flex;flex-direction:column;gap:12px}
 .qz-h{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;color:var(--muted);padding-right:34px}
 .qz-q{font-size:1.08rem;font-weight:600}
 .qz-o{display:flex;flex-direction:column;gap:8px}
-.qz-o button{text-align:left;border-color:var(--line);color:var(--fg);background:var(--bg);padding:11px 12px}
+.qz-o button{text-align:left;justify-content:flex-start;border-color:var(--line);color:var(--fg);background:var(--bg);padding:13px 14px;min-height:52px;line-height:1.35}
 .qz-o button.good{border-color:var(--ok);background:var(--ok-soft)} .qz-o button.wrong{border-color:var(--bad);background:var(--bad-soft)}
 .qz-fb{border-radius:8px;padding:10px;font-size:.95rem} .qz-fb.good{background:var(--ok-soft)} .qz-fb.wrong{background:var(--bad-soft)}
 .score{font:600 2rem var(--display);color:var(--accent);text-align:center}
+.linkbtn{border:0;background:none;color:var(--muted);text-decoration:underline;min-height:44px;padding:0 6px}
 .rev{border-top:1px solid var(--line);padding-top:8px;font-size:.92rem;display:flex;flex-direction:column;gap:2px}
 .row2{display:flex;gap:8px;flex-wrap:wrap}
 .form{display:flex;flex-direction:column;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
@@ -97,10 +101,10 @@ textarea.ans{width:100%;min-height:130px;font:inherit;padding:10px;border:1px so
 .bars{display:flex;flex-direction:column;gap:8px;margin-top:6px} .bars div{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 /* print: dense two-column pages, no wasted space */
-body.print{padding:0;font-size:9.4pt;line-height:1.32}
+body.print{padding:0!important;font-size:9.4pt;line-height:1.32}
 body.print .wrap{max-width:none}
 body.print #app{columns:2;column-gap:8mm}
-body.print .top,body.print .reveal,body.print .marks,body.print .filters,body.print .hint,body.print .back{display:none!important}
+body.print .top,body.print .bnav,body.print .reveal,body.print .marks,body.print .filters,body.print .hint,body.print .back{display:none!important}
 body.print .chaphead{column-span:all;margin:6px 0 4px;border-top:2px solid #0f6e64;padding-top:3px}
 body.print .chaphead h2{font-size:12.5pt}
 body.print .q{break-inside:auto;border:0;border-top:1px solid #ccc;border-radius:0;padding:5px 0;gap:3px;background:none}
@@ -122,15 +126,21 @@ body.print .note{column-span:all}
   <div class="top" id="topbar">
     <div class="row">
       <a class="home" href="#/">Exam Prep</a>
-      <input id="q" type="search" placeholder="Search everything: leprosy, MDT, ESI, polio…" aria-label="Search" autocomplete="off">
+      <input id="q" type="search" placeholder="Search…" aria-label="Search everything" autocomplete="off">
+      <button class="t" id="gear" type="button" aria-label="Settings" aria-expanded="false">⚙</button>
     </div>
-    <div class="row" style="justify-content:space-between;flex-wrap:wrap">
-      <span id="qn"></span>
-      <span class="tg"><button class="t" id="theme" type="button">Dark mode</button><button class="t" id="lang" type="button">Hooks: English only</button></span>
+    <div class="panel" id="panel" hidden>
+      <button class="t" id="theme" type="button">Dark mode</button>
+      <button class="t" id="lang" type="button">Hooks: English only</button>
+      <button class="t" id="popq" type="button">Pop-up quizzes: On</button>
     </div>
+    <span id="qn"></span>
   </div>
   <div id="app"></div>
 </div>
+<nav class="bnav" id="bnav" aria-label="Main">
+  <a href="#/" data-r="">Home</a><a href="#/quiz" data-r="quiz">Quiz</a><a href="#/exam" data-r="exam">MCQ test</a><a href="#/revise" data-r="revise">Revise</a>
+</nav>
 
 <script>
 const CHAPTERS=[];
@@ -5974,6 +5984,11 @@ applyTheme(get("theme"));
 tb.onclick=()=>{const d=root.getAttribute("data-theme")?root.getAttribute("data-theme")==="dark":sysDark();const t=d?"light":"dark";set("theme",t);applyTheme(t)};
 function applyLang(l){root.setAttribute("data-lang",l);lb.textContent=l==="en"?"Hooks: English + Malayalam":"Hooks: English only"}
 applyLang(window.FORCE_LANG||get("lang")||"ml");
+const gear=$("gear"),panel=$("panel"),pq=$("popq");
+const popOn=()=>get("popq")!=="off";
+const paintPop=()=>{pq.textContent="Pop-up quizzes: "+(popOn()?"On":"Off")};paintPop();
+pq.onclick=()=>{set("popq",popOn()?"off":"on");paintPop()};
+gear.onclick=()=>{panel.hidden=!panel.hidden;gear.setAttribute("aria-expanded",String(!panel.hidden))};
 lb.onclick=()=>{const l=root.getAttribute("data-lang")==="en"?"ml":"en";set("lang",l);applyLang(l)};
 
 /* ---------- cards ---------- */
@@ -6014,38 +6029,41 @@ function recordAnswer(x,right){
 }
 function runQuiz(box,qs,o){
   qs=qs.map(q=>{const idx=shuffle([0,1,2,3]);return Object.assign({},q,{o:idx.map(k=>q.o[k]),a:idx.indexOf(q.a),_orig:q})});
-  let i=0,score=0;const wrong=[];
+  let i=0,score=0,answered=0;const wrong=[];
   const show=()=>{
     if(i>=qs.length)return end();
     const q=qs[i];
     box.innerHTML=`<div class="qz"><div class="qz-h"><span>${esc(o.title||"Quiz")}</span><span>${i+1} / ${qs.length}</span></div><div class="pbar"><i style="width:${i/qs.length*100}%"></i></div>
-      <p class="qz-q">${fmt(q.q)}</p><div class="qz-o">${q.o.map((t,k)=>`<button type="button" data-k="${k}">${esc(t)}</button>`).join("")}</div><div class="qz-fb" hidden></div><div class="row2"><button type="button" class="primary nx" hidden>${i+1<qs.length?"Next":"See result"}</button></div></div>`;
-    const btns=[...box.querySelectorAll(".qz-o button")],fb=box.querySelector(".qz-fb"),nx=box.querySelector(".nx");
+      <p class="qz-q">${fmt(q.q)}</p><div class="qz-o">${q.o.map((t,k)=>`<button type="button" data-k="${k}">${esc(t)}</button>`).join("")}</div><div class="qz-fb" hidden></div>
+      <div class="row2"><button type="button" class="primary nx" hidden>${i+1<qs.length?"Next":"See result"}</button><button type="button" class="skp">Skip question</button><button type="button" class="linkbtn en">${o.endLabel||"End quiz"}</button></div></div>`;
+    const btns=[...box.querySelectorAll(".qz-o button")],fb=box.querySelector(".qz-fb"),nx=box.querySelector(".nx"),skp=box.querySelector(".skp");
     btns.forEach(b=>b.onclick=()=>{
-      const k=+b.dataset.k,right=k===q.a;btns.forEach(x=>x.disabled=true);
+      const k=+b.dataset.k,right=k===q.a;btns.forEach(x=>x.disabled=true);skp.hidden=true;answered++;
       btns[q.a].classList.add("good");if(!right)b.classList.add("wrong");
-      fb.hidden=false;fb.className="qz-fb "+(right?"good":"wrong");fb.innerHTML=(right?"✓ Correct. ":"✗ Not quite. ")+fmt(q.w||"");
+      fb.hidden=false;fb.className="qz-fb "+(right?"good":"wrong");fb.innerHTML=(right?"✓ Correct. ":"Not this time. The answer is highlighted. ")+fmt(q.w||"");
       if(right)score++;else wrong.push(q);recordAnswer(q._orig,right);nx.hidden=false;nx.focus();
     });
     nx.onclick=()=>{i++;show()};
+    skp.onclick=()=>{i++;show()};
+    box.querySelector(".en").onclick=end;
   };
   const end=()=>{
-    const pct=Math.round(score/qs.length*100);
-    box.innerHTML=`<div class="qz"><div class="qz-h"><span>${esc(o.title||"Quiz")}</span><span>Finished</span></div><div class="score">${score} / ${qs.length}</div>
-      <p style="text-align:center" class="mu">${pct>=80?"Excellent. This topic is solid.":pct>=60?"Good. Revisit the ones you missed.":"Needs another pass. Re-read the skeleton, then retry."}</p>
-      ${wrong.length?`<div class="rev"><b>Review your mistakes</b>${wrong.map(q=>`<div style="margin-top:6px"><b>${fmt(q.q)}</b><br>Answer: ${esc(q.o[q.a])}<br><span class="mu">${fmt(q.w||"")}</span></div>`).join("")}</div>`:""}
+    const pct=answered?Math.round(score/answered*100):0;
+    box.innerHTML=`<div class="qz"><div class="qz-h"><span>${esc(o.title||"Quiz")}</span><span>Finished</span></div>
+      ${answered?`<div class="score">${score} / ${answered}</div><p style="text-align:center" class="mu">${pct>=80?"Excellent. This topic is solid.":pct>=50?"Good going. The explanations below will help it stick.":"Every question you meet once is easier next time. Read the answers below and try again later."}</p>`:`<p style="text-align:center" class="mu">No answers this time. That's fine. Come back whenever you like.</p>`}
+      ${wrong.length?`<div class="rev"><b>Worth remembering</b>${wrong.map(q=>`<div style="margin-top:6px"><b>${fmt(q.q)}</b><br>Answer: ${esc(q.o[q.a])}<br><span class="mu">${fmt(q.w||"")}</span></div>`).join("")}</div>`:""}
       <div class="row2" id="qa"></div></div>`;
     const qa=box.querySelector("#qa");
-    (o.extra||[]).forEach(x=>{if(x.when&&!x.when(score,qs.length))return;const b=document.createElement("button");b.type="button";b.textContent=x.label;b.onclick=()=>{x.fn(score,qs.length,wrong);if(x.keep!==true)b.disabled=true};qa.appendChild(b)});
-    if(wrong.length){const r=document.createElement("button");r.type="button";r.textContent="Retry the ones I missed";r.onclick=()=>runQuiz(box,wrong.map(w=>w._orig),Object.assign({},o,{title:(o.title||"Quiz")+" · retry"}));qa.appendChild(r)}
-    const d=document.createElement("button");d.type="button";d.className="primary";d.textContent=o.doneLabel||"Done";d.onclick=()=>{if(o.done)o.done(score,qs.length);};qa.appendChild(d);
+    (o.extra||[]).forEach(x=>{if(!answered||(x.when&&!x.when(score,answered)))return;const b=document.createElement("button");b.type="button";b.textContent=x.label;b.onclick=()=>{x.fn(score,answered,wrong);b.disabled=true};qa.appendChild(b)});
+    if(wrong.length&&!o.noRetry){const r=document.createElement("button");r.type="button";r.textContent="Try the missed ones once more";r.onclick=()=>runQuiz(box,wrong.map(w=>w._orig),Object.assign({},o,{title:(o.title||"Quiz")+" · second look",noRetry:true}));qa.appendChild(r)}
+    const d=document.createElement("button");d.type="button";d.className="primary";d.textContent=o.doneLabel||"Done";d.onclick=()=>{if(o.done)o.done(score,answered);};qa.appendChild(d);
   };
   show();
 }
 function openCardQuiz(q,fromOk){
   const pool=poolFor(q.id);if(!pool.length){if(fromOk)chapterCheck(q.ch);return}
   modal((box,close)=>runQuiz(box,pick(pool,3),{title:"Quick check · "+shortTitle(q),doneLabel:"Continue",
-    extra:[{label:"Mark this card ✗ to revise",when:(s,t)=>s<t,fn:()=>{set(q.id,"bad");paintAll()}}],
+    endLabel:"Skip quiz",extra:[{label:"Save this card for revision",when:(s,n)=>s<n,fn:()=>{set(q.id,"bad");paintAll()}}],
     done:()=>{close();if(fromOk)chapterCheck(q.ch)}}));
 }
 function chapterCheck(no){
@@ -6053,9 +6071,10 @@ function chapterCheck(no){
   if(!c.items.every(i=>get(i.id)==="ok"))return;
   const pool=poolCh(no);if(pool.length<4)return;
   set("chq:"+no,"1");
-  modal((box,close)=>runQuiz(box,pick(pool,Math.min(8,pool.length)),{title:"Chapter complete 🎉 "+(c.nav||c.short),doneLabel:"Finish",done:()=>close()}));
+  modal((box,close)=>runQuiz(box,pick(pool,Math.min(8,pool.length)),{title:"Chapter complete! "+(c.nav||c.short),doneLabel:"Finish",endLabel:"Skip quiz",done:()=>close()}));
 }
 function afterOk(q){
+  if(!popOn())return;
   const pool=poolFor(q.id);
   if(pool.length)openCardQuiz(q,true);else chapterCheck(q.ch);
 }
@@ -6082,11 +6101,11 @@ function homeView(){
   const real=realChapters(),all=CHAPTERS.flatMap(c=>c.items).filter(i=>i.type!=="long");
   const done=all.filter(i=>get(i.id)==="ok").length,bad=all.filter(i=>get(i.id)==="bad").length;
   const s=jget("qstat",{a:0,c:0,ch:{}}),acc=s.a?Math.round(s.c/s.a*100)+"%":"–";
-  const tile=c=>{const [d,t]=progress(c);return `<a class="tile" href="#/ch/${c.no}"><b>${esc(c.nav||("Ch "+c.no+" · "+c.short))}</b><small>${c.items.length} cards · Park ${esc(c.pages)}</small><div class="pbar"><i style="width:${t?d/t*100:0}%"></i></div><small>${d} of ${t} done</small></a>`};
+  const tile=c=>{const [d,t]=progress(c);return `<a class="tile" href="#/ch/${c.no}"><b>${esc(c.nav||("Ch "+c.no+" · "+c.short))}</b><small>${c.items.length} cards · Park ${esc(String(c.pages).replace(/^Park\s*/,""))}</small><div class="pbar"><i style="width:${t?d/t*100:0}%"></i></div><small>${d} of ${t} done</small></a>`};
   const g=(t,list)=>list.length?`<div class="grp">${t}</div><div class="tiles">${list.map(tile).join("")}</div>`:"";
   app.innerHTML=`<div class="hero"><h1>Community Medicine</h1><p class="mu">Park's Textbook of Preventive and Social Medicine, 23rd ed. Every point shows its Park page. Mark a card ✓ and a quick quiz pops up.</p></div>
     <div class="stats"><div class="stat"><b>${done}</b><span>cards done</span></div><div class="stat"><b>${acc}</b><span>quiz accuracy</span></div><div class="stat"><b>${bad}</b><span>to revise</span></div></div>
-    <div class="quick"><a class="btn primary" href="#/quiz">Quiz centre</a><a class="btn primary" href="#/exam">MCQ mock test</a><a class="btn" href="#/revise">Revise ✗ (${bad})</a></div>
+    
     ${g("Long essays: one full 15-mark essay per disease",CHAPTERS.filter(c=>/^L/.test(String(c.no))))}
     ${g("Park chapter 5 · Communicable diseases",real.filter(c=>/^5/.test(String(c.no))))}
     ${g("Park chapter 6 · Non-communicable diseases",real.filter(c=>String(c.no)==="6"))}
@@ -6094,7 +6113,7 @@ function homeView(){
 }
 function chapterView(no){
   const c=CH[no];if(!c){location.hash="#/";return}
-  app.innerHTML=`<a class="back" href="#/">← All chapters</a><div class="chaphead"><span class="eyebrow">${esc(c.label||("Park chapter "+c.no))} · pages ${esc(c.pages)} · syllabus ${esc(c.unit)}</span><h2>${esc(c.name)}</h2>${c.note?`<p class="mu sm">${fmt(c.note)}</p>`:""}</div>
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><div class="chaphead"><span class="eyebrow">${esc(c.label||("Park chapter "+c.no))} · pages ${esc(String(c.pages).replace(/^Park\s*/,""))} · syllabus ${esc(c.unit)}</span><h2>${esc(c.name)}</h2>${c.note?`<p class="mu sm">${fmt(c.note)}</p>`:""}</div>
     <div class="row2">${poolCh(no).length?`<button type="button" id="cq">Chapter quiz (${Math.min(10,poolCh(no).length)} questions)</button>`:""}</div>
     <div class="filters" id="fl"><button type="button" data-f="all" class="on">All</button><button type="button" data-f="essay">Essays</button><button type="button" data-f="short">Short notes</button><button type="button" data-f="bad">✗ only</button></div><div class="list" id="ls"></div>`;
   const ls=$("ls");c.items.forEach(i=>ls.appendChild(cardEl(i,false)));
@@ -6132,7 +6151,7 @@ function examView(){
   if(ex&&ex.keys)return examRun(ex);
   const total=allQ().length,chs=realChapters().filter(c=>poolCh(c.no).length);
   if(total<10){app.innerHTML='<a class="back" href="#/">← All chapters</a><h2>MCQ mock test</h2><p class="mu">Questions are still being added.</p>';return}
-  app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>MCQ mock test</h2><p class="mu sm" style="margin:4px 0 12px">A timed paper of multiple-choice questions. Answer all, then submit: you see your score and every explanation. Your answers are saved if you leave.</p>
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>MCQ mock test</h2><p class="mu sm" style="margin:4px 0 12px">A timed paper of multiple-choice questions. No negative marking: skip any you like and submit whenever you are ready. You then see your score and every explanation. Your answers are saved if you leave.</p>
     <div class="form"><label>Topic<select id="es"><option value="all">Everything (${total} questions)</option>${chs.map(c=>`<option value="${c.no}">${esc(c.nav||c.short)} (${poolCh(c.no).length})</option>`).join("")}</select></label>
     <label>Paper size<select id="en"><option value="25">25 questions · 25 min</option><option value="50">50 questions · 50 min</option><option value="100">100 questions · 100 min</option></select></label>
     <button type="button" class="primary" id="eg">Start test</button></div>`;
@@ -6193,10 +6212,12 @@ function renderPrint(){
 let SEARCHING=false;
 function route(){
   if(EXT){clearInterval(EXT);EXT=null}
+  if(panel){panel.hidden=true;gear.setAttribute("aria-expanded","false")}
   const q=norm($("q").value).split(/\s+/).filter(x=>x.length>1);
   if(q.length){SEARCHING=true;searchView(q);return}
   SEARCHING=false;$("qn").textContent="";
   const [v,a]=location.hash.replace(/^#\/?/,"").split("/");
+  document.querySelectorAll('#bnav a').forEach(x=>x.classList.toggle('on',x.dataset.r===(v||'')||(!v&&x.dataset.r===''&&!q.length)));
   if(v==="ch")chapterView(a);else if(v==="quiz")quizView();else if(v==="exam")examView();else if(v==="revise")reviseView();else homeView();
   window.scrollTo(0,0);
 }
