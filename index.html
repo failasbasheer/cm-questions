@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}[hidden]{display:none!important}</style>
+<title>Community Medicine Prep Questions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: one column of tap-to-answer cards, sticky send bar at the bottom */
+:root{
+  --bg:#f7f8f6; --card:#ffffff; --fg:#1d2422; --muted:#5d6b67; --line:#d9e0dd;
+  --accent:#0f6e64; --accent-soft:#e2f1ee; --wa:#1fa855;
+  --display:"Fraunces",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131817; --card:#1b2220; --fg:#e6ecea; --muted:#9aaaa5; --line:#2d3734;
+  --accent:#5fc4b5; --accent-soft:#1f3330; --wa:#2fc46a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131817; --card:#1b2220; --fg:#e6ecea; --muted:#9aaaa5; --line:#2d3734;
+  --accent:#5fc4b5; --accent-soft:#1f3330; --wa:#2fc46a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:17px/1.5 var(--body);padding-inline:16px;padding-block:24px 120px}
+main{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font:600 1.7rem/1.2 var(--display);margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:0}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q.done{border-color:var(--accent)}
+.q h2{font:600 1.02rem/1.35 var(--body);margin:0}
+.q h2 .n{display:inline-block;min-width:1.6em;color:var(--accent)}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{font:inherit;font-size:.95rem;cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:8px 14px;text-align:left}
+.opts button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--card);font-weight:600}
+.opts button:focus-visible,textarea:focus-visible,.bar button:focus-visible,.bar a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+textarea{font:inherit;font-size:.95rem;width:100%;box-sizing:border-box;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--fg)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:620px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.prog{flex:1 1 100%;font-size:.85rem;color:var(--muted)}
+.bar a,.bar button{font:600 1rem var(--body);border-radius:10px;padding:12px 16px;text-decoration:none;cursor:pointer;border:0;text-align:center}
+.send{background:var(--accent);color:var(--card);flex:1}
+.send:disabled{opacity:.6}
+.copy{background:var(--accent-soft);color:var(--accent);flex:0 0 auto}
+#out{display:none}
+.toast{font-size:.85rem;color:var(--accent);flex:1 1 100%}
+</style>
+
+<main>
+  <header style="display:flex;flex-direction:column;gap:6px">
+    <h1>Community Medicine: quick questions</h1>
+    <p class="lede">Tap your answers (takes 2 minutes). When you're done, press <b>Submit answers</b> at the bottom. Your answers decide how the recall pack is built.</p>
+  </header>
+  <div id="list" style="display:flex;flex-direction:column;gap:14px"></div>
+  <section class="q">
+    <h2><span class="n">13</span>Anything else? Important questions from your teacher, topics you're scared of, previous years' questions…</h2>
+    <p class="hint">Optional. You can also send photos separately on WhatsApp.</p>
+    <textarea id="extra" aria-label="Anything else"></textarea>
+  </section>
+</main>
+
+<div class="bar"><div class="in">
+  <span class="prog" id="prog">0 of 12 answered</span>
+  <button class="send" id="submit" type="button">Submit answers</button>
+  <a class="copy" id="send" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  <span class="toast" id="toast" hidden></span>
+</div></div>
+<textarea id="out" aria-hidden="true" tabindex="-1"></textarea>
+
+<script>
+const Q=[
+["When is the Community Medicine exam?",["Tomorrow","In 2–3 days","In about a week","More than a week"],0],
+["What does the question paper look like?",["Long essays + short notes","Mostly short notes","Short answers / MCQ","Not sure"],0],
+["Communicable diseases (about 50 diseases in Park ch 5): how much should I cover?",["Every disease","Big ones in full + short notes for the rest","Only what the teacher marked"],0],
+["Which parts are you already strong in? (skip or go lighter)",["Communicable diseases","Non-communicable diseases","Occupational health","Mental health","Health education","None, cover everything"],1],
+["How many marks is one long essay?",["10","15","20","Not sure"],0],
+["How many hours a day can you study before the exam?",["2–3 hours","4–6 hours","7+ hours"],0],
+["Did the last recall pack (OBG) help?",["Yes, same style","Yes, but make it shorter","Didn't use it much","Change something (write below)"],0],
+["Memory hooks in which language?",["English","Malayalam + English mix"],0],
+["How do you want it?",["Phone page like last time","Printable PDF","Both"],0],
+["Which communicable disease groups are most important?",["Respiratory (TB, measles, diphtheria…)","Intestinal (polio, hepatitis, cholera, typhoid…)","Arthropod-borne (malaria, dengue, filaria)","Zoonoses (rabies, plague, JE…)","Surface infections (leprosy, tetanus, STD, AIDS…)","Hospital-acquired infections","All equally"],1],
+["Which non-communicable diseases are most important?",["Coronary heart disease","Hypertension","Stroke","Rheumatic heart disease","Cancer","Diabetes","Obesity","Blindness","Accidents & injuries","All equally"],1],
+["Do you want practice questions (quiz yourself) too?",["Yes, quiz me","Only essay skeletons","Both"],0]
+];
+const A=Q.map(()=>new Set());
+const list=document.getElementById("list");
+Q.forEach(([q,opts,multi],i)=>{
+  const s=document.createElement("section");s.className="q";s.id="q"+i;
+  s.innerHTML=`<h2><span class="n">${i+1}</span>${q}</h2>${multi?'<p class="hint">Tap all that apply.</p>':""}<div class="opts" role="group" aria-label="${q.replace(/"/g,"")}">${opts.map((o,k)=>`<button type="button" id="o${i}_${k}" aria-pressed="false">${o}</button>`).join("")}</div>`;
+  list.appendChild(s);
+  s.querySelectorAll("button").forEach((b,k)=>b.onclick=()=>{
+    if(multi){A[i].has(k)?A[i].delete(k):A[i].add(k)}else{const had=A[i].has(k);A[i].clear();if(!had)A[i].add(k)}
+    s.querySelectorAll("button").forEach((x,j)=>x.setAttribute("aria-pressed",A[i].has(j)));
+    s.classList.toggle("done",A[i].size>0);update();
+  });
+});
+const extra=document.getElementById("extra");extra.oninput=update;
+function text(){
+  let t="📚 Community Medicine – my answers\n";
+  Q.forEach(([q,opts],i)=>{t+=`\n${i+1}. ${q}\n→ ${A[i].size?[...A[i]].sort((a,b)=>a-b).map(k=>opts[k]).join(", "):"(skipped)"}\n`});
+  if(extra.value.trim())t+=`\n13. Anything else:\n${extra.value.trim()}\n`;
+  return t;
+}
+function update(){
+  const n=A.filter(s=>s.size).length;
+  document.getElementById("prog").textContent=`${n} of 12 answered`+(n<12?" (you can still send)":" ✓");
+  document.getElementById("send").href="https://wa.me/?text="+encodeURIComponent(text());
+}
+const TOPIC="cm-anuna-5e56621078d5999cc6c2";
+document.getElementById("submit").onclick=async e=>{
+  const b=e.currentTarget,toast=document.getElementById("toast");b.disabled=true;b.textContent="Sending…";toast.hidden=false;toast.textContent="";
+  try{
+    const r=await fetch("https://ntfy.sh/"+TOPIC,{method:"POST",body:text(),headers:{"Title":"Community Medicine answers"}});
+    if(!r.ok)throw new Error(r.status);
+    b.textContent="Sent ✓";toast.textContent="Thank you! Your answers have been sent. You can close this page.";
+  }catch(err){
+    b.disabled=false;b.textContent="Try again";
+    toast.textContent="Couldn't send (check internet). Or tap WhatsApp to send them as a message instead.";
+  }
+};
+update();
+</script>
+
+</html>
