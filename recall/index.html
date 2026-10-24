@@ -1,124 +1,136 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}[hidden]{display:none!important}</style>
-<title>Community Medicine Recall</title>
+<title>Community Medicine Exam Prep</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
-/* Layout: one reading column; chapter sections → essay / short-note cards with tap-to-reveal skeletons */
+/* Layout: sticky top bar (home, search, toggles) over a routed view: home tiles, chapter pages, quiz centre, mock exam, revise */
 :root{
   --bg:#f7f8f6; --card:#ffffff; --fg:#1d2422; --muted:#5d6b67; --line:#d9e0dd;
-  --accent:#0f6e64; --accent-soft:#e2f1ee; --ok:#2f7d32; --bad:#b3401f; --warn:#9a5b00; --warn-soft:#fbf1e1;
+  --accent:#0f6e64; --accent-soft:#e2f1ee; --ok:#2f7d32; --ok-soft:#e5f3e5; --bad:#b3401f; --bad-soft:#fbe9e3; --warn:#9a5b00; --warn-soft:#fbf1e1;
   --display:"Fraunces",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#131817; --card:#1b2220; --fg:#e6ecea; --muted:#9aaaa5; --line:#2d3734;
-  --accent:#5fc4b5; --accent-soft:#1f3330; --ok:#7cc77f; --bad:#ef8a6c; --warn:#f0b050; --warn-soft:#2e2618; color-scheme:dark}}
+  --accent:#5fc4b5; --accent-soft:#1f3330; --ok:#7cc77f; --ok-soft:#1c2e1d; --bad:#ef8a6c; --bad-soft:#35201a; --warn:#f0b050; --warn-soft:#2e2618; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#131817; --card:#1b2220; --fg:#e6ecea; --muted:#9aaaa5; --line:#2d3734;
-  --accent:#5fc4b5; --accent-soft:#1f3330; --ok:#7cc77f; --bad:#ef8a6c; --warn:#f0b050; --warn-soft:#2e2618; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font:17px/1.55 var(--body);padding-inline:16px;padding-block:20px 64px}
-main{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+  --accent:#5fc4b5; --accent-soft:#1f3330; --ok:#7cc77f; --ok-soft:#1c2e1d; --bad:#ef8a6c; --bad-soft:#35201a; --warn:#f0b050; --warn-soft:#2e2618; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:17px/1.55 var(--body);margin:0;padding:0 16px 64px}
+.wrap{max-width:720px;margin:0 auto}
 h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
-h1{font-size:1.8rem;line-height:1.2}
-p{margin:0}
-.top{display:flex;flex-direction:column;gap:10px}
-.toggles{display:flex;gap:8px;flex-wrap:wrap}
-.mu{color:var(--muted)}
-button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:8px 12px}
-button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.theme{flex:0 0 auto;font-size:.85rem;padding:6px 10px}
-.how{background:var(--accent-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
-.how ol{margin:0;padding-left:20px}
-.legend{font-size:.9rem}
-.guess{color:var(--warn)}
-nav.chips{display:flex;flex-wrap:wrap;gap:6px}
-nav.chips a{font-size:.85rem;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:4px 10px;text-decoration:none;background:var(--card)}
-.search{display:flex;flex-direction:column;gap:4px;position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0}
-.search input{font:inherit;width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg)}
-.search input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.search #qn{font-size:.85rem;min-height:1.2em}
-mark{background:var(--warn-soft);color:inherit;border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px var(--warn)}
-.filters{display:flex;flex-wrap:wrap;gap:6px}
-.filters button{font-size:.85rem;padding:5px 10px;border-color:var(--line);color:var(--fg)}
-.filters button.on{background:var(--accent);color:var(--card);border-color:var(--accent)}
-section.chap{display:flex;flex-direction:column;gap:14px}
-.chaphead{border-top:2px solid var(--accent);padding-top:12px;display:flex;flex-direction:column;gap:2px}
-.chaphead .eyebrow{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
-.chaphead h2{font-size:1.45rem}
+h1{font-size:1.7rem;line-height:1.2} h2{font-size:1.35rem} h3{font-size:1.1rem;line-height:1.35}
+p{margin:0} .mu{color:var(--muted)} .sm{font-size:.9rem}
+button,.btn{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:8px 12px;text-decoration:none;display:inline-block;text-align:center}
+button.primary,.btn.primary{background:var(--accent);color:var(--card);font-weight:600}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0 8px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.top .row{display:flex;gap:8px;align-items:center}
+.top .home{font:600 1rem var(--display);color:var(--accent);text-decoration:none;white-space:nowrap}
+.top input{flex:1;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg)}
+.top .t{font-size:.8rem;padding:6px 9px;flex:0 0 auto}
+.top .tg{display:flex;gap:6px;flex-wrap:wrap}
+#qn{font-size:.85rem;color:var(--muted);min-height:1.1em}
+/* home */
+.hero{display:flex;flex-direction:column;gap:6px;margin:6px 0 14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
+.stat b{display:block;font:600 1.3rem var(--display);color:var(--accent)} .stat span{font-size:.78rem;color:var(--muted)}
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:6px}
+.quick a{padding:14px 10px;font-weight:600}
+.grp{font:600 .78rem var(--body);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--fg);text-decoration:none;min-width:0}
+.tile:hover{border-color:var(--accent)} .tile b{font-size:1rem;line-height:1.3} .tile small{color:var(--muted)}
+.pbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden} .pbar i{display:block;height:100%;background:var(--accent)}
+/* chapter + cards */
+.back{display:inline-block;margin-bottom:8px;font-size:.92rem;color:var(--accent);text-decoration:none}
+.chaphead{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.eyebrow{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.filters button{font-size:.85rem;padding:5px 10px;border-color:var(--line);color:var(--fg)} .filters button.on{background:var(--accent);color:var(--card);border-color:var(--accent)}
+.list{display:flex;flex-direction:column;gap:14px}
 .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .q.short{border-style:dashed}
 .src{font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.tag{font-weight:600;border-radius:999px;padding:1px 8px;background:var(--accent-soft);color:var(--accent);letter-spacing:.02em}
+.tag{font-weight:600;border-radius:999px;padding:1px 8px;background:var(--accent-soft);color:var(--accent)}
 .tag.sn{background:transparent;border:1px solid var(--line);color:var(--muted)}
-.q h3{font-size:1.12rem;line-height:1.35}
 .skel{border-left:3px solid var(--accent);padding-left:12px;display:flex;flex-direction:column;gap:2px}
 .skel h4{font:600 1rem var(--body);margin:10px 0 2px;color:var(--accent)}
-.skel ul{margin:0;padding-left:18px}
-.skel li{margin:3px 0}
-.skel li.g{color:var(--warn)}
+.skel ul{margin:0;padding-left:18px} .skel li{margin:3px 0} .skel li.g{color:var(--warn)}
 .ref{color:var(--muted);font-size:.85rem;font-weight:400;white-space:nowrap}
-.hook{background:var(--warn-soft);border-radius:8px;padding:8px 10px;font-size:.95rem}
-.hook b{color:var(--warn)}
+.hook{background:var(--warn-soft);border-radius:8px;padding:8px 10px;font-size:.95rem} .hook b{color:var(--warn)}
 :root[data-lang="en"] .hk-ml,:root:not([data-lang="en"]) .hk-en{display:none}
 .draw{background:var(--accent-soft);border-radius:8px;padding:8px 10px;font-size:.95rem}
 .marks{display:flex;gap:8px;flex-wrap:wrap}
-.marks button.ok{border-color:var(--ok);color:var(--ok)} .marks button.bad{border-color:var(--bad);color:var(--bad)}
-.marks button.ok.on{background:var(--ok);color:var(--card)} .marks button.bad.on{background:var(--bad);color:var(--card)}
+.marks .ok{border-color:var(--ok);color:var(--ok)} .marks .bad{border-color:var(--bad);color:var(--bad)}
+.marks .ok.on{background:var(--ok);color:var(--card)} .marks .bad.on{background:var(--bad);color:var(--card)}
+mark{background:var(--warn-soft);color:inherit;border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px var(--warn)}
+.chk label{display:flex;gap:8px;align-items:flex-start;padding:3px 0;font-size:.93rem} .chk input{margin-top:5px;accent-color:var(--accent)}
 .fig{margin:8px 0 2px;display:flex;flex-direction:column;gap:6px}
 .fig svg{display:block;width:100%;max-width:520px;margin:0 auto;height:auto;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:8px}
 .fig figcaption{font-size:.85rem;color:var(--muted)}
 .t{fill:currentColor;font:13px var(--body)} .t.sm{font-size:12px} .t.b{font-weight:600}
 .box{fill:var(--card);stroke:var(--line);stroke-width:1.5} .box.hl{stroke:var(--accent);fill:var(--accent-soft)}
 .ln{stroke:currentColor;stroke-width:1.3;fill:none;opacity:.7} .mk{fill:currentColor;opacity:.7}
-.tw{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:.93rem}
-td,th{border-top:1px solid var(--line);padding:5px 6px;vertical-align:top;text-align:left}
-th{font-weight:600;color:var(--muted);font-size:.85rem}
-.chk label{display:flex;gap:8px;align-items:flex-start;padding:3px 0;font-size:.93rem}
-.chk input{margin-top:5px;accent-color:var(--accent)}
-.hidden-by-filter{display:none}
+/* quiz + modal */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(10,15,14,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:18px 16px 16px}
+.dlg .x{position:absolute;top:8px;right:8px;width:34px;height:34px;padding:0;border-radius:50%;font-size:1.3rem;line-height:1;border-color:var(--line);color:var(--muted)}
+body.noscroll{overflow:hidden}
+.qz{display:flex;flex-direction:column;gap:12px}
+.qz-h{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;color:var(--muted);padding-right:34px}
+.qz-q{font-size:1.08rem;font-weight:600}
+.qz-o{display:flex;flex-direction:column;gap:8px}
+.qz-o button{text-align:left;border-color:var(--line);color:var(--fg);background:var(--bg);padding:11px 12px}
+.qz-o button.good{border-color:var(--ok);background:var(--ok-soft)} .qz-o button.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.qz-fb{border-radius:8px;padding:10px;font-size:.95rem} .qz-fb.good{background:var(--ok-soft)} .qz-fb.wrong{background:var(--bad-soft)}
+.score{font:600 2rem var(--display);color:var(--accent);text-align:center}
+.rev{border-top:1px solid var(--line);padding-top:8px;font-size:.92rem;display:flex;flex-direction:column;gap:2px}
+.row2{display:flex;gap:8px;flex-wrap:wrap}
+.form{display:flex;flex-direction:column;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:.92rem;color:var(--muted)}
+.form select,.form input[type=number]{font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+textarea.ans{width:100%;min-height:130px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
+.timer{font:600 1.25rem var(--display);color:var(--accent)} .timer.low{color:var(--bad)}
+.exq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.bars{display:flex;flex-direction:column;gap:8px;margin-top:6px} .bars div{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* print: dense two-column pages, no wasted space */
+body.print{padding:0;font-size:9.4pt;line-height:1.32}
+body.print .wrap{max-width:none}
+body.print #app{columns:2;column-gap:8mm}
+body.print .top,body.print .reveal,body.print .marks,body.print .filters,body.print .hint,body.print .back{display:none!important}
+body.print .chaphead{column-span:all;margin:6px 0 4px;border-top:2px solid #0f6e64;padding-top:3px}
+body.print .chaphead h2{font-size:12.5pt}
+body.print .q{break-inside:auto;border:0;border-top:1px solid #ccc;border-radius:0;padding:5px 0;gap:3px;background:none}
+body.print h3{font-size:10.5pt;break-after:avoid}
+body.print .skel{display:flex!important;border-left-width:2px;padding-left:7px}
+body.print .skel[hidden]{display:flex!important}
+body.print .skel h4{font-size:9.4pt;margin:4px 0 1px;break-after:avoid}
+body.print .skel li{margin:1px 0}
+body.print .skel ul{padding-left:14px}
+body.print .hook,body.print .draw{padding:3px 6px;font-size:8.8pt}
+body.print .fig svg{max-width:100%;border:0}
+body.print .fig{margin:3px 0;break-inside:avoid}
+body.print .fig figcaption{display:none}
+body.print .note{column-span:all}
+@page{size:A4;margin:8mm}
 </style>
 
-<main>
-  <div class="top">
-    <div style="display:flex;flex-direction:column;gap:6px">
-      <h1>Community Medicine Recall</h1>
-      <p class="mu" id="sub">Park's Textbook of Preventive and Social Medicine, 23rd edition. Built from the book's own pages; every point shows its Park page number.</p>
+<div class="wrap">
+  <div class="top" id="topbar">
+    <div class="row">
+      <a class="home" href="#/">Exam Prep</a>
+      <input id="q" type="search" placeholder="Search everything: leprosy, MDT, ESI, polio…" aria-label="Search" autocomplete="off">
     </div>
-    <div class="toggles"><button class="theme" id="theme" type="button">Dark mode</button><button class="theme" id="lang" type="button">Hooks: English</button></div>
+    <div class="row" style="justify-content:space-between;flex-wrap:wrap">
+      <span id="qn"></span>
+      <span class="tg"><button class="t" id="theme" type="button">Dark mode</button><button class="t" id="lang" type="button">Hooks: English only</button></span>
+    </div>
   </div>
-
-  <section class="how">
-    <b>How to use this</b>
-    <ol>
-      <li>Read the question. <b>Close the book.</b> Write the headings you remember on rough paper.</li>
-      <li>Tap <b>Show skeleton</b> and compare. Circle what you missed.</li>
-      <li>Open Park at the page shown and read <b>only what you missed</b>.</li>
-      <li>Mark ✓ or ✗. Next round, tap the <b>✗ only</b> filter and redo just those.</li>
-    </ol>
-    <p class="legend">Memory hooks are in English + Malayalam; tap <b>Hooks: English only</b> at the top to switch. Lines in <span class="guess">orange marked ≈</span> are not in Park (the syllabus asks for them). They're standard content written to fill the gap.</p>
-  </section>
-
-  <section class="how" style="background:var(--card);border:1px solid var(--line)">
-    <b>Writing a 15-mark essay</b>
-    <ol>
-      <li><b>Definition</b> in the book's words (2–3 lines).</li>
-      <li><b>Headings</b> straight from the skeleton, underlined.</li>
-      <li><b>Under each heading:</b> 3–5 points, with numbers (%, years, Acts).</li>
-      <li><b>One diagram or table</b> where it says "Draw".</li>
-      <li><b>Conclusion</b> (1–2 lines): why it matters to the physiotherapist / community.</li>
-    </ol>
-  </section>
-
-  <nav class="chips" id="nav"></nav>
-  <div class="search"><input id="q" type="search" placeholder="Search anything: leprosy, MDT, ESI, polio, 15 marks…" aria-label="Search the pack" autocomplete="off"><span id="qn" class="mu"></span></div>
-  <div class="filters" id="filters">
-    <button type="button" data-f="all" class="on">All</button>
-    <button type="button" data-f="essay">15-mark essays</button>
-    <button type="button" data-f="short">Short notes</button>
-    <button type="button" data-f="bad">✗ only</button>
-  </div>
-  <div id="list" style="display:flex;flex-direction:column;gap:28px"></div>
-</main>
+  <div id="app"></div>
+</div>
 
 <script>
 const CHAPTERS=[];
@@ -2659,6 +2671,66 @@ sk:[
 check:["p.918 · Introduction, quarantine, First International Sanitary Conference 1851, Pan American Sanitary Bureau 1902, OIHP 1907 → x1","p.919 · League of Nations Health Organization 1923, UNRRA 1943, birth of WHO; WHO intro, objective, preamble, unique features → x1, x2","p.920 · Membership; work of WHO 1–6 (disease control, health services, family health, environmental health, statistics, biomedical research) → x2","p.921 · Work 7–8 (literature, cooperation); structure (WHA, Executive Board, Secretariat, divisions); regions Table 1; South East Asia Region → x2, x3","p.922 · Table 2 SEARO members, SEARO activities; UNICEF origin, collaboration, content of services, GOBI → x3, x4","p.923 · GOBI (cont.), UBS, UNICEF summary; UNDP; UNFPA; FAO; ILO; World Bank; USAID → x4, x5, x6, x7","p.924 · USAID trend; Colombo Plan; SIDA; DANIDA; Rockefeller Foundation; Ford Foundation; CARE → x7, x8, x9","p.925 · CARE (cont.); International Red Cross, role; Indian Red Cross; Junior Red Cross; other NGOs; references → x9"]
 });
 
+/* Long essays: one complete 15-mark essay per disease, assembled from the page-checked cards above.
+   Runs after all other data files. Each `ids` list is read in order; headings keep their own Park page. */
+(function(){
+const byId={};CHAPTERS.forEach(c=>c.items.forEach(i=>byId[i.id]=i));
+const make=(id,q,ids,extra={})=>{
+  const src=ids.map(k=>{if(!byId[k])throw new Error("missing card "+k);return byId[k]});
+  const sk=[];src.forEach(s=>s.sk.forEach(x=>sk.push(x)));
+  const first=src.find(s=>s.hook)||{};
+  const pg=[...new Set(src.map(s=>String(s.pages)))].join("; ");
+  return Object.assign({id,type:"long",pages:pg,q,hook:first.hook,hookEn:first.hookEn,draw:src.map(s=>s.draw).filter(Boolean)[0],sk,
+    from:ids.join(", ")},extra);
+};
+const COMM=[
+make("LC1","Tuberculosis: describe the epidemiology, case finding, treatment (DOTS, short-course), drug resistance, BCG, childhood TB, TB–HIV, prevention and control.",["r15","r16","r17","r18","r19","r20","r21","r22","r23"]),
+make("LC2","Poliomyelitis: describe the epidemiology, clinical features, vaccines, AFP surveillance, pulse polio and eradication.",["i1","i2","i3","i4"]),
+make("LC3","Measles: describe the epidemiology, clinical features, prevention and control.",["r3"]),
+make("LC4","Diphtheria: describe the epidemiology, prevention and control (including DPT vaccine).",["r8","r9"]),
+make("LC5","Whooping cough (pertussis): describe the epidemiology, prevention and control.",["r10"]),
+make("LC6","Influenza: describe the epidemiology, prevention and control, including pandemic and avian influenza.",["r6","r7"]),
+make("LC7","Acute respiratory infections (ARI): describe the epidemiology and case management in children.",["r12","r13"]),
+make("LC8","Viral hepatitis: describe the epidemiology, prevention and control of hepatitis A, B, C and E.",["i5","i6","i7","i8"]),
+make("LC9","Acute diarrhoeal diseases: describe the epidemiology, ORT and control.",["i9","i10"]),
+make("LC10","Cholera: describe the epidemiology, laboratory diagnosis, vaccines and control.",["i11","i12"]),
+make("LC11","Typhoid fever: describe the epidemiology, vaccines and control.",["i13","i14"]),
+make("LC12","Food poisoning: define it; describe the types, investigation and prevention.",["i15"]),
+make("LC13","Dengue: describe the epidemiology, clinical features and grading, management, vector and control.",["a1","a2","a3","a4","a5"]),
+make("LC14","Malaria: describe the epidemiology, life cycle, diagnosis, indices, treatment, resistance, chemoprophylaxis and control.",["a6","a7","a8","a9","a10","a11","a12","a13","a14"]),
+make("LC15","Lymphatic filariasis: describe the epidemiology, clinical manifestations, vectors, control and management of lymphoedema.",["a15","a16","a17","a18","a19"]),
+make("LC16","Rabies: describe the epidemiology, clinical features, management of an animal bite, post- and pre-exposure prophylaxis, and control.",["z2","z3","z4"]),
+make("LC17","Japanese encephalitis and acute encephalitis syndrome: describe the epidemiology and control.",["z7","z8"]),
+make("LC18","Leptospirosis: describe the epidemiology, diagnosis and control.",["z12"]),
+make("LC19","Plague: describe the epidemiology, prevention and control.",["z13","z14"]),
+make("LC20","Kala-azar (leishmaniasis): describe the epidemiology, diagnosis and control.",["z22","z23"]),
+make("LC21","Leprosy: describe the epidemiology, classification, diagnosis, reactions, MDT, control, deformities and rehabilitation.",["s1","s5","s2","s4","s3"]),
+make("LC22","Tetanus: describe the epidemiology, neonatal tetanus, immunization, wound management and prevention.",["s6","s7"]),
+make("LC23","Sexually transmitted diseases: describe the epidemiology, syndromic management and control.",["s9","s10"]),
+make("LC24","HIV/AIDS: describe the epidemiology, natural history, diagnosis, prevention, ART and control.",["s13","s14"]),
+make("LC25","Hospital-acquired (nosocomial) infections: describe the sources, prevention and standard precautions.",["s18","s19"])
+];
+const NCD=[
+make("LN1","Non-communicable diseases: define chronic disease; describe the problem, risk factors and the WHO global action plan.",["n1","n2"]),
+make("LN2","Cardiovascular diseases: describe the problem, types and risk factors.",["n3"]),
+make("LN3","Coronary heart disease: describe the epidemiology, risk factors, prevention and the major risk-factor trials.",["n4","n5","n6"]),
+make("LN4","Hypertension: define and classify; describe the epidemiology, rule of halves, risk factors, prevention and control.",["n7","n9","n8"]),
+make("LN5","Stroke: define it; describe the epidemiology, risk factors, TIA and control.",["n10","n11"]),
+make("LN6","Rheumatic fever and rheumatic heart disease: describe the epidemiology and prevention.",["n12"]),
+make("LN7","Cancer: describe the problem, causes, registration, screening and prevention and control.",["n13","n15","n14"]),
+make("LN8","Diabetes mellitus: classify; describe the epidemiology, risk factors, screening, prevention and care.",["n21","n22"]),
+make("LN9","Obesity: define it; describe the prevalence, determinants, assessment (BMI), hazards and prevention.",["n23","n24"]),
+make("LN10","Blindness: define it; describe the magnitude, causes, prevention, national programme and Vision 2020.",["n25","n26","n27"]),
+make("LN11","Accidents and injuries: describe the epidemiology of road traffic accidents, prevention and rehabilitation.",["n28","n29"])
+];
+CHAPTERS.unshift(
+ {no:"LC",nav:"Long essays · Communicable",label:"Long essays · Communicable diseases",short:"Long essays (communicable)",name:"Long essays: Communicable Diseases",pages:"Park 143–361",unit:"3 · Communicable diseases",
+  note:"One complete 15-mark essay per disease, joined from the cards in Park chapter 5 below. Each heading still shows its Park page. Use the short cards further down for quick revision.",items:COMM,check:[]},
+ {no:"LN",nav:"Long essays · Non-communicable",label:"Long essays · Non-communicable diseases",short:"Long essays (NCD)",name:"Long essays: Non-communicable Diseases",pages:"Park 362–413",unit:"3 · Non-communicable diseases",
+  note:"One complete 15-mark essay per disease, joined from the cards in Park chapter 6 below. Each heading still shows its Park page.",items:NCD,check:[]}
+);
+})();
+
 
 const T=(x,y,t,c="t",a="middle")=>`<text x="${x}" y="${y}" class="${c}" text-anchor="${a}">${t}</text>`;
 const ARW=`<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="mk"/></marker></defs>`;
@@ -2697,88 +2769,3443 @@ ${[["Fibrosis","Nodular","Diffuse, peribronchial"],["Site","Upper zones","Lower,
 </svg>`,"Write this comparison table in the pneumoconiosis essay.")
 };
 
+const QUIZ=[];
+QUIZ.push(...[{"c":"r1","q":"On which day of fever does the typical smallpox rash appear?","o":["3rd day","1st day","5th day","7th day"],"a":0,"w":"Park p.143: the typical centrifugal rash appears on the 3rd day of fever."},
+{"c":"r1","q":"India was declared smallpox-free on:","o":["24 May 1975","5 July 1975","April 1977","May 1980"],"a":1,"w":"Park p.143: last case 24 May 1975; India declared free 5 July 1975."},
+{"c":"r2","q":"Incubation period of chickenpox is usually:","o":["3-5 days","7-10 days","14-16 days","21-28 days"],"a":2,"w":"Park p.144: usually 14-16 days (range 10-21)."},
+{"c":"r2","q":"Chickenpox rash distribution is:","o":["Centrifugal, monomorphic","Centrifugal, pleomorphic","Centripetal, one stage at a time","Centripetal, pleomorphic"],"a":3,"w":"Park p.144-145: centripetal with all stages together (pleomorphism); smallpox is centrifugal."},
+{"c":"r3","q":"Incubation period of measles to appearance of rash is:","o":["14 days","7 days","10 days","21 days"],"a":0,"w":"Park p.147: 10 days to fever, 14 days to rash."},
+{"c":"r3","q":"Koplik's spots in measles are opposite the:","o":["Upper incisors","1st and 2nd lower molars","Parotid duct opening","Soft palate"],"a":1,"w":"Park p.147: bluish-white spots opposite the 1st and 2nd lower molars; pathognomonic."},
+{"c":"r3","q":"Measles vaccine is routinely given at age:","o":["6 weeks","12 months","9 months","15 months"],"a":2,"w":"Park p.148: 9 months (WHO EPI, adopted in India); live attenuated, subcutaneous."},
+{"c":"r4","q":"Classic triad of congenital rubella syndrome is:","o":["Deafness, microcephaly, jaundice","Cataract, hepatosplenomegaly, anaemia","Cardiac defects, cleft palate, deafness","Deafness, cardiac defects, cataract"],"a":3,"w":"Park p.151: deafness, cardiac malformations and cataract."},
+{"c":"r4","q":"Rubella vaccine strain in use is:","o":["RA 27/3","Jeryl Lynn","Edmonston-Zagreb","Danish 1331"],"a":0,"w":"Park p.151: RA 27/3, single 0.5 ml SC dose; avoid pregnancy for 3 months."},
+{"c":"r5","q":"Commonest extrasalivary manifestation of mumps in adults is:","o":["Pancreatitis","Orchitis","Oophoritis","Meningitis"],"a":1,"w":"Park p.152: orchitis, in 25-40% of post-pubertal men."},
+{"c":"r5","q":"Mumps vaccine strain with lowest aseptic meningitis risk:","o":["Urabe","Rubini","Jeryl Lynn","Leningrad-3"],"a":2,"w":"Park p.153: Jeryl Lynn; Rubini is not recommended (low effectiveness)."},
+{"c":"r6","q":"Antigenic shift in influenza virus typically causes:","o":["Local epidemics","Inter-epidemic sporadic cases","Reye syndrome","Pandemics"],"a":3,"w":"Park p.154: shift is a sudden major change giving pandemics; drift gives epidemics."},
+{"c":"r6","q":"Incubation period of influenza is:","o":["18-72 hours","1-2 days only","5-7 days","2-3 weeks"],"a":0,"w":"Park p.154: 18-72 hours."},
+{"c":"r6","q":"Protection offered by killed influenza vaccine is:","o":["30-40%","70-90%","50-60%","95-99%"],"a":1,"w":"Park p.155: 70-90% effective, lasts 6-12 months, so revaccinate yearly."},
+{"c":"r7","q":"WHO declared the H1N1 2009 pandemic on:","o":["26 September 2011","March 2009","11 June 2009","1 January 2010"],"a":2,"w":"Park p.156: pandemic declared 11 June 2009."},
+{"c":"r7","q":"Oseltamivir treatment dose in adults is:","o":["75 mg once daily for 10 days","150 mg once daily for 3 days","30 mg twice daily for 5 days","75 mg twice daily for 5 days"],"a":3,"w":"Park p.159: 75 mg BD x 5 days."},
+{"c":"r8","q":"Incubation period of diphtheria is:","o":["2-6 days","10-14 days","1-2 days only","3 weeks"],"a":0,"w":"Park p.161: 2-6 days, occasionally longer."},
+{"c":"r8","q":"A diphtheria patient is non-infectious when nose and throat cultures 24 hours apart are:","o":["Negative once","Both negative on 2 occasions","Negative after 3 days of fever","Negative after 14 days only"],"a":1,"w":"Park p.160: at least 2 negative cultures from nose and throat, 24 hours apart."},
+{"c":"r8","q":"Antitoxin dose for severe or late (>=3 days) diphtheria:","o":["20,000-40,000 units","40,000-60,000 units","80,000-100,000 units","1000-2000 units"],"a":2,"w":"Park p.161: severe/extensive/late 80,000-100,000 units after 0.2 ml test dose."},
+{"c":"r9","q":"First DPT dose is started from the age of:","o":["3 weeks","3 months","9 months","6 weeks"],"a":3,"w":"Park p.162: from 6 weeks, 3 doses 4 weeks apart."},
+{"c":"r9","q":"After a severe reaction to DPT, the child should continue with:","o":["DT","DPT again","Pertussis vaccine alone","No further vaccine"],"a":0,"w":"Park p.162: do not repeat DPT; continue with DT."},
+{"c":"r10","q":"Incubation period of whooping cough is usually:","o":["1-3 days","7-14 days","3-4 weeks","6 weeks"],"a":1,"w":"Park p.164: usually 7-14 days, not more than 3 weeks."},
+{"c":"r10","q":"Drug of choice for pertussis cases and contacts:","o":["Penicillin for 3 days","Rifampicin for 2 days","Erythromycin for 10 days","Cotrimoxazole for 14 days"],"a":2,"w":"Park p.164: erythromycin 30-50 mg/kg/day x 10 days."},
+{"c":"r10","q":"In pertussis, maternal antibody:","o":["Protects for 6 months","Protects for 3 months","Protects only against complications","Does not protect the newborn"],"a":3,"w":"Park p.164: infants are susceptible from birth."},
+{"c":"r11","q":"Incubation period of meningococcal meningitis is usually:","o":["3-4 days","10-14 days","1 day","3 weeks"],"a":0,"w":"Park p.166: usually 3-4 days (range 2-10)."},
+{"c":"r11","q":"Drug used to clear meningococcal carriers (penicillin fails):","o":["Penicillin","Rifampicin","Streptomycin","Chloramphenicol"],"a":1,"w":"Park p.166: penicillin does not clear carriers; rifampicin is needed."},
+{"c":"r12","q":"About what proportion of ARI deaths in children is due to pneumonia?","o":["50%","70%","90%","30%"],"a":2,"w":"Park p.167: about 90% of ARI deaths are due to pneumonia."},
+{"c":"r12","q":"Average number of ARI episodes per under-5 child per year:","o":["2","10","15","5"],"a":3,"w":"Park p.167: about 5 episodes per child per year."},
+{"c":"r12","q":"Which is NOT a vaccine against pneumonia listed in the card?","o":["BCG","Hib","Pneumococcal conjugate (PCV)","Measles"],"a":0,"w":"Park p.173: measles, Hib, PPV23 and PCV protect against pneumonia; BCG is not listed."},
+{"c":"r13","q":"Fast breathing cut-off for a child aged 12 months to 5 years:","o":["30/min","40/min or more","50/min","60/min"],"a":1,"w":"Park p.169: 60 (<2 months), 50 (2-12 months), 40 (12 months-5 years)."},
+{"c":"r13","q":"In a child aged 2 months to 5 years, chest indrawing indicates:","o":["Pneumonia, not severe","No pneumonia: cough or cold","Severe pneumonia","Very severe disease"],"a":2,"w":"Park p.170: chest indrawing = severe pneumonia."},
+{"c":"r13","q":"Drug of choice for non-severe pneumonia in children:","o":["Chloramphenicol","Gentamicin","Benzyl penicillin IM","Cotrimoxazole"],"a":3,"w":"Park p.172: cotrimoxazole twice a day; reassess at 48 hours."},
+{"c":"r14","q":"Natural reservoir of SARS coronavirus:","o":["Horseshoe bat","Civet cat","Pig","Poultry"],"a":0,"w":"Park p.174: horseshoe bat; civets are amplifying hosts."},
+{"c":"r14","q":"Incubation period of SARS is commonly:","o":["1 day","3-5 days","10-14 days","3 weeks"],"a":1,"w":"Park p.174: 2-7 days, commonly 3-5 days."},
+{"c":"r15","q":"About what fraction of the world is infected with TB?","o":["One-tenth","One-half","One-third","Two-thirds"],"a":2,"w":"Park p.176: about one-third infected; 5-10% develop disease."},
+{"c":"r15","q":"One infectious TB case infects how many persons per year?","o":["1-2","3-5","30-40","10-15"],"a":3,"w":"Park p.176, 181: 10-15 persons a year."},
+{"c":"r15","q":"India's share of world TB cases is about:","o":["24%","10%","39%","56%"],"a":0,"w":"Park p.176-177: India accounts for about one-fourth (24%) of global cases."},
+{"c":"r16","q":"A 'new' TB patient has received anti-TB drugs for:","o":["Less than 1 week","Less than 1 month","Less than 3 months","Never at all"],"a":1,"w":"Park p.179: new = never treated or <1 month of drugs."},
+{"c":"r16","q":"Treatment failure (drug-susceptible TB) means smear or culture positive at:","o":["Month 2","Month 3","Month 5 or later","Month 12"],"a":2,"w":"Park p.180: positive at month 5 or later."},
+{"c":"r17","q":"How many sputum samples are collected for smear microscopy?","o":["One","Three","Five","Two"],"a":3,"w":"Park p.182: two samples (spot and early morning)."},
+{"c":"r17","q":"A smear becomes positive only when sputum has at least:","o":["10,000 bacilli per ml","100 per ml","1000 per ml","1 lakh per ml"],"a":0,"w":"Park p.183: at least 10,000 organisms/ml."},
+{"c":"r17","q":"Mantoux test in India uses:","o":["5 TU PPD RT23","1 TU PPD RT23 in 0.1 ml","10 TU PPD-S","2 TU in 1 ml"],"a":1,"w":"Park p.185: 1 TU in 0.1 ml intradermally, read at 72 hours."},
+{"c":"r18","q":"Category I regimen is:","o":["2(HRZES)3 + 1(HRZE)3 + 5(HRE)3","2(HRZ)3 + 4(HR)3","2(HRZE)3 + 4(HR)3","3(HRZE)3 + 6(HR)3"],"a":2,"w":"Park p.188: Cat I (red box), 6 months."},
+{"c":"r18","q":"The only anti-TB drug active against persisters is:","o":["Isoniazid","Streptomycin","Ethambutol","Rifampicin"],"a":3,"w":"Park p.186: rifampicin; also gives red urine."},
+{"c":"r18","q":"Sputum test in Category II is done at the end of month:","o":["3","1","2","5"],"a":0,"w":"Park p.188: Cat I at 2 months; Cat II at 3 months."},
+{"c":"r19","q":"MDR-TB means resistance to at least:","o":["Isoniazid and ethambutol","Isoniazid and rifampicin","Rifampicin and pyrazinamide","Streptomycin and isoniazid"],"a":1,"w":"Park p.179: MDR = at least isoniazid + rifampicin."},
+{"c":"r19","q":"Total duration of the MDR-TB regimen is:","o":["6-9 months","12-15 months","24-27 months","30-36 months"],"a":2,"w":"Park p.191-192: 24-27 months (IP at least 6, CP 18)."},
+{"c":"r20","q":"Preventive INH therapy dose and duration in child contacts:","o":["5 mg/kg for 3 months","10 mg/kg for 12 months","15 mg/kg for 1 month","10 mg/kg daily for 6 months"],"a":3,"w":"Park p.195: INH 10 mg/kg daily x 6 months for contacts under 6 years."},
+{"c":"r20","q":"Which drug is contraindicated in pregnancy for TB?","o":["Streptomycin","Isoniazid","Rifampicin","Ethambutol"],"a":0,"w":"Park p.196: streptomycin (congenital deafness)."},
+{"c":"r21","q":"BCG strain used at Guindy, Chennai:","o":["Pasteur 1173","Danish 1331","Glaxo 1077","Tokyo 172"],"a":1,"w":"Park p.196: Danish 1331 since January 1967."},
+{"c":"r21","q":"Reconstituted BCG vaccine must be used within:","o":["1 hour","6 hours","3 hours","24 hours"],"a":2,"w":"Park p.196: use within 3 hours, discard the rest."},
+{"c":"r22","q":"Stop TB Strategy target for 2050 is incidence of:","o":["1 per 1000","10 per lakh","1 per lakh","1 or fewer per million per year"],"a":3,"w":"Park p.200: by 2050 incidence <=1 per million per year."},
+{"c":"r22","q":"Core of the Stop TB Strategy is:","o":["DOTS","BCG","Chemoprophylaxis","Rehabilitation"],"a":0,"w":"Park p.200: DOTS, Global Plan 2006-2015."},
+{"c":"r23","q":"In HIV-TB co-infection, the risk of TB activation becomes:","o":["10% lifetime","10% per year","1% per year","25% lifetime"],"a":1,"w":"Park p.200: 10% lifetime risk becomes 10% in one year."},
+{"c":"r23","q":"Co-infected persons are how many times more likely to develop TB disease?","o":["2-3 times","5-10 times","25-30 times","100 times"],"a":2,"w":"Park p.200-201: 25-30 times."}]);
+
+QUIZ.push(...[
+ {
+  "c": "i1",
+  "q": "Usual incubation period of poliomyelitis?",
+  "o": [
+   "3–7 days",
+   "7–14 days",
+   "14–21 days",
+   "21–35 days"
+  ],
+  "a": 1,
+  "w": "Park p.205: incubation usually 7–14 days (range 3–35 days)."
+ },
+ {
+  "c": "i1",
+  "q": "Paralysis in poliomyelitis is typically:",
+  "o": [
+   "Symmetric, flaccid, distal > proximal",
+   "Asymmetric, spastic, with sensory loss",
+   "Ascending symmetric with sensory loss",
+   "Asymmetric, flaccid, proximal > distal, no sensory loss"
+  ],
+  "a": 3,
+  "w": "Park p.205: asymmetric flaccid paralysis, proximal more than distal, no sensory loss."
+ },
+ {
+  "c": "i1",
+  "q": "Which wild poliovirus type was eradicated in 1999?",
+  "o": [
+   "Type 2",
+   "Type 1",
+   "Type 3",
+   "Types 1 and 3"
+  ],
+  "a": 0,
+  "w": "Park p.203: wild type 2 eradicated 1999; last type 3 case Nov 2012."
+ },
+ {
+  "c": "i2",
+  "q": "Herd immunity with OPV is achieved even if about what % of the community is immunized?",
+  "o": [
+   "50%",
+   "80%",
+   "66%",
+   "95%"
+  ],
+  "a": 2,
+  "w": "Park p.207: vaccine virus spreads to contacts, giving herd immunity even if about 66% immunized."
+ },
+ {
+  "c": "i2",
+  "q": "MgCl2-stabilized OPV keeps for 1 year at:",
+  "o": [
+   "−20°C",
+   "25°C",
+   "4°C",
+   "37°C"
+  ],
+  "a": 2,
+  "w": "Park p.207-208: stabilized OPV keeps 1 year at 4°C, 1 month at 25°C."
+ },
+ {
+  "c": "i3",
+  "q": "Minimum non-polio AFP rate required per 100,000 children under 15 years per year?",
+  "o": [
+   "1",
+   "0.5",
+   "2.5",
+   "5"
+  ],
+  "a": 0,
+  "w": "Park p.204: sensitivity indicator is at least 1 non-polio AFP per 100,000 under 15 (2 in endemic regions)."
+ },
+ {
+  "c": "i3",
+  "q": "An 'adequate' AFP stool sample is 2 specimens at least 24 h apart within how many days of onset?",
+  "o": [
+   "7 days",
+   "10 days",
+   "21 days",
+   "14 days"
+  ],
+  "a": 3,
+  "w": "Park p.204: 2 specimens, at least 24 h apart, within 14 days of onset."
+ },
+ {
+  "c": "i4",
+  "q": "Pulse polio rounds are given in which low-transmission months?",
+  "o": [
+   "June–Sept",
+   "Nov–Feb",
+   "Mar–May",
+   "Aug–Oct"
+  ],
+  "a": 1,
+  "w": "Park p.209: two rounds 4–6 weeks apart in Nov–Feb; peak transmission is June–Sept."
+ },
+ {
+  "c": "i4",
+  "q": "The last polio case in India had onset on 13 January 2011 in:",
+  "o": [
+   "Patna, Bihar",
+   "Howrah, West Bengal",
+   "Moradabad, UP",
+   "Mumbai, Maharashtra"
+  ],
+  "a": 1,
+  "w": "Park p.209: last case Howrah, West Bengal, onset 13 Jan 2011."
+ },
+ {
+  "c": "i5",
+  "q": "Incubation period of hepatitis A?",
+  "o": [
+   "30–180 days",
+   "2 weeks–6 months",
+   "3–8 weeks",
+   "10–50 days"
+  ],
+  "a": 3,
+  "w": "Park p.211: 10–50 days (usually 14–28 days)."
+ },
+ {
+  "c": "i5",
+  "q": "Free residual chlorine that destroys hepatitis A virus in 30 minutes at pH up to 8.5?",
+  "o": [
+   "1 mg/L",
+   "0.2 mg/L",
+   "0.5 mg/L",
+   "5 mg/L"
+  ],
+  "a": 0,
+  "w": "Park p.212: 1 mg/L free residual chlorine destroys the virus in 30 min at pH 8.5 or less."
+ },
+ {
+  "c": "i5",
+  "q": "Inactivated hepatitis A vaccine schedule?",
+  "o": [
+   "3 doses at 0, 1, 6 months",
+   "Single dose only",
+   "2 doses, 6–12 months apart",
+   "3 doses at 6, 10, 14 weeks"
+  ],
+  "a": 2,
+  "w": "Park p.212-213: 2 doses in deltoid, interval 6–12 months, about 94% protection."
+ },
+ {
+  "c": "i6",
+  "q": "Chance of chronic hepatitis B infection if infected perinatally?",
+  "o": [
+   "30%",
+   "5%",
+   "80–90%",
+   "50%"
+  ],
+  "a": 2,
+  "w": "Park p.214: 80–90% perinatal, 30% early childhood, 5% after 6 years."
+ },
+ {
+  "c": "i6",
+  "q": "India's hepatitis B vaccine schedule (with pentavalent)?",
+  "o": [
+   "Birth + 6, 10, 14 weeks",
+   "Birth + 1, 2, 3 months",
+   "6, 10, 14 weeks only",
+   "0, 1, 6 months"
+  ],
+  "a": 0,
+  "w": "Park p.216: birth dose plus 6, 10, 14 weeks; adult schedule is 0, 1, 6 months."
+ },
+ {
+  "c": "i6",
+  "q": "Which serological pattern indicates immunity due to vaccination?",
+  "o": [
+   "IgG anti-HBc alone",
+   "HBsAg + IgM anti-HBc",
+   "Anti-HBs + IgG anti-HBc",
+   "Anti-HBs alone"
+  ],
+  "a": 3,
+  "w": "Park p.215: anti-HBs alone = vaccination; anti-HBs with anti-HBc = recovery."
+ },
+ {
+  "c": "i7",
+  "q": "Percentage of hepatitis C infections that become chronic?",
+  "o": [
+   "5–10%",
+   "75–85%",
+   "30–40%",
+   "95–100%"
+  ],
+  "a": 1,
+  "w": "Park p.217: 75–85% develop chronic disease."
+ },
+ {
+  "c": "i7",
+  "q": "Hepatitis C is NOT transmitted by:",
+  "o": [
+   "Blood transfusion",
+   "Breast milk",
+   "Needle-stick injury",
+   "Infected mother to baby"
+  ],
+  "a": 1,
+  "w": "Park p.217: not spread by breast milk, food, water, hugging or kissing."
+ },
+ {
+  "c": "i8",
+  "q": "Mortality of hepatitis E in third-trimester pregnancy?",
+  "o": [
+   "2%",
+   "5%",
+   "50%",
+   "20%"
+  ],
+  "a": 3,
+  "w": "Park p.218-219: mortality 20% in the third trimester."
+ },
+ {
+  "c": "i8",
+  "q": "Hepatitis D virus depends on which virus for replication?",
+  "o": [
+   "Hepatitis B virus",
+   "Hepatitis A virus",
+   "Hepatitis C virus",
+   "Hepatitis E virus"
+  ],
+  "a": 0,
+  "w": "Park p.220: HDV depends on HBV replication (HBsAg envelope)."
+ },
+ {
+  "c": "i9",
+  "q": "Persistent diarrhoea lasts at least:",
+  "o": [
+   "7 days",
+   "10 days",
+   "14 days",
+   "21 days"
+  ],
+  "a": 2,
+  "w": "Park p.221: persistent diarrhoea is 14 days or more."
+ },
+ {
+  "c": "i9",
+  "q": "Zinc dose for diarrhoea in a child over 6 months?",
+  "o": [
+   "10 mg/day for 10–14 days",
+   "20 mg/day for 3 days",
+   "20 mg/day for 10–14 days",
+   "40 mg/day for 5 days"
+  ],
+  "a": 2,
+  "w": "Park p.227: 10 mg/day under 6 months, 20 mg/day over 6 months, for 10–14 days."
+ },
+ {
+  "c": "i9",
+  "q": "Commonest cause of acute bloody diarrhoea (dysentery)?",
+  "o": [
+   "Shigella",
+   "Rotavirus",
+   "ETEC",
+   "Vibrio cholerae"
+  ],
+  "a": 0,
+  "w": "Park p.221: commonest cause of dysentery is Shigella."
+ },
+ {
+  "c": "i10",
+  "q": "Total osmolarity of reduced-osmolarity ORS?",
+  "o": [
+   "200 mOsm/l",
+   "290 mOsm/l",
+   "311 mOsm/l",
+   "245 mOsm/l"
+  ],
+  "a": 3,
+  "w": "Park p.224: sodium 75, glucose 75 mmol/l; total osmolarity 245 mOsm/l."
+ },
+ {
+  "c": "i10",
+  "q": "IV rehydration plan for infants under 12 months?",
+  "o": [
+   "30 ml/kg in 30 min, then 70 ml/kg in 2½ h",
+   "30 ml/kg in 1 h, then 70 ml/kg in 5 h",
+   "50 ml/kg in 1 h, then 50 ml/kg in 5 h",
+   "100 ml/kg over 3 h"
+  ],
+  "a": 1,
+  "w": "Park p.226: infants 30 ml/kg in 1 hour then 70 ml/kg in 5 hours (older: 30 min and 2½ h)."
+ },
+ {
+  "c": "i11",
+  "q": "Common incubation period of cholera?",
+  "o": [
+   "3–4 days",
+   "1–2 days",
+   "5–7 days",
+   "10–14 days"
+  ],
+  "a": 1,
+  "w": "Park p.230: a few hours to 5 days, commonly 1–2 days."
+ },
+ {
+  "c": "i11",
+  "q": "A cholera area is declared free after how long since the last case?",
+  "o": [
+   "5 days",
+   "14 days",
+   "21 days",
+   "10 days (twice the IP)"
+  ],
+  "a": 3,
+  "w": "Park p.232: twice the incubation period, i.e. 10 days."
+ },
+ {
+  "c": "i11",
+  "q": "Single-dose doxycycline for cholera chemoprophylaxis in adults?",
+  "o": [
+   "300 mg",
+   "100 mg",
+   "200 mg",
+   "500 mg"
+  ],
+  "a": 0,
+  "w": "Park p.233: doxycycline single dose 300 mg adults, 6 mg/kg under 15 years."
+ },
+ {
+  "c": "i12",
+  "q": "Cholera culture is subcultured on bile salt agar of pH:",
+  "o": [
+   "7.4",
+   "6.8",
+   "8.6",
+   "5.5"
+  ],
+  "a": 2,
+  "w": "Park p.232: Bile Salt Agar (pH 8.6) after peptone water tellurite enrichment."
+ },
+ {
+  "c": "i12",
+  "q": "Which oral cholera vaccine is bivalent (O1 + O139) and needs no buffer?",
+  "o": [
+   "Dukoral",
+   "CVD 103-HgR",
+   "Sanchol/mORCVAX",
+   "Rotarix"
+  ],
+  "a": 2,
+  "w": "Park p.233: Sanchol/mORCVAX, 2 doses 14 days apart; Dukoral needs buffer."
+ },
+ {
+  "c": "i13",
+  "q": "Usual incubation period of typhoid fever?",
+  "o": [
+   "10–14 days",
+   "3–5 days",
+   "21–28 days",
+   "6–8 weeks"
+  ],
+  "a": 0,
+  "w": "Park p.235: usually 10–14 days (3 days–3 weeks)."
+ },
+ {
+  "c": "i13",
+  "q": "Drug of choice for typhoid fever?",
+  "o": [
+   "Chloramphenicol",
+   "Ampicillin",
+   "Cotrimoxazole",
+   "Fluoroquinolones"
+  ],
+  "a": 3,
+  "w": "Park p.236: fluoroquinolones are the drug of choice."
+ },
+ {
+  "c": "i13",
+  "q": "A chronic typhoid carrier excretes bacilli for more than:",
+  "o": [
+   "3 months",
+   "1 year",
+   "6 months",
+   "2 years"
+  ],
+  "a": 1,
+  "w": "Park p.235: chronic carrier excretes for more than 1 year; organisms in gall bladder."
+ },
+ {
+  "c": "i14",
+  "q": "Vi polysaccharide typhoid vaccine: minimum age and revaccination?",
+  "o": [
+   "6 months; every year",
+   "2 years; every 3 years",
+   "5 years; every 3 years",
+   "2 years; every 10 years"
+  ],
+  "a": 1,
+  "w": "Park p.237: single dose, licensed from 2 years, revaccinate every 3 years."
+ },
+ {
+  "c": "i14",
+  "q": "Ty21a oral typhoid vaccine schedule?",
+  "o": [
+   "Single capsule",
+   "2 capsules 4 weeks apart",
+   "3 capsules on days 1, 7, 14",
+   "3 capsules on days 1, 3, 5"
+  ],
+  "a": 3,
+  "w": "Park p.237-238: 3 doses on alternate days (day 1, 3, 5), licensed from 5 years."
+ },
+ {
+  "c": "i15",
+  "q": "Incubation period of botulism?",
+  "o": [
+   "18–36 hours",
+   "1–8 hours",
+   "6–24 hours",
+   "48–72 hours"
+  ],
+  "a": 0,
+  "w": "Park p.239: 18–36 hours."
+ },
+ {
+  "c": "i15",
+  "q": "Incubation period of Cl. perfringens food poisoning?",
+  "o": [
+   "1–8 hours",
+   "18–36 hours",
+   "6–24 hours",
+   "48–72 hours"
+  ],
+  "a": 2,
+  "w": "Park p.239: 6–24 hours (peak 10–14 h)."
+ },
+ {
+  "c": "i15",
+  "q": "The food 'danger zone' temperature range?",
+  "o": [
+   "0°C to 10°C",
+   "4°C to 37°C",
+   "10°C to 49°C",
+   "49°C to 100°C"
+  ],
+  "a": 2,
+  "w": "Park p.240: danger zone 10°C (50°F) to 49°C (120°F); refrigerate below 4°C."
+ },
+ {
+  "c": "i16",
+  "q": "Metronidazole course for intestinal amoebiasis?",
+  "o": [
+   "30 mg/kg/day for 8–10 days",
+   "30 mg/kg/day for 3 days",
+   "10 mg/kg/day for 20 days",
+   "30 mg/kg single dose"
+  ],
+  "a": 0,
+  "w": "Park p.242: metronidazole 30 mg/kg/day in 3 doses for 8–10 days."
+ },
+ {
+  "c": "i16",
+  "q": "Amoebic cysts are NOT killed by:",
+  "o": [
+   "Drying",
+   "Heating to about 55°C",
+   "Freezing",
+   "Usual chlorination of water"
+  ],
+  "a": 3,
+  "w": "Park p.241: cysts are not killed by usual chlorine; killed by drying, heat, freezing."
+ },
+ {
+  "c": "i17",
+  "q": "Soil-transmitted helminth eggs need about how long in soil to become infective?",
+  "o": [
+   "3 days",
+   "3 weeks",
+   "1 week",
+   "3 months"
+  ],
+  "a": 1,
+  "w": "Park p.242: eggs need about 3 weeks in soil (Ascaris 2–3 weeks)."
+ },
+ {
+  "c": "i17",
+  "q": "Ascaris larval migration route?",
+  "o": [
+   "Gut, lungs, liver, swallowed",
+   "Gut, liver, lungs, coughed up, swallowed",
+   "Skin, lymph, lungs, gut",
+   "Gut wall, muscle, lungs"
+  ],
+  "a": 1,
+  "w": "Park p.243: larvae go through gut wall to liver, lungs, trachea, then are swallowed."
+ },
+ {
+  "c": "i18",
+  "q": "Hookworm larvae live in which layer of soil?",
+  "o": [
+   "Upper 5 cm",
+   "Upper 10 cm",
+   "Below 30 cm",
+   "Upper half-inch (1.2 cm)"
+  ],
+  "a": 3,
+  "w": "Park p.244: larvae live in the upper half-inch (1.2 cm) of soil."
+ },
+ {
+  "c": "i18",
+  "q": "A. duodenale larvae can stay arrested in the body for up to:",
+  "o": [
+   "9 months",
+   "3 months",
+   "6 months",
+   "12 months"
+  ],
+  "a": 0,
+  "w": "Park p.244: prepatent period 5 weeks to 9 months (arrested larva up to 9 months)."
+ },
+ {
+  "c": "i19",
+  "q": "Preventive chemotherapy for STH is given twice a year if prevalence exceeds:",
+  "o": [
+   "20%",
+   "30%",
+   "50%",
+   "75%"
+  ],
+  "a": 2,
+  "w": "Park p.245: once a year if prevalence over 20%, twice a year if over 50%."
+ },
+ {
+  "c": "i19",
+  "q": "Severe whipworm infection may cause:",
+  "o": [
+   "Bile duct obstruction",
+   "Intestinal volvulus",
+   "Rectal prolapse",
+   "Pulmonary eosinophilia"
+  ],
+  "a": 2,
+  "w": "Park p.244: severe trichuriasis can cause rectal prolapse; worm lives in large intestine."
+ },
+ {
+  "c": "i20",
+  "q": "Intermediate host of guinea worm?",
+  "o": [
+   "Cyclops",
+   "Snail",
+   "Sandfly",
+   "Tsetse fly"
+  ],
+  "a": 0,
+  "w": "Park p.245: larvae are eaten by cyclops; man infected by drinking such water."
+ },
+ {
+  "c": "i20",
+  "q": "India's last guinea-worm case occurred in:",
+  "o": [
+   "1989",
+   "December 2000",
+   "July 2004",
+   "July 1996"
+  ],
+  "a": 3,
+  "w": "Park p.245: last case July 1996; declared free after 3 years of zero incidence."
+ }
+]);
+
+QUIZ.push(...[{"c":"a1","q":"How many serotypes does the dengue virus have?","o":["4","2","3","5"],"a":0,"w":"Park p.247: Dengue virus has 4 serotypes, DENV-1 to 4."},
+{"c":"a1","q":"Extrinsic incubation period of dengue virus in Aedes aegypti is:","o":["3-5 days","8-10 days","12-14 days","10-20 days"],"a":1,"w":"Park p.247: EIP is 8-10 days, then the mosquito is infective for life."},
+{"c":"a1","q":"Aedes aegypti is described as which type of feeder, causing clustering of cases in cities?","o":["Aggressive, concordant feeder","Nervous, concordant feeder","Nervous, discordant feeder","Aggressive, discordant feeder"],"a":2,"w":"Park p.247: Ae. aegypti is a nervous feeder and discordant species; Ae. albopictus is aggressive and concordant."},
+{"c":"a2","q":"DHF requires platelet count of:","o":["150,000/mm3 or less","50,000/mm3 or less","20,000/mm3 or less","100,000/mm3 or less"],"a":3,"w":"Park p.250: DHF needs platelets 100,000/mm3 or less plus haematocrit rise of 20% or more."},
+{"c":"a2","q":"Tourniquet test is positive when petechiae per 2.5 x 2.5 cm are at least:","o":["10","5","20","30"],"a":0,"w":"Park p.249: positive if 10 or more petechiae per inch2 (usually 20 or more in DHF); cuff held for 5 minutes."},
+{"c":"a2","q":"Which WHO grades of DHF constitute dengue shock syndrome?","o":["Grade II only","Grades III and IV","Grades I and II","Grade IV only"],"a":1,"w":"Park p.252: DHF III and IV are dengue shock syndrome."},
+{"c":"a3","q":"Virus isolation in dengue needs a specimen collected within:","o":["First 24 hours","10-14 days","First 6 days","3 weeks"],"a":2,"w":"Park p.251: specimen within the first 6 days of illness."},
+{"c":"a3","q":"Paired sera for dengue serology: second sample is taken after:","o":["2-3 days","5-7 days","6 weeks","15-21 days"],"a":3,"w":"Park p.251: acute serum (1-5 days) plus second serum 15-21 days later."},
+{"c":"a4","q":"Which antipyretic is advised in dengue?","o":["Paracetamol","Aspirin","Ibuprofen","Corticosteroids"],"a":0,"w":"Park p.252: paracetamol; no aspirin, ibuprofen or other NSAIDs."},
+{"c":"a4","q":"Starting IV crystalloid rate for DHF grade I and II is:","o":["3 ml/kg/hr","6 ml/kg/hr","10 ml/kg/hr","20 ml/kg/hr"],"a":1,"w":"Park p.252-253: 6 ml/kg/hr for 1-2 hours, then reduced to 3."},
+{"c":"a5","q":"Aedes albopictus is best described as:","o":["Nervous, discordant feeder","Nervous, concordant feeder","Aggressive, concordant feeder","Aggressive, discordant feeder"],"a":2,"w":"Park p.247: Ae. albopictus is an aggressive feeder and concordant species."},
+{"c":"a5","q":"Aedes aegypti breeds mainly in:","o":["Polluted drains","Brackish water","Flowing streams","Containers in and around houses"],"a":3,"w":"Park p.247: breeds in containers in and around houses; endophagic and endophilic."},
+{"c":"a6","q":"Incubation period of Plasmodium falciparum is:","o":["12 days","14 days","17 days","28 days"],"a":0,"w":"Park p.260: falciparum 12, vivax 14, ovale 17, malariae 28 days."},
+{"c":"a6","q":"Erythrocytic cycle of P. malariae lasts:","o":["24 hours","72 hours","48 hours","96 hours"],"a":1,"w":"Park p.258: 72 h for P. malariae; 48 h for Pf, Pv and Po."},
+{"c":"a6","q":"Main vector of urban malaria in India is:","o":["An. culicifacies","An. fluviatilis","Anopheles stephensi","An. minimus"],"a":2,"w":"Park p.256, 259: culicifacies is rural, stephensi is urban."},
+{"c":"a7","q":"In the malaria life cycle, the definitive host is:","o":["Man","Both man and mosquito","Monkey","Mosquito"],"a":3,"w":"Park p.257: man is intermediate host; mosquito is definitive host."},
+{"c":"a7","q":"Infective stage injected by the mosquito is the:","o":["Sporozoite","Merozoite","Gametocyte","Oocyst"],"a":0,"w":"Park p.258: infected mosquito injects sporozoites, found in salivary glands."},
+{"c":"a8","q":"Which film is better for finding scanty malaria parasites?","o":["Thin film","Thick film","Both equal","Neither, serology only"],"a":1,"w":"Park p.261: thick film finds parasites about 20 times faster; thin film identifies species."},
+{"c":"a8","q":"Duration of the hot stage of a malaria paroxysm is:","o":["15 min-1 hour","2-4 hours","2-6 hours","12-24 hours"],"a":2,"w":"Park p.260: cold 1/4-1 h, hot 2-6 h, sweating 2-4 h."},
+{"c":"a9","q":"API is calculated as confirmed cases in a year per:","o":["100 population","10,000 population","100,000 population","1000 population"],"a":3,"w":"Park p.261: API = confirmed cases / population x 1000."},
+{"c":"a9","q":"Most sensitive index of recent malaria transmission is:","o":["Infant parasite rate","Spleen rate","Parasite density index","Proportional case rate"],"a":0,"w":"Park p.261: infant parasite rate, in children under 1 year."},
+{"c":"a10","q":"Malaria vector control strategy 'IVM' in NVBDCP includes all EXCEPT:","o":["Indoor residual spray","Presumptive treatment of fevers","ITNs and LLINs","Anti-larval measures"],"a":1,"w":"Park p.262: IVM = IRS, ITN/LLIN, anti-larval; drug policy says no presumptive treatment."},
+{"c":"a10","q":"Primaquine dose for P. vivax radical cure is:","o":["0.75 mg/kg single dose","0.25 mg/kg for 3 days","0.25 mg/kg for 14 days","0.75 mg/kg for 14 days"],"a":2,"w":"Park p.262-265: Pv gets chloroquine 3 days plus primaquine 0.25 mg/kg daily for 14 days."},
+{"c":"a10","q":"WHO certifies malaria elimination after interruption of local transmission for at least:","o":["1 year","5 consecutive years","10 years","3 consecutive years"],"a":3,"w":"Park p.257: at least 3 consecutive years in the whole country."},
+{"c":"a11","q":"Chloroquine schedule for P. vivax (mg/kg, days 1-3):","o":["10, 10, 5","10, 5, 5","5, 5, 10","15, 10, 5"],"a":0,"w":"Park p.264: 25 mg/kg over 3 days as 10, 10, 5."},
+{"c":"a11","q":"Falciparum malaria in first trimester of pregnancy is treated with:","o":["ACT","Quinine","Primaquine","Chloroquine"],"a":1,"w":"Park p.263, 265: 1st trimester quinine 10 mg/kg three times daily for 7 days."},
+{"c":"a12","q":"Artesunate dose for severe malaria is:","o":["4 mg/kg daily for 3 days","3.2 mg/kg at 0 h","2.4 mg/kg IV/IM at 0, 12, 24 h","1.2 mg/kg single dose"],"a":2,"w":"Park p.267: 2.4 mg/kg at 0, 12 and 24 h, then once daily."},
+{"c":"a12","q":"Severe malaria: hypoglycaemia is defined as glucose below:","o":["20 mg/dl","60 mg/dl","80 mg/dl","40 mg/dl"],"a":3,"w":"Park p.266: hypoglycaemia is glucose below 40 mg/dl."},
+{"c":"a13","q":"Early treatment failure in malaria is assessed on days:","o":["1-3","4-7","7-28","14-28"],"a":0,"w":"Park p.266: ETF days 1-3; LCF days 4-28; LPF days 7-28."},
+{"c":"a13","q":"Cure in antimalarial therapy means no fever or parasitaemia until day:","o":["7","28","14","42"],"a":1,"w":"Park p.266: cured = no fever or parasitaemia till day 28."},
+{"c":"a14","q":"Mefloquine chemoprophylaxis should be started before travel by:","o":["1 day","1 week","2-3 weeks","6 weeks"],"a":2,"w":"Park p.267-268: mefloquine 2-3 weeks; chloroquine 1 week; doxycycline 1 day before."},
+{"c":"a14","q":"Chemoprophylaxis is continued after leaving the area for:","o":["1 week","2 weeks","8 weeks","4 weeks"],"a":3,"w":"Park p.268: continue 4 weeks after last exposure."},
+{"c":"a15","q":"Vector of Brugia malayi in India is:","o":["Mansonia","Culex quinquefasciatus","Anopheles","Aedes"],"a":0,"w":"Park p.272: Culex quinquefasciatus for bancrofti; Mansonia for brugian filariasis."},
+{"c":"a15","q":"Peak microfilaraemia in blood for Indian W. bancrofti is at:","o":["6 am - 10 am","10 pm - 2 am","12 noon - 4 pm","4 am - 6 am"],"a":1,"w":"Park p.271: nocturnal periodicity, peak 10 pm to 2 am."},
+{"c":"a15","q":"Extrinsic incubation period of filaria in the mosquito is:","o":["3-5 days","20-30 days","10-14 days","8-16 months"],"a":2,"w":"Park p.271: EIP 10-14 days; clinical incubation 8-16 months."},
+{"c":"a16","q":"DEC total dose for bancroftian filariasis is:","o":["36 mg/kg","12 mg/kg","100 mg/kg","72 mg/kg"],"a":3,"w":"Park p.274: 6 mg/kg/day for 12 days = 72 mg/kg."},
+{"c":"a16","q":"MDA for filariasis is given as a single annual dose for:","o":["4-6 years","1 year","10 years","15 years"],"a":0,"w":"Park p.270: ivermectin or DEC plus albendazole once yearly for 4-6 years."},
+{"c":"a16","q":"Mass DEC therapy excludes all EXCEPT:","o":["Children under 2 years","Adolescent boys","Pregnant women","Seriously ill"],"a":1,"w":"Park p.274: excluded are children under 2, pregnant women and seriously ill."},
+{"c":"a17","q":"In acute dermato-lymphangioadenitis, which drug should NOT be given?","o":["Paracetamol","Amoxicillin","Antifilarial medicine","Antifungal cream for interdigital infection"],"a":2,"w":"Park p.272-273: do not give antifilarial medicine in ADLA."},
+{"c":"a17","q":"Uncomplicated ADLA: oral amoxicillin is given for at least:","o":["3 days","5 days","14 days","8 days"],"a":3,"w":"Park p.272: amoxicillin 1.5 g in 3 divided doses for at least 8 days."},
+{"c":"a18","q":"Night blood film for filaria uses blood volume of:","o":["20 cu mm","5 cu mm","50 cu mm","1 ml"],"a":0,"w":"Park p.273: 20 cu mm collected 8.30 pm to midnight."},
+{"c":"a18","q":"DEC provocation test dose is:","o":["6 mg/kg","100 mg","50 mg","300 mg"],"a":1,"w":"Park p.273: DEC 100 mg, blood examined after 1 hour."},
+{"c":"a19","q":"Mansonia cannot breed without which plant?","o":["Water hyacinth","Lotus","Pistia stratiotes","Hydrilla"],"a":2,"w":"Park p.272: Mansonia breeding depends on Pistia stratiotes."},
+{"c":"a19","q":"Flight range of Culex used to define the anti-larval belt is about:","o":["500 m","10 km","300 m","3 km"],"a":3,"w":"Park p.275: urban areas plus 3 km peripheral belt."}]);
+
+QUIZ.push(...[
+{c:"z1", q:"Which zoonoses need more than one vertebrate host but no invertebrate host?", o:["Cyclo-zoonoses","Direct zoonoses","Meta-zoonoses","Sapro-zoonoses"], a:0, w:"Cyclo-zoonoses (e.g. human taeniases, echinococcosis). Park p.276."},
+{c:"z1", q:"Rabies, trichinosis and brucellosis are examples of which type of zoonosis?", o:["Meta-zoonoses","Direct zoonoses","Sapro-zoonoses","Cyclo-zoonoses"], a:1, w:"Direct zoonoses: direct contact, fomite or mechanical vector. Park p.276."},
+{c:"z2", q:"Rabies virus belongs to which family?", o:["Paramyxoviridae","Togaviridae","Rhabdoviridae","Flaviviridae"], a:2, w:"Bullet-shaped neurotropic RNA virus of family Rhabdoviridae. Park p.277."},
+{c:"z2", q:"Rabies virus with fixed IP of 4-6 days and no Negri bodies is called:", o:["Street virus","Wild virus","Attenuated virus","Fixed virus"], a:3, w:"Fixed virus (serial brain-to-brain passage in rabbits). Park p.277."},
+{c:"z2", q:"Commonly, the incubation period of human rabies is:", o:["1-3 months","1-3 days","6-12 months","1-2 weeks"], a:0, w:"Commonly 1-3 months (range 7 days to many years). Park p.277."},
+{c:"z3", q:"Which exposure is WHO Category III for rabies?", o:["Touching or feeding animals","Licks on broken skin","Licks on intact skin","Minor scratches without bleeding"], a:1, w:"Licks on broken skin, transdermal bites, mucosal contamination, bat contact = Category III. Park p.279."},
+{c:"z3", q:"The Zagreb (2-1-1) regimen is given on:", o:["Days 0, 3, 7, 14, 28","2 doses day 0, then days 3 and 14","2 doses day 0, then days 7 and 21","One dose each on days 0, 7, 21, 28"], a:2, w:"Zagreb: 2 doses on day 0 (one in each arm), then days 7 and 21. Park p.279."},
+{c:"z3", q:"Dose of human rabies immunoglobulin (RIG) is:", o:["10 IU/kg","30 IU/kg","40 IU/kg","20 IU/kg"], a:3, w:"Human RIG 20 IU/kg; equine RIG and F(ab')2 40 IU/kg. Park p.280."},
+{c:"z4", q:"The cardinal sign of furious rabies in dogs is:", o:["Change in behaviour","Hydrophobia","Early paralysis","Excessive thirst"], a:0, w:"Change in behaviour is the cardinal sign. Park p.281."},
+{c:"z4", q:"For control of urban rabies, at least what proportion of dogs should be immunized?", o:["50%","80%","60%","100%"], a:1, w:"Mass immunization of at least 80% of dogs plus removal of strays. Park p.281."},
+{c:"z5", q:"The yellow fever vaccine is:", o:["Inactivated 17D","Killed Vero-cell vaccine","Live attenuated 17D","Live attenuated SA-14-14-2"], a:2, w:"17D live attenuated, grown in chick embryo. Park p.283."},
+{c:"z5", q:"The international yellow fever certificate is valid:", o:["Immediately, for 10 years","From day 7, for 10 years","From day 10, for 5 years","From day 10, for 10 years"], a:3, w:"Valid from 10 days after vaccination for 10 years. Park p.284."},
+{c:"z6", q:"Which of these is NOT a Group B arbovirus (flavivirus)?", o:["Chikungunya","Dengue","Kyasanur Forest disease","West Nile"], a:0, w:"Chikungunya is Group A (alphavirus). Park p.284."},
+{c:"z6", q:"The vector of West Nile fever is:", o:["Aedes","Culex","Anopheles","Phlebotomus"], a:1, w:"Culex mosquitoes. Park p.290."},
+{c:"z7", q:"The amplifier host of Japanese encephalitis is:", o:["Cattle","Horse","Pig","Heron"], a:2, w:"Pigs are the amplifiers; cattle are mosquito attractants. Park p.285."},
+{c:"z7", q:"Ratio of overt JE disease to inapparent infection is:", o:["1:25","1:100","1:1000","1:250"], a:3, w:"Overt : inapparent = 1:250. Park p.286."},
+{c:"z7", q:"Which is the live attenuated JE vaccine used in India?", o:["SA 14-14-2","Nakayama strain","Beijing P-3","Mouse brain Beijing"], a:0, w:"SA 14-14-2: single dose plus one booster after about 1 year. Park p.286."},
+{c:"z8", q:"AES suspected case: acute fever of not more than 5-7 days with:", o:["Rash and joint pain","Change in mental status with or without new seizures","Febrile seizures only","Neck pain only"], a:1, w:"Change in mental status +/- new onset seizures (excluding febrile seizures). Park p.287."},
+{c:"z8", q:"In an encephalitis outbreak, which feature excludes JE?", o:["Seizures","Neck rigidity","Rash","Coma"], a:2, w:"Rash excludes JE. Park p.287."},
+{c:"z9", q:"The main tick vector of Kyasanur Forest disease is:", o:["Ornithodoros","Ixodes","Rhipicephalus","Haemaphysalis spinigera"], a:3, w:"Haemaphysalis spinigera. Park p.288."},
+{c:"z9", q:"In KFD, the amplifying hosts are:", o:["Monkeys","Cattle","Rats","Squirrels"], a:0, w:"Monkeys are amplifying hosts; rats and squirrels are main reservoirs. Park p.288."},
+{c:"z10", q:"Chikungunya is caused by which arbovirus group and spread by which vector?", o:["Group B, Culex","Group A, Aedes","Group B, Aedes","Group A, Culex"], a:1, w:"Group A virus transmitted by Aedes. Park p.289."},
+{c:"z10", q:"In chikungunya, which drugs should be avoided?", o:["Paracetamol","Diclofenac","Aspirin and steroids","Chloroquine"], a:2, w:"Avoid aspirin and steroids. Park p.289."},
+{c:"z11", q:"Which Brucella species is the most virulent?", o:["B. abortus","B. suis","B. canis","B. melitensis"], a:3, w:"B. melitensis (goats, sheep) is most virulent. Park p.290."},
+{c:"z11", q:"In brucellosis with complications, tetracycline is combined with:", o:["Streptomycin 1 g IM daily","Gentamicin","Penicillin","Rifampicin"], a:0, w:"Streptomycin 1 g IM daily added to tetracycline 500 mg 6-hourly. Park p.291."},
+{c:"z12", q:"The drug of choice for leptospirosis is:", o:["Tetracycline","Penicillin","Streptomycin","Chloroquine"], a:1, w:"Penicillin (6 million units daily IV). Park p.292."},
+{c:"z12", q:"The incubation period of leptospirosis is usually:", o:["1-3 days","30-60 days","10 days (range 4-20)","6 months"], a:2, w:"Usually 10 days, range 4-20 days. Park p.292."},
+{c:"z12", q:"The most important reservoirs of leptospirosis are:", o:["Tatera indica and Mus musculus","R. rattus and Bandicota","Dogs and cattle","R. norvegicus and Mus musculus"], a:3, w:"R. norvegicus and Mus musculus. Park p.292."},
+{c:"z13", q:"The main reservoir of plague in India is:", o:["Tatera indica","Rattus rattus","Rattus norvegicus","Bandicota indica"], a:0, w:"Wild rodent Tatera indica, not Rattus rattus. Park p.293."},
+{c:"z13", q:"A cheopis index above which value indicates potential explosiveness?", o:[">5",">1",">10",">0.5"], a:1, w:"Cheopis index >1. Park p.294."},
+{c:"z13", q:"In the blocked flea, plague bacilli block the:", o:["Salivary gland","Oesophagus","Proventriculus","Midgut"], a:2, w:"Proventriculus; the starving flea regurgitates bacilli at each bite. Park p.293-294."},
+{c:"z14", q:"The drug of choice for plague is:", o:["Tetracycline","Penicillin","Gentamicin","Streptomycin"], a:3, w:"Streptomycin 30 mg/kg/day IM; penicillin is ineffective. Park p.296."},
+{c:"z14", q:"Chemoprophylaxis for plague contacts: tetracycline 500 mg 6-hourly for:", o:["5 days","10 days","3 days","14 days"], a:0, w:"Tetracycline 500 mg 6-hourly for 5 days. Park p.296-297."},
+{c:"z14", q:"Immunity after plague vaccine lasts about:", o:["6 weeks","6 months","2 years","5 years"], a:1, w:"About 6 months; starts in 5-7 days. Park p.296."},
+{c:"z15", q:"Which serotype causes up to 50% of human non-typhoidal salmonellosis?", o:["S. enteritidis","S. dublin","S. typhimurium","S. gallinarum"], a:2, w:"S. typhimurium. Park p.298."},
+{c:"z15", q:"The usual incubation period of non-typhoidal salmonellosis is:", o:["1-2 weeks","2-4 days","10-14 days","6-72 hours"], a:3, w:"6-72 hours. Park p.299."},
+{c:"z16", q:"Which rickettsial disease has no arthropod vector?", o:["Q fever","Scrub typhus","Murine typhus","Indian tick typhus"], a:0, w:"Q fever (Coxiella burnetii), no vector and no rash. Park p.299."},
+{c:"z16", q:"Which drug enhances rickettsial growth and must not be given?", o:["Tetracycline","Sulfonamides","Doxycycline","Minocycline"], a:1, w:"Sulfonamides enhance growth; tetracycline is the drug of choice. Park p.299."},
+{c:"z17", q:"The true reservoir of scrub typhus is:", o:["Rats","Mice","Trombiculid mite","Tick"], a:2, w:"Trombiculid mite, maintained transovarially. Park p.300."},
+{c:"z17", q:"Scrub typhus gives a strongly positive Weil-Felix with:", o:["Proteus OX-19","Proteus OX-2","OX-19 and OX-2","Proteus OXK"], a:3, w:"Proteus OXK. Park p.300."},
+{c:"z18", q:"In murine typhus, man is infected mainly by:", o:["Flea faeces rubbed into skin","Flea bite","Louse faeces","Tick bite"], a:0, w:"Flea faeces rubbed into skin, not the bite. Park p.300."},
+{c:"z18", q:"In Indian tick typhus the rash starts on the:", o:["Trunk","Ankles and wrists","Face","Abdomen"], a:1, w:"Starts on extremities (ankles, wrists) and spreads centripetally. Park p.301."},
+{c:"z19", q:"The causative agent of Q fever is:", o:["Rickettsia typhi","Rickettsia conorii","Coxiella burnetii","Rochalimaea quintana"], a:2, w:"Coxiella burnetii. Park p.301."},
+{c:"z19", q:"The most important route of transmission of Q fever is:", o:["Tick bite","Flea faeces","Ingestion of meat","Inhalation of dust or aerosols"], a:3, w:"Respiratory route (infected dust, aerosols). Park p.301."},
+{c:"z20", q:"Human cysticercosis results from ingesting eggs of:", o:["Taenia solium","Taenia saginata","Echinococcus granulosus","Hymenolepis nana"], a:0, w:"T. solium eggs. Park p.302."},
+{c:"z20", q:"The drug of choice for neurocysticercosis is:", o:["Niclosamide","Albendazole","Mebendazole","Mepacrine"], a:1, w:"Albendazole is the drug of choice for cysticercosis. Park p.303."},
+{c:"z21", q:"More than 70% of hydatid cysts occur in the:", o:["Lung","Brain","Right lobe of liver","Kidney"], a:2, w:"Right lobe of the liver. Park p.304."},
+{c:"z21", q:"Praziquantel dose for treating dogs with Echinococcus is:", o:["10 mg/kg","20 mg/kg","50 mg/kg","5 mg/kg"], a:3, w:"5 mg/kg single oral dose. Park p.304."},
+{c:"z22", q:"The vector of kala-azar in India is:", o:["Phlebotomus argentipes","P. papatasi","P. sergenti","Aedes aegypti"], a:0, w:"Female P. argentipes (P. papatasi and P. sergenti transmit CL). Park p.305."},
+{c:"z22", q:"The sole reservoir of Indian kala-azar is:", o:["Dog","Man","Jackal","Rodent"], a:1, w:"Man is the only reservoir; it is non-zoonotic in India. Park p.305."},
+{c:"z22", q:"The aldehyde (Napier) test uses serum with:", o:["10% formalin","20% formalin","40% formalin","70% alcohol"], a:2, w:"40% formalin; jelly with milk-white opacity in 2-20 min. Park p.306."},
+{c:"z23", q:"First-line SSG dose in kala-azar is:", o:["10 mg/kg/day","40 mg/kg/day","50 mg/kg/day","20 mg/kg/day"], a:3, w:"SSG 20 mg/kg/day (max 850 mg) for 20-30 days. Park p.307."},
+{c:"z23", q:"Miltefosine 100 mg daily in high SSG resistance is given for:", o:["4 weeks","10 days","15 days","8 weeks"], a:0, w:"4 weeks (2.5 mg/kg/day). Park p.307."}
+]);
+
+QUIZ.push(...[
+ {
+  "c": "s1",
+  "q": "In the Indian classification of leprosy, which type has nerve involvement but no skin lesion?",
+  "o": [
+   "Pure neuritic",
+   "Indeterminate",
+   "Tuberculoid",
+   "Borderline"
+  ],
+  "a": 0,
+  "w": "Park p.318: Indian classification type (e) Pure neuritic = nerve involvement, no skin lesion, smear negative."
+ },
+ {
+  "c": "s1",
+  "q": "Which classification is the immuno-histological scale TT, BT, BB, BL, LL?",
+  "o": [
+   "Madrid",
+   "Ridley-Jopling",
+   "Indian",
+   "WHO operational"
+  ],
+  "a": 1,
+  "w": "Park p.318: Ridley-Jopling is the immuno-histological scale TT-BT-BB-BL-LL, with no neuritic type."
+ },
+ {
+  "c": "s1",
+  "q": "For chemotherapy, the clinical grouping of paucibacillary (PB) leprosy is how many skin lesions?",
+  "o": [
+   "1-2",
+   "1-3",
+   "1-5",
+   "1-10"
+  ],
+  "a": 2,
+  "w": "Park p.318, 322: PB = 1-5 skin lesions; MB = 6 or more."
+ },
+ {
+  "c": "s2",
+  "q": "Adequate treatment of multibacillary leprosy under MDT is:",
+  "o": [
+   "6 monthly doses within 9 months",
+   "12 monthly doses within 12 months",
+   "24 monthly doses within 36 months",
+   "12 monthly doses within 18 months"
+  ],
+  "a": 3,
+  "w": "Park p.322: adequate treatment MB = 12 monthly doses within 18 months (PB = 6 within 9 months)."
+ },
+ {
+  "c": "s2",
+  "q": "After completing MDT, multibacillary patients are examined yearly for a minimum of:",
+  "o": [
+   "5 years",
+   "1 year",
+   "2 years",
+   "10 years"
+  ],
+  "a": 0,
+  "w": "Park p.326: MB examined once a year for minimum 5 years; PB for minimum 2 years."
+ },
+ {
+  "c": "s2",
+  "q": "Adult MB regimen: clofazimine dose is:",
+  "o": [
+   "100 mg monthly + 50 mg daily",
+   "300 mg monthly supervised + 50 mg daily",
+   "300 mg daily",
+   "150 mg monthly + 50 mg alternate days"
+  ],
+  "a": 1,
+  "w": "Park p.323: adult MB clofazimine 300 mg once monthly supervised plus 50 mg daily self-administered."
+ },
+ {
+  "c": "s3",
+  "q": "WHO disability grade 1 in hands or feet means:",
+  "o": [
+   "Sensation present, muscle normal",
+   "Sensation absent, muscle paralysed",
+   "Sensation absent, muscle power normal",
+   "Sensation present, muscle weak"
+  ],
+  "a": 2,
+  "w": "Park p.327: grade 0 = sensation present, muscle normal; grade 1 = sensation absent, muscle normal; grade 2 = sensation absent and muscle weak/paralysed."
+ },
+ {
+  "c": "s3",
+  "q": "Eye disability grade 2 in leprosy is defined by inability to:",
+  "o": [
+   "Count fingers at 3 metres",
+   "Read at 1 metre",
+   "Perceive light",
+   "Count fingers at 6 metres"
+  ],
+  "a": 3,
+  "w": "Park p.327: eye grade 2 = cannot count fingers at 6 metres, lid gap/red eye/corneal ulcer, blinking absent."
+ },
+ {
+  "c": "s3",
+  "q": "The Eye-Hand-Foot (EHF) score in leprosy ranges from:",
+  "o": [
+   "0 to 12",
+   "0 to 6",
+   "0 to 8",
+   "0 to 18"
+  ],
+  "a": 0,
+  "w": "Park p.327: EHF = sum of grades of 2 eyes, 2 hands, 2 feet = 0-12."
+ },
+ {
+  "c": "s4",
+  "q": "Erythema nodosum leprosum (Type 2 reaction) occurs in which types?",
+  "o": [
+   "TT and BT",
+   "BL and LL",
+   "BT and BB",
+   "Indeterminate and TT"
+  ],
+  "a": 1,
+  "w": "Park p.324: Type II reaction is antigen-antibody reaction seen in MB only (BL, LL)."
+ },
+ {
+  "c": "s4",
+  "q": "Prednisolone course for a lepra reaction starts at 40 mg and lasts:",
+  "o": [
+   "4 weeks",
+   "6 weeks",
+   "12 weeks",
+   "24 weeks"
+  ],
+  "a": 2,
+  "w": "Park p.325: prednisolone 12 weeks: 40 mg (wk 1-2) tapering to 5 mg (wk 11-12)."
+ },
+ {
+  "c": "s5",
+  "q": "On Ridley's scale, a bacterial index of 6+ means bacilli per oil-immersion field of:",
+  "o": [
+   "10-100",
+   "100-1000",
+   "1-10",
+   "More than 1000"
+  ],
+  "a": 3,
+  "w": "Park p.319: 6+ = more than 1000 bacilli per field (BI scale 0 to 6+)."
+ },
+ {
+  "c": "s5",
+  "q": "A positive Mitsuda (late) lepromin reaction is a nodule larger than:",
+  "o": [
+   "5 mm at 21 days",
+   "10 mm at 48 hours",
+   "5 mm at 48 hours",
+   "10 mm at 21 days"
+  ],
+  "a": 0,
+  "w": "Park p.320: late (Mitsuda) reaction positive if nodule >5 mm at 21 days; Fernandez early reaction is >10 mm at 48 hours."
+ },
+ {
+  "c": "s6",
+  "q": "The incubation period of tetanus is usually:",
+  "o": [
+   "1-2 days",
+   "6-10 days",
+   "3-4 weeks",
+   "2-3 months"
+  ],
+  "a": 1,
+  "w": "Park p.312: incubation 6-10 days (1 day to several months)."
+ },
+ {
+  "c": "s6",
+  "q": "Wound other than clean, last tetanus toxoid more than 10 years ago (category C): give",
+  "o": [
+   "Nothing",
+   "Toxoid 1 dose only",
+   "Toxoid 1 dose + human TIG",
+   "Complete toxoid course only"
+  ],
+  "a": 2,
+  "w": "Park p.313-314: other wounds, category C = toxoid 1 dose plus human TIG."
+ },
+ {
+  "c": "s6",
+  "q": "Dose of human tetanus immunoglobulin (TIG) for prophylaxis at all ages is:",
+  "o": [
+   "150 IU",
+   "500 IU",
+   "1500 IU",
+   "250 IU"
+  ],
+  "a": 3,
+  "w": "Park p.313: human TIG 250 IU (equine ATS is 1500 IU)."
+ },
+ {
+  "c": "s7",
+  "q": "In an unimmunized pregnant woman, the second TT dose should be given at least how long before delivery?",
+  "o": [
+   "3 weeks",
+   "1 week",
+   "2 weeks",
+   "6 weeks"
+  ],
+  "a": 0,
+  "w": "Park p.313: second dose at least 1 month after first and at least 3 weeks before delivery."
+ },
+ {
+  "c": "s7",
+  "q": "Antitoxin for the newborn of an unimmunized mother: 750 IU within",
+  "o": [
+   "24 hours of birth",
+   "6 hours of birth",
+   "48 hours of birth",
+   "7 days of birth"
+  ],
+  "a": 1,
+  "w": "Park p.313: infant of unimmunized mother gets antitoxin 750 IU within 6 hours of birth."
+ },
+ {
+  "c": "s8",
+  "q": "Mass (blanket) treatment of trachoma is indicated when severe/moderate trachoma in children under 10 exceeds:",
+  "o": [
+   "1%",
+   "10%",
+   "5%",
+   "20%"
+  ],
+  "a": 2,
+  "w": "Park p.309: mass treatment if >5% severe/moderate trachoma in children <10 years, with 1% tetracycline ointment."
+ },
+ {
+  "c": "s8",
+  "q": "Endemic trachoma is caused by Chlamydia trachomatis types:",
+  "o": [
+   "D to K",
+   "L1 to L3",
+   "A to K all equally",
+   "A, B, C"
+  ],
+  "a": 3,
+  "w": "Park p.309: endemic trachoma = types A, B, C; D-K cause inclusion conjunctivitis."
+ },
+ {
+  "c": "s9",
+  "q": "Which of the following is NOT one of the five classical venereal diseases?",
+  "o": [
+   "Genital herpes",
+   "Chancroid",
+   "Donovanosis",
+   "Lymphogranuloma venereum"
+  ],
+  "a": 0,
+  "w": "Park p.330: classical VD = syphilis, gonorrhoea, chancroid, LGV, donovanosis."
+ },
+ {
+  "c": "s9",
+  "q": "Testing persons in the same socio-sexual environment as the patient is called:",
+  "o": [
+   "Contact tracing",
+   "Cluster testing",
+   "Epidemiological treatment",
+   "Sentinel surveillance"
+  ],
+  "a": 1,
+  "w": "Park p.339: cluster testing = persons in same socio-sexual environment; almost doubles cases found."
+ },
+ {
+  "c": "s9",
+  "q": "The age group with the highest STD incidence is:",
+  "o": [
+   "15-19 years",
+   "25-29 years",
+   "20-24 years",
+   "30-34 years"
+  ],
+  "a": 2,
+  "w": "Park p.331: age 20-24 highest, then 25-29, then 15-19."
+ },
+ {
+  "c": "s10",
+  "q": "Syndromic treatment of male urethral discharge is:",
+  "o": [
+   "Benzathine penicillin 2.4 MU",
+   "Doxycycline 100 mg BD for 21 days",
+   "Acyclovir 400 mg TDS",
+   "Cefixime 400 mg + azithromycin 1 g"
+  ],
+  "a": 3,
+  "w": "Park p.333: treat gonorrhoea + chlamydia with cefixime 400 mg + azithromycin 1 g single doses."
+ },
+ {
+  "c": "s10",
+  "q": "Management of inguinal bubo at a primary health centre:",
+  "o": [
+   "Do not incise; refer for aspiration",
+   "Incise and drain",
+   "Observe without treatment",
+   "Give benzathine penicillin only"
+  ],
+  "a": 0,
+  "w": "Park p.338: never incise and drain a bubo at PHC (fistula); doxycycline 100 mg BD x 21 days + azithromycin 1 g, refer for aspiration."
+ },
+ {
+  "c": "s11",
+  "q": "India was certified free of yaws on:",
+  "o": [
+   "19 September 2004",
+   "19 September 2011",
+   "1 July 2005",
+   "1 February 1987"
+  ],
+  "a": 1,
+  "w": "Park p.341: India declared yaws-free on 19 September 2011."
+ },
+ {
+  "c": "s11",
+  "q": "Total mass treatment for yaws is recommended when prevalence exceeds:",
+  "o": [
+   "5%",
+   "1%",
+   "10%",
+   "20%"
+  ],
+  "a": 2,
+  "w": "Park p.342: total mass >10%; juvenile mass 5-10%; selective <5%."
+ },
+ {
+  "c": "s12",
+  "q": "BPG dose for pinta or endemic syphilis in a child under 10 years:",
+  "o": [
+   "1.2 mega units",
+   "2.4 mega units",
+   "0.3 mega units",
+   "0.6 mega units"
+  ],
+  "a": 3,
+  "w": "Park p.341: 0.6 MU under 10 years, 1.2 MU for 10 years and over."
+ },
+ {
+  "c": "s12",
+  "q": "Pinta is caused by:",
+  "o": [
+   "Treponema carateum",
+   "Treponema pertenue",
+   "Treponema pallidum",
+   "Haemophilus ducreyi"
+  ],
+  "a": 0,
+  "w": "Park p.341: pinta is caused by T. carateum; yaws by T. pertenue."
+ },
+ {
+  "c": "s13",
+  "q": "The commonest route of HIV transmission in India (2011-12) is:",
+  "o": [
+   "Parent-to-child (5.0%)",
+   "Heterosexual (88.2%)",
+   "Injecting drug use (1.7%)",
+   "Blood transfusion (1.0%)"
+  ],
+  "a": 1,
+  "w": "Park p.344-345: heterosexual 88.2%, parent-to-child 5.0%, IDU 1.7%, homosexual 1.5%, blood 1.0%."
+ },
+ {
+  "c": "s13",
+  "q": "A concentrated HIV epidemic is >5% in a sub-population but prevalence in urban pregnant women is:",
+  "o": [
+   "Below 5%",
+   "Above 1%",
+   "Below 1%",
+   "Above 5%"
+  ],
+  "a": 2,
+  "w": "Park p.343-344: concentrated = >5% in at least one sub-population, <1% in urban pregnant women; generalized = >1% in pregnant women."
+ },
+ {
+  "c": "s13",
+  "q": "CMV retinitis in AIDS typically occurs when CD4 falls below:",
+  "o": [
+   "100",
+   "200",
+   "350",
+   "50"
+  ],
+  "a": 3,
+  "w": "Park p.347: CMV retinitis below 50; PCP, toxoplasma, cryptococcal meningitis around CD4 100."
+ },
+ {
+  "c": "s14",
+  "q": "Which is a MAJOR sign in the WHO adult HIV case definition?",
+  "o": [
+   "Weight loss more than 10%",
+   "Persistent cough over 1 month",
+   "Generalized lymphadenopathy",
+   "History of herpes zoster"
+  ],
+  "a": 0,
+  "w": "Park p.348: major = weight loss >10%, chronic diarrhoea >1 month, prolonged fever >1 month; the others are minor."
+ },
+ {
+  "c": "s14",
+  "q": "Preferred first-line ART regimen is:",
+  "o": [
+   "AZT + 3TC + LPV/r",
+   "TDF + 3TC (or FTC) + EFV",
+   "d4T + 3TC + NVP",
+   "TDF + 3TC + raltegravir"
+  ],
+  "a": 1,
+  "w": "Park p.352: first line = 2 NRTIs + 1 NNRTI: TDF + 3TC (or FTC) + EFV fixed dose."
+ },
+ {
+  "c": "s14",
+  "q": "The antiretroviral course in HIV post-exposure prophylaxis lasts:",
+  "o": [
+   "7 days",
+   "14 days",
+   "28 days",
+   "3 months"
+  ],
+  "a": 2,
+  "w": "Park p.353: PEP 28-day ARV course, started ideally within 72 hours."
+ },
+ {
+  "c": "s15",
+  "q": "Re-emerging diseases are those that:",
+  "o": [
+   "Are newly recognized in humans",
+   "Occur only in animals",
+   "Have been eradicated",
+   "Were once controlled but returned with antimicrobial resistance"
+  ],
+  "a": 3,
+  "w": "Park p.356: re-emerging = previously controlled by chemotherapy/antibiotics, now resistant and epidemic."
+ },
+ {
+  "c": "s15",
+  "q": "Vibrio cholerae O139 was first recognized in south-east India in:",
+  "o": [
+   "1992",
+   "1982",
+   "1997",
+   "2003"
+  ],
+  "a": 0,
+  "w": "Park p.356-357: V. cholerae O139 (south-east India, 1992)."
+ },
+ {
+  "c": "s16",
+  "q": "Incubation period of Ebola virus disease is:",
+  "o": [
+   "1-3 days",
+   "2-21 days",
+   "1-2 months",
+   "3-6 months"
+  ],
+  "a": 1,
+  "w": "Park p.356: incubation 2-21 days; not infective during incubation."
+ },
+ {
+  "c": "s16",
+  "q": "Ebola virus is NOT transmitted by:",
+  "o": [
+   "Blood of a symptomatic person",
+   "Contaminated needles",
+   "Air, water or food",
+   "Infected fruit bats"
+  ],
+  "a": 2,
+  "w": "Park p.356: spread by blood/body fluids and contaminated objects, not through air, water or food."
+ },
+ {
+  "c": "s17",
+  "q": "Of all antibiotics produced, the share used in animals is:",
+  "o": [
+   "About a tenth",
+   "About a quarter",
+   "Almost none",
+   "More than half"
+  ],
+  "a": 3,
+  "w": "Park p.358: more than half of antibiotics are used in animals, in subtherapeutic doses."
+ },
+ {
+  "c": "s17",
+  "q": "Staphylococci resistant to all antibiotics except:",
+  "o": [
+   "Vancomycin",
+   "Penicillin",
+   "Chloroquine",
+   "Cotrimoxazole"
+  ],
+  "a": 0,
+  "w": "Park p.358: staphylococci resistant to all except vancomycin."
+ },
+ {
+  "c": "s18",
+  "q": "A hospital-acquired (nosocomial) infection usually appears after admission by more than:",
+  "o": [
+   "12 hours",
+   "48 hours",
+   "24 hours",
+   "7 days"
+  ],
+  "a": 1,
+  "w": "Park p.359: not present or incubating at admission, usually >48 hours after admission."
+ },
+ {
+  "c": "s18",
+  "q": "Urinary tract nosocomial infection criterion is a positive culture with at least:",
+  "o": [
+   "10^3 bacteria/ml",
+   "10^4 bacteria/ml",
+   "10^5 bacteria/ml",
+   "10^7 bacteria/ml"
+  ],
+  "a": 2,
+  "w": "Park p.359: urinary infection = culture of at least 10^5 bacteria/ml, with or without symptoms."
+ },
+ {
+  "c": "s18",
+  "q": "Which measure is NOT effective in preventing surgical site infection (Table 2)?",
+  "o": [
+   "Preoperative shower",
+   "Short preoperative stay",
+   "Optimal antibiotic prophylaxis",
+   "Fumigation of theatre"
+  ],
+  "a": 3,
+  "w": "Park p.361: not effective = fumigation and preoperative shaving."
+ },
+ {
+  "c": "s19",
+  "q": "Under standard precautions, hands should be washed:",
+  "o": [
+   "Immediately after removing gloves",
+   "Only before putting on gloves",
+   "Only after soiled contact without gloves",
+   "Once per shift"
+  ],
+  "a": 0,
+  "w": "Park p.360: wash hands immediately after removing gloves."
+ },
+ {
+  "c": "s19",
+  "q": "If no washing machine is available, soiled linen under standard precautions should be:",
+  "o": [
+   "Sun-dried only",
+   "Boiled",
+   "Rinsed in cold water",
+   "Burnt"
+  ],
+  "a": 1,
+  "w": "Park p.360: no washing machine means boil soiled linen."
+ }
+]);
+
+QUIZ.push(...[
+ {
+  "c": "n1",
+  "q": "Which is NOT one of the gaps in the natural history of chronic NCDs?",
+  "o": [
+   "Short incubation period",
+   "Absence of a known agent",
+   "Multifactorial causation",
+   "Indefinite onset"
+  ],
+  "a": 0,
+  "w": "Park p.363-364: gaps are absent agent, multifactorial causation, long latent period, indefinite onset."
+ },
+ {
+  "c": "n1",
+  "q": "Duration usually considered as chronic for a condition (no international definition)?",
+  "o": [
+   "At least 1 month",
+   "At least 3 months",
+   "At least 6 weeks",
+   "At least 1 year"
+  ],
+  "a": 1,
+  "w": "Park p.362: many consider conditions lasting at least 3 months as chronic."
+ },
+ {
+  "c": "n1",
+  "q": "Tobacco causes about what share of lung cancer?",
+  "o": [
+   "About 42%",
+   "About 10%",
+   "About 71%",
+   "About 90%"
+  ],
+  "a": 2,
+  "w": "Park p.363: tobacco causes ~71% of lung cancer, 42% of chronic respiratory disease, ~10% of CVD."
+ },
+ {
+  "c": "n2",
+  "q": "WHO Global Action Plan target for reduction in current tobacco use (15+ years)?",
+  "o": [
+   "10%",
+   "25%",
+   "50%",
+   "30%"
+  ],
+  "a": 3,
+  "w": "Park p.364-365: 30% relative reduction in prevalence of current tobacco use."
+ },
+ {
+  "c": "n2",
+  "q": "Which target in the NCD Global Action Plan is 'halt the rise'?",
+  "o": [
+   "Diabetes and obesity",
+   "Raised blood pressure",
+   "Salt intake",
+   "Insufficient physical activity"
+  ],
+  "a": 0,
+  "w": "Park p.365: target 7 is to halt the rise of diabetes and obesity."
+ },
+ {
+  "c": "n3",
+  "q": "Of 36 million NCD deaths, how many million are due to CVD?",
+  "o": [
+   "12 million",
+   "17 million",
+   "21 million",
+   "9 million"
+  ],
+  "a": 1,
+  "w": "Park p.365: 17 million of the 36 million NCD deaths are CVD."
+ },
+ {
+  "c": "n3",
+  "q": "Tobacco, inappropriate diet and inactivity explain what share of new CHD cases?",
+  "o": [
+   "About 25-35%",
+   "About 50%",
+   "At least 75-85%",
+   "About 95%"
+  ],
+  "a": 2,
+  "w": "Park p.366: they explain at least 75-85% of new CHD cases."
+ },
+ {
+  "c": "n4",
+  "q": "Case fatality in CHD is measured as deaths within how many days of the attack?",
+  "o": [
+   "7 days",
+   "14 days",
+   "30 days",
+   "28 days"
+  ],
+  "a": 3,
+  "w": "Park p.366-367: case fatality rate is proportion of attacks fatal within 28 days."
+ },
+ {
+  "c": "n4",
+  "q": "HDL cholesterol should be above what level for protection?",
+  "o": [
+   "40 mg/dl",
+   "25 mg/dl",
+   "60 mg/dl",
+   "100 mg/dl"
+  ],
+  "a": 0,
+  "w": "Park p.368-369: HDL is protective and should be >40 mg/dl."
+ },
+ {
+  "c": "n4",
+  "q": "Which is a NON-modifiable CHD risk factor?",
+  "o": [
+   "Smoking",
+   "Family history",
+   "Hypertension",
+   "Sedentary habits"
+  ],
+  "a": 1,
+  "w": "Park p.368 (Table 4): age, sex, family history, genetic factors are immutable; smoking, BP, diet etc. are modifiable."
+ },
+ {
+  "c": "n5",
+  "q": "Recommended dietary fat intake in CHD population strategy?",
+  "o": [
+   "10-15% of energy",
+   "35-40% of energy",
+   "20-30% of total energy",
+   "Under 10% of energy"
+  ],
+  "a": 2,
+  "w": "Park p.370: fat 20-30% of total energy; saturated fat <10%."
+ },
+ {
+  "c": "n5",
+  "q": "Daily salt intake recommended in CHD prevention?",
+  "o": [
+   "10 g",
+   "8 g",
+   "2 g",
+   "5 g or less"
+  ],
+  "a": 3,
+  "w": "Park p.370: salt 5 g daily or less."
+ },
+ {
+  "c": "n5",
+  "q": "Most effective single intervention after a heart attack?",
+  "o": [
+   "Stopping smoking",
+   "Beta-blockers",
+   "Coronary care units",
+   "Dietary cholesterol restriction"
+  ],
+  "a": 0,
+  "w": "Park p.370: stopping smoking is the most effective single intervention after a heart attack."
+ },
+ {
+  "c": "n6",
+  "q": "The Oslo study found what reduction in MI with diet plus smoking cessation?",
+  "o": [
+   "24%",
+   "47%",
+   "19%",
+   "28%"
+  ],
+  "a": 1,
+  "w": "Park p.372: MI was 47% lower in the intervention group."
+ },
+ {
+  "c": "n6",
+  "q": "MRFIT failed to show significant benefit mainly because?",
+  "o": [
+   "Sample was too small",
+   "Follow-up was too short at 1 year",
+   "Control group also changed habits",
+   "Women were excluded from analysis"
+  ],
+  "a": 2,
+  "w": "Park p.371-372: IHD mortality was 22% lower but not significant as controls also changed habits."
+ },
+ {
+  "c": "n7",
+  "q": "Stage 1 hypertension per Park Table 1?",
+  "o": [
+   "SBP 130-139 or DBP 85-89",
+   "SBP 160-179 or DBP 100-109",
+   "SBP 120-139 or DBP 80-90",
+   "SBP 140-159 or DBP 90-99"
+  ],
+  "a": 3,
+  "w": "Park p.373: Stage 1 = 140-159 or 90-99."
+ },
+ {
+  "c": "n7",
+  "q": "Rule of halves in hypertension: what fraction of hypertensives is aware?",
+  "o": [
+   "About half",
+   "About one-quarter",
+   "About one-eighth",
+   "About three-quarters"
+  ],
+  "a": 0,
+  "w": "Park p.373-374: only half are aware, half of those treated, half of those adequately treated."
+ },
+ {
+  "c": "n7",
+  "q": "Essential hypertension forms what proportion of all hypertension?",
+  "o": [
+   "50%",
+   "90%",
+   "75%",
+   "98%"
+  ],
+  "a": 1,
+  "w": "Park p.373: essential hypertension is 90%; secondary is up to 10%."
+ },
+ {
+  "c": "n8",
+  "q": "Average salt intake advised in the population strategy for hypertension?",
+  "o": [
+   "10 g/day",
+   "3 g/day",
+   "5 g/day or less",
+   "8 g/day"
+  ],
+  "a": 2,
+  "w": "Park p.375: salt <=5 g/day average."
+ },
+ {
+  "c": "n8",
+  "q": "Treatment target BP in hypertension?",
+  "o": [
+   "Below 160/100",
+   "Below 130/70",
+   "Below 150/95",
+   "Below 140/90"
+  ],
+  "a": 3,
+  "w": "Park p.376: target <140/90, ideally 120/80."
+ },
+ {
+  "c": "n8",
+  "q": "Which lifestyle change gives the biggest SBP fall per Table 2?",
+  "o": [
+   "Weight reduction (5-20 mm Hg/10 kg)",
+   "Alcohol moderation",
+   "Sodium restriction",
+   "Physical activity"
+  ],
+  "a": 0,
+  "w": "Park p.376: weight loss 5-20 mm Hg/10 kg; DASH 8-14; sodium 2-8; activity 4-9; alcohol 2-4."
+ },
+ {
+  "c": "n9",
+  "q": "Fraction of hypertensives adequately treated under the rule of halves?",
+  "o": [
+   "About one-half",
+   "About one-eighth",
+   "About one-quarter",
+   "About one-sixteenth"
+  ],
+  "a": 1,
+  "w": "Park p.373-374: half aware, half of those treated, half of those adequately treated = 1/8."
+ },
+ {
+  "c": "n9",
+  "q": "'Tracking' of blood pressure means?",
+  "o": [
+   "Daily variation in BP",
+   "Rise in BP with age in all people",
+   "Persistence of rank order from childhood into adult life",
+   "Fall of BP during sleep"
+  ],
+  "a": 2,
+  "w": "Park p.374: those high in childhood continue on the same track as adults."
+ },
+ {
+  "c": "n10",
+  "q": "WHO stroke definition requires deficit lasting more than?",
+  "o": [
+   "6 hours",
+   "12 hours",
+   "48 hours",
+   "24 hours"
+  ],
+  "a": 3,
+  "w": "Park p.377: lasting more than 24 hours or leading to death."
+ },
+ {
+  "c": "n10",
+  "q": "Main risk factor for stroke?",
+  "o": [
+   "Hypertension",
+   "Diabetes",
+   "Obesity",
+   "Smoking"
+  ],
+  "a": 0,
+  "w": "Park p.378: hypertension is the main risk factor for cerebral thrombosis and haemorrhage."
+ },
+ {
+  "c": "n10",
+  "q": "In India, about what fraction of strokes occur below age 40?",
+  "o": [
+   "One-tenth",
+   "One-fifth",
+   "One-half",
+   "One-third"
+  ],
+  "a": 1,
+  "w": "Park p.378: about one-fifth below 40."
+ },
+ {
+  "c": "n11",
+  "q": "A TIA is a focal reversible deficit lasting?",
+  "o": [
+   "More than 24 hours",
+   "Less than 1 week",
+   "Less than 24 hours",
+   "More than 1 hour only"
+  ],
+  "a": 2,
+  "w": "Park p.377-378: TIA lasts <24 hours."
+ },
+ {
+  "c": "n11",
+  "q": "TIA is mainly due to?",
+  "o": [
+   "Cerebral haemorrhage",
+   "Subdural haematoma",
+   "Brain tumour",
+   "Microemboli"
+  ],
+  "a": 3,
+  "w": "Park p.378: TIA is due to microemboli and is a warning sign of stroke."
+ },
+ {
+  "c": "n12",
+  "q": "Secondary prophylaxis for RF: minimum duration?",
+  "o": [
+   "At least 5 years or till age 18",
+   "1 year",
+   "3 years only",
+   "Till age 12"
+  ],
+  "a": 0,
+  "w": "Park p.381: continue at least 5 years or till age 18, whichever is later."
+ },
+ {
+  "c": "n12",
+  "q": "Secondary prophylaxis dose of benzathine penicillin for adults?",
+  "o": [
+   "600,000 units every 3 weeks",
+   "1.2 million units IM every 3 weeks",
+   "1.2 million units every 3 months",
+   "2.4 million units every week"
+  ],
+  "a": 1,
+  "w": "Park p.381: 1.2 million (adults) / 600,000 (children) IM every 3 weeks."
+ },
+ {
+  "c": "n12",
+  "q": "Which is NOT a major criterion in WHO RF diagnosis?",
+  "o": [
+   "Carditis",
+   "Chorea",
+   "Polyarthralgia",
+   "Erythema marginatum"
+  ],
+  "a": 2,
+  "w": "Park p.380: major = carditis, polyarthritis, chorea, erythema marginatum, subcutaneous nodules; polyarthralgia is minor."
+ },
+ {
+  "c": "n13",
+  "q": "Percentage of cancers attributed to environmental causes?",
+  "o": [
+   "20-30%",
+   "40-50%",
+   "60-65%",
+   "80-90%"
+  ],
+  "a": 3,
+  "w": "Park p.385: environmental causes account for 80-90% of cancers."
+ },
+ {
+  "c": "n13",
+  "q": "Commonest cancer in the world in 2012 (incidence)?",
+  "o": [
+   "Lung",
+   "Breast",
+   "Colorectal",
+   "Stomach"
+  ],
+  "a": 0,
+  "w": "Park p.382: lung (1.8 m), breast (1.7 m), colorectal (1.4 m)."
+ },
+ {
+  "c": "n13",
+  "q": "Base population for an optimum population-based cancer registry?",
+  "o": [
+   "0.5-1 million",
+   "2-7 million",
+   "10-20 million",
+   "Under 100,000"
+  ],
+  "a": 1,
+  "w": "Park p.386: optimum base population 2-7 million."
+ },
+ {
+  "c": "n14",
+  "q": "Pap smear screening interval for cervical cancer?",
+  "o": [
+   "Every year",
+   "Every 5 years",
+   "Every 3 years",
+   "Every 10 years"
+  ],
+  "a": 2,
+  "w": "Park p.387: Pap smear at start of sexual activity, then every 3 years."
+ },
+ {
+  "c": "n14",
+  "q": "VIA uses which solution?",
+  "o": [
+   "Lugol's iodine",
+   "1% gentian violet",
+   "10% formalin",
+   "5% acetic acid"
+  ],
+  "a": 3,
+  "w": "Park p.387: VIA uses 5% acetic acid; VILI uses Lugol's iodine."
+ },
+ {
+  "c": "n14",
+  "q": "Screening for lung cancer by 6-monthly chest radiography is?",
+  "o": [
+   "Not recommended",
+   "Recommended for all adults",
+   "Recommended only in women",
+   "Recommended after age 35"
+  ],
+  "a": 0,
+  "w": "Park p.387: mass radiography is not convincing and not recommended."
+ },
+ {
+  "c": "n15",
+  "q": "Which registry gives incidence rates?",
+  "o": [
+   "Hospital-based",
+   "Population-based",
+   "Both equally",
+   "Neither"
+  ],
+  "a": 1,
+  "w": "Park p.386: only population-based registries give incidence rates."
+ },
+ {
+  "c": "n15",
+  "q": "Under ICMR's National Cancer Registry Programme, number of population-based registries?",
+  "o": [
+   "5",
+   "15",
+   "25",
+   "30"
+  ],
+  "a": 2,
+  "w": "Park p.383, 386: 25 population-based and 5 hospital-based registries."
+ },
+ {
+  "c": "n16",
+  "q": "Sleeping with a tobacco quid in the mouth raises oral cancer risk by?",
+  "o": [
+   "8.6 times",
+   "10 times",
+   "3 times",
+   "36 times"
+  ],
+  "a": 3,
+  "w": "Park p.387: risk is 36 times if the quid is kept during sleep."
+ },
+ {
+  "c": "n16",
+  "q": "Precancerous lesions of oral cancer can be detected up to how long before invasion?",
+  "o": [
+   "15 years",
+   "2 years",
+   "5 years",
+   "30 years"
+  ],
+  "a": 0,
+  "w": "Park p.388: leukoplakia and erythroplakia detectable up to 15 years before invasion."
+ },
+ {
+  "c": "n16",
+  "q": "Reverse smoking of chutta causes cancer of?",
+  "o": [
+   "Tongue",
+   "Hard palate",
+   "Lip",
+   "Buccal mucosa"
+  ],
+  "a": 1,
+  "w": "Park p.388: reverse smoking of chutta leads to hard palate cancer (coastal Andhra)."
+ },
+ {
+  "c": "n17",
+  "q": "Cervical cancer is associated in over 95% with?",
+  "o": [
+   "HSV-2",
+   "Chlamydia",
+   "HPV",
+   "EBV"
+  ],
+  "a": 2,
+  "w": "Park p.388: HPV found in >95%, necessary but not sufficient."
+ },
+ {
+  "c": "n17",
+  "q": "Carcinoma in situ of cervix persists on average for more than?",
+  "o": [
+   "1 year",
+   "3 years",
+   "20 years",
+   "8 years"
+  ],
+  "a": 3,
+  "w": "Park p.388: CIS persists >8 years on average; progression may take 15-20 years."
+ },
+ {
+  "c": "n18",
+  "q": "Mean age of breast cancer in India compared with white women?",
+  "o": [
+   "42 vs 53 years",
+   "53 vs 42 years",
+   "35 vs 45 years",
+   "50 vs 60 years"
+  ],
+  "a": 0,
+  "w": "Park p.389: India mean 42, white women 53."
+ },
+ {
+  "c": "n18",
+  "q": "Breast cancer risk is higher with?",
+  "o": [
+   "Early full-term pregnancy",
+   "Late first child",
+   "Multiparity",
+   "Early menopause"
+  ],
+  "a": 1,
+  "w": "Park p.389: risk rises with age at first child; early pregnancy is protective."
+ },
+ {
+  "c": "n19",
+  "q": "Risk of lung cancer in Indian smokers compared with non-smokers?",
+  "o": [
+   "36 times",
+   "3 times",
+   "8.6 times",
+   "20 times"
+  ],
+  "a": 2,
+  "w": "Park p.390: risk is 8.6 times in Indian smokers."
+ },
+ {
+  "c": "n19",
+  "q": "Cigarettes (Regulation of Production, Supply and Distribution) Act came into force in?",
+  "o": [
+   "1 January 1950",
+   "2003",
+   "1 April 1990",
+   "1 April 1976"
+  ],
+  "a": 3,
+  "w": "Park p.390: the 1975 Act was in force from 1 April 1976; COTPA is 2003."
+ },
+ {
+  "c": "n19",
+  "q": "Median survival in untreated lung cancer?",
+  "o": [
+   "2-3 months",
+   "6-8 months",
+   "10-14 months",
+   "2 years"
+  ],
+  "a": 0,
+  "w": "Park p.391: untreated 2-3 months; with combined chemotherapy 10-14 months."
+ },
+ {
+  "c": "n20",
+  "q": "Fall of stomach cancer in industrialized countries is attributed to?",
+  "o": [
+   "Mass screening",
+   "Better food preservation",
+   "Vaccination",
+   "Antibiotic use"
+  ],
+  "a": 1,
+  "w": "Park p.391: better food preservation, fresh vegetables and less salted/cured foods."
+ },
+ {
+  "c": "n20",
+  "q": "Organism that adds to risk of stomach cancer?",
+  "o": [
+   "Salmonella typhi",
+   "Vibrio cholerae",
+   "Helicobacter pylori",
+   "Escherichia coli"
+  ],
+  "a": 2,
+  "w": "Park p.391: H. pylori adds to the risk."
+ },
+ {
+  "c": "n21",
+  "q": "Type 1 diabetes is immune-mediated in what proportion?",
+  "o": [
+   "About 50%",
+   "About 25%",
+   "Less than 10%",
+   "More than 90%"
+  ],
+  "a": 3,
+  "w": "Park p.392: immune-mediated in >90%."
+ },
+ {
+  "c": "n21",
+  "q": "Which HLA types carry highest type 1 diabetes risk?",
+  "o": [
+   "DR3 and DR4",
+   "B27",
+   "DR2 only",
+   "A1 and B8 only"
+  ],
+  "a": 0,
+  "w": "Park p.394: type 1 linked with HLA-B8, B15, DR3, DR4; highest risk with both DR3 and DR4."
+ },
+ {
+  "c": "n21",
+  "q": "Minimum recommended dietary fibre intake to protect against diabetes?",
+  "o": [
+   "5 g/day",
+   "20 g/day",
+   "50 g/day",
+   "10 g/day"
+  ],
+  "a": 1,
+  "w": "Park p.394: dietary fibre is protective, minimum 20 g/day."
+ },
+ {
+  "c": "n22",
+  "q": "Fasting plasma glucose diagnostic of diabetes?",
+  "o": [
+   "6.1 mmol/l (110 mg/dl)",
+   "7.8 mmol/l (140 mg/dl)",
+   "7.0 mmol/l (126 mg/dl) or more",
+   "11.1 mmol/l (200 mg/dl)"
+  ],
+  "a": 2,
+  "w": "Park p.395: fasting >=7.0 mmol/l (126 mg/dl) or 2-h >=11.1 (200 mg/dl)."
+ },
+ {
+  "c": "n22",
+  "q": "Impaired fasting glucose range?",
+  "o": [
+   "126-140 mg/dl",
+   "90-109 mg/dl",
+   "140-200 mg/dl",
+   "110-125 mg/dl"
+  ],
+  "a": 3,
+  "w": "Park p.395: IFG = fasting 6.1-6.9 mmol/l (110-125 mg/dl)."
+ },
+ {
+  "c": "n22",
+  "q": "Glycosylated haemoglobin reflects mean glucose over previous?",
+  "o": [
+   "2-3 months",
+   "2-3 days",
+   "2-3 weeks",
+   "1 year"
+  ],
+  "a": 0,
+  "w": "Park p.396: HbA1c checked half-yearly gives mean glucose over previous 2-3 months."
+ },
+ {
+  "c": "n23",
+  "q": "1 kg of body fat is equivalent to about?",
+  "o": [
+   "3500 kcal",
+   "7700 kcal",
+   "5000 kcal",
+   "9000 kcal"
+  ],
+  "a": 1,
+  "w": "Park p.398: 1 kg fat = 7,700 kcal."
+ },
+ {
+  "c": "n23",
+  "q": "Obesity with increased fat cell number is called?",
+  "o": [
+   "Hypertrophic",
+   "Android",
+   "Hyperplastic",
+   "Gynoid"
+  ],
+  "a": 2,
+  "w": "Park p.397: increased fat cell size is hypertrophic, number is hyperplastic."
+ },
+ {
+  "c": "n23",
+  "q": "In affluent countries, the relation between socio-economic status and obesity is?",
+  "o": [
+   "Direct",
+   "Absent",
+   "U-shaped",
+   "Inverse"
+  ],
+  "a": 3,
+  "w": "Park p.398: inverse relationship (more obesity in lower groups in affluent countries)."
+ },
+ {
+  "c": "n24",
+  "q": "Obese class II BMI range?",
+  "o": [
+   "35.00-39.99",
+   "30.00-34.99",
+   "25.00-29.99",
+   "40 or more"
+  ],
+  "a": 0,
+  "w": "Park p.399: class I 30-34.99; class II 35-39.99; class III >=40."
+ },
+ {
+  "c": "n24",
+  "q": "Waist circumference risk cut-off in women?",
+  "o": [
+   "80 cm",
+   "88 cm or more",
+   "102 cm",
+   "94 cm"
+  ],
+  "a": 1,
+  "w": "Park p.400: risk if >=102 cm men, >=88 cm women."
+ },
+ {
+  "c": "n24",
+  "q": "Brocca index (ideal weight in kg) is?",
+  "o": [
+   "Height in cm minus 120",
+   "Weight divided by height squared",
+   "Height in cm minus 100",
+   "Height divided by cube root of weight"
+  ],
+  "a": 2,
+  "w": "Park p.399-400: Brocca index = height (cm) - 100; BMI is weight/height^2."
+ },
+ {
+  "c": "n25",
+  "q": "WHO definition of blindness (visual acuity)?",
+  "o": [
+   "Less than 6/60",
+   "Less than 6/18",
+   "Less than 1/60",
+   "Less than 3/60"
+  ],
+  "a": 3,
+  "w": "Park p.401: blindness = acuity less than 3/60 (Snellen)."
+ },
+ {
+  "c": "n25",
+  "q": "Visual impairment category 2 (severe) is acuity?",
+  "o": [
+   "Worse than 6/60 but 3/60 or better",
+   "Worse than 6/18 but 6/60 or better",
+   "Worse than 3/60 but 1/60 or better",
+   "No light perception"
+  ],
+  "a": 0,
+  "w": "Park p.401: category 2 = worse than 6/60, equal to or better than 3/60."
+ },
+ {
+  "c": "n25",
+  "q": "Commonest cause of blindness in India (2006-07 survey)?",
+  "o": [
+   "Refractive error 19.7%",
+   "Cataract 62.6%",
+   "Glaucoma 5.8%",
+   "Corneal opacity 0.9%"
+  ],
+  "a": 1,
+  "w": "Park p.402: cataract 62.6%, refractive error 19.7%, glaucoma 5.8%."
+ },
+ {
+  "c": "n26",
+  "q": "Vision 2020 was launched by WHO on?",
+  "o": [
+   "1 April 1976",
+   "7 April 1999",
+   "18 February 1999",
+   "18 February 2020"
+  ],
+  "a": 2,
+  "w": "Park p.404: launched 18 February 1999."
+ },
+ {
+  "c": "n26",
+  "q": "Vitamin A prophylaxis dose for ages 1-6 years?",
+  "o": [
+   "100,000 IU every 6 months",
+   "200,000 IU every year",
+   "50,000 IU monthly",
+   "200,000 IU every 6 months"
+  ],
+  "a": 3,
+  "w": "Park p.404: 200,000 IU orally every 6 months."
+ },
+ {
+  "c": "n26",
+  "q": "Which is NOT a Vision 2020 target condition?",
+  "o": [
+   "Glaucoma",
+   "Cataract",
+   "Refractive error and low vision",
+   "Trachoma and corneal blindness"
+  ],
+  "a": 0,
+  "w": "Park p.404: cataract, xerophthalmia/childhood blindness, refractive error, trachoma and corneal blindness."
+ },
+ {
+  "c": "n27",
+  "q": "Vision 2020 differs from earlier initiatives by being centred on?",
+  "o": [
+   "Trachoma only",
+   "Sight as a human right",
+   "Cataract surgery targets",
+   "Vitamin A only"
+  ],
+  "a": 1,
+  "w": "Park p.404: centred on rights; sight as a fundamental human right."
+ },
+ {
+  "c": "n27",
+  "q": "Share of world blindness that is avoidable (Park)?",
+  "o": [
+   "About 20%",
+   "About 50%",
+   "About 80%",
+   "About 95%"
+  ],
+  "a": 2,
+  "w": "Park p.401, 404: ~80% of world blindness is avoidable."
+ },
+ {
+  "c": "n28",
+  "q": "A person is 'killed' in a road accident if death occurs within?",
+  "o": [
+   "24 hours",
+   "7 days",
+   "28 days",
+   "30 days"
+  ],
+  "a": 3,
+  "w": "Park p.405: killed = died outright or within 30 days."
+ },
+ {
+  "c": "n28",
+  "q": "Pedestrian survival at 30 km/h or less?",
+  "o": [
+   "About 90%",
+   "About 50%",
+   "About 70%",
+   "About 99%"
+  ],
+  "a": 0,
+  "w": "Park p.406: 90% of pedestrians survive at <=30 km/h, <50% at >=45 km/h."
+ },
+ {
+  "c": "n28",
+  "q": "Correct motorcycle helmet use reduces death risk by almost?",
+  "o": [
+   "10%",
+   "40%",
+   "20%",
+   "70%"
+  ],
+  "a": 1,
+  "w": "Park p.406-407: death risk down almost 40%, severe injury down over 70%."
+ },
+ {
+  "c": "n29",
+  "q": "Alcohol directly causes what proportion of severe road accidents?",
+  "o": [
+   "5-10%",
+   "60-70%",
+   "30-50%",
+   "80-90%"
+  ],
+  "a": 2,
+  "w": "Park p.407-408: alcohol directly causes 30-50% of severe road accidents."
+ },
+ {
+  "c": "n29",
+  "q": "Safety education should begin with?",
+  "o": [
+   "Truck drivers",
+   "Police",
+   "Pedestrians over 60",
+   "School children"
+  ],
+  "a": 3,
+  "w": "Park p.407: begin with school children."
+ },
+ {
+  "c": "n29",
+  "q": "Rehabilitation after accidents aims to?",
+  "o": [
+   "Prevent, reduce or compensate disability",
+   "Only provide employment",
+   "Cure all injuries",
+   "Enforce traffic laws"
+  ],
+  "a": 0,
+  "w": "Park p.409: aim to prevent, reduce or compensate disability and thereby handicap."
+ },
+ {
+  "c": "n30",
+  "q": "In drowning, irreversible brain damage occurs after about?",
+  "o": [
+   "30 seconds",
+   "4-6 minutes",
+   "1 minute",
+   "15 minutes"
+  ],
+  "a": 1,
+  "w": "Park p.409: unconscious after ~2 minutes, irreversible brain damage after 4-6 minutes."
+ },
+ {
+  "c": "n30",
+  "q": "Most effective drowning prevention measure?",
+  "o": [
+   "Legislation",
+   "Lifeguard training",
+   "Engineering measures",
+   "Public awareness only"
+  ],
+  "a": 2,
+  "w": "Park p.409: engineering (e.g. four-sided pool fences, covered wells) is most effective."
+ },
+ {
+  "c": "n31",
+  "q": "Which is NOT advised in burns first aid?",
+  "o": [
+   "Cooling with running water",
+   "Wrapping in clean cloth",
+   "Rolling in a blanket",
+   "Applying ice"
+  ],
+  "a": 3,
+  "w": "Park p.410: do not apply ice, paste, oil, haldi or raw cotton."
+ },
+ {
+  "c": "n31",
+  "q": "Where do most burns occur?",
+  "o": [
+   "At home (80-90%)",
+   "At workplace (80-90%)",
+   "On roads",
+   "In schools"
+  ],
+  "a": 0,
+  "w": "Park p.410: 80-90% at home; men at workplace."
+ },
+ {
+  "c": "n32",
+  "q": "Falls rank as which leading cause of unintentional injury death?",
+  "o": [
+   "First",
+   "Second, after road traffic accidents",
+   "Third, after drowning",
+   "Fourth"
+  ],
+  "a": 1,
+  "w": "Park p.411: falls are the 2nd leading cause after RTA."
+ },
+ {
+  "c": "n32",
+  "q": "Fall prevention in the elderly includes?",
+  "o": [
+   "Bed rest",
+   "Reducing vitamin D",
+   "Muscle strengthening and balance retraining",
+   "Avoiding all assistive devices"
+  ],
+  "a": 2,
+  "w": "Park p.411: muscle strengthening and balance retraining prescribed by a trained professional."
+ },
+ {
+  "c": "n33",
+  "q": "Snake bite first aid: the limb should be?",
+  "o": [
+   "Tightly tied with a tourniquet",
+   "Incised at the bite",
+   "Packed in ice",
+   "Immobilized like a fractured limb"
+  ],
+  "a": 3,
+  "w": "Park p.412: immobilize like a fractured limb; no tight ligature, incision or ice."
+ },
+ {
+  "c": "n33",
+  "q": "Proportion of snake bites that are non-venomous?",
+  "o": [
+   "About 70%",
+   "About 30%",
+   "About 50%",
+   "About 95%"
+  ],
+  "a": 0,
+  "w": "Park p.412: 70% of bites are non-venomous; 50% of venomous bites envenomate."
+ },
+ {
+  "c": "n34",
+  "q": "Alcohol and drugs are linked to about what proportion of violence?",
+  "o": [
+   "One-tenth",
+   "Two-thirds",
+   "One-quarter",
+   "Nearly all"
+  ],
+  "a": 1,
+  "w": "Park p.412: alcohol and drugs ~2/3 of cases."
+ },
+ {
+  "c": "n34",
+  "q": "Average number of suicides per day in India?",
+  "o": [
+   "121",
+   "248",
+   "369",
+   "62"
+  ],
+  "a": 2,
+  "w": "Park p.413: average 369/day (248 males, 121 females)."
+ }
+]);
+
+QUIZ.push(...[
+ {
+  "c": "o1",
+  "q": "Joint ILO/WHO 1950: occupational health in short means",
+  "o": [
+   "Adaptation of work to man and of each man to his job",
+   "Adaptation of man to machine",
+   "Treatment of workers' diseases",
+   "Compensation for injured workers"
+  ],
+  "a": 0,
+  "w": "Park p.803: 'the adaptation of work to man and of each man to his job'."
+ },
+ {
+  "c": "o1",
+  "q": "Comfort zone of temperature for work is",
+  "o": [
+   "10-15 C",
+   "20-27 C (69-80 F)",
+   "15-20 C",
+   "27-35 C"
+  ],
+  "a": 1,
+  "w": "Park p.804: comfort zone 20-27 C (69-80 F)."
+ },
+ {
+  "c": "o1",
+  "q": "Vibration from pneumatic tools (10-500 Hz) causes",
+  "o": [
+   "Welder's flash",
+   "Miner's nystagmus",
+   "White fingers",
+   "Chilblains"
+  ],
+  "a": 2,
+  "w": "Park p.804: vibration causes 'white fingers' and joint injuries."
+ },
+ {
+  "c": "o2",
+  "q": "Which dust-disease pairing is INCORRECT?",
+  "o": [
+   "Anthracosis - coal dust",
+   "Byssinosis - cotton dust",
+   "Siderosis - iron dust",
+   "Bagassosis - hay dust"
+  ],
+  "a": 3,
+  "w": "Park p.806-807: bagassosis is from sugarcane (bagasse) dust; hay causes farmer's lung."
+ },
+ {
+  "c": "o2",
+  "q": "Chest X-ray appearance classically seen in silicosis is",
+  "o": [
+   "Snow-storm",
+   "Ground-glass lower zones",
+   "Honeycomb with pleural plaques",
+   "Bat-wing hilar shadows"
+  ],
+  "a": 0,
+  "w": "Park p.806: silicosis X-ray shows a 'snow-storm' appearance."
+ },
+ {
+  "c": "o2",
+  "q": "Asbestosis differs from silicosis: fibrosis is",
+  "o": [
+   "Nodular, upper zone; asbestos bodies in sputum",
+   "Diffuse, peribronchial, basal; asbestos bodies in sputum",
+   "Diffuse, basal; no sputum change",
+   "Nodular, basal; silica bodies in sputum"
+  ],
+  "a": 1,
+  "w": "Park p.807: asbestosis fibrosis is peribronchial, diffuse, basal with 'asbestos bodies' in sputum; silicosis is nodular, upper."
+ },
+ {
+  "c": "o3",
+  "q": "Periodical medical examination is needed daily for workers exposed to",
+  "o": [
+   "Lead",
+   "Radium",
+   "Dichromates",
+   "Toxic dyes"
+  ],
+  "a": 2,
+  "w": "Park p.812-813: monthly for lead, toxic dyes, radium; daily for dichromates."
+ },
+ {
+  "c": "o3",
+  "q": "Replacing white phosphorus with phosphorus sesquisulphide is an example of",
+  "o": [
+   "Enclosure",
+   "Isolation",
+   "Local exhaust ventilation",
+   "Substitution (prevents phossy jaw)"
+  ],
+  "a": 3,
+  "w": "Park p.813: substitution of white phosphorus ended 'phossy jaw'."
+ },
+ {
+  "c": "o3",
+  "q": "Number of occupational diseases notifiable under the Factories Act is",
+  "o": [
+   "22",
+   "3",
+   "8",
+   "12"
+  ],
+  "a": 0,
+  "w": "Park p.812-813: Factories Act 22 diseases, Mines Act 3, Dock Regulations 8."
+ },
+ {
+  "c": "o4",
+  "q": "Under the Factories Act 1948, a factory has 10 or more workers with power, or ___ without power",
+  "o": [
+   "5 or more",
+   "20 or more",
+   "15 or more",
+   "50 or more"
+  ],
+  "a": 1,
+  "w": "Park p.815: 10+ workers with power or 20+ without power."
+ },
+ {
+  "c": "o4",
+  "q": "ESI contributions: employer % of wage bill / employee % of wages; maximum sickness benefit days",
+  "o": [
+   "1.75 / 4.75; 91 days",
+   "4.75 / 1.75; 84 days",
+   "4.75 / 1.75; 91 days",
+   "3.25 / 1.00; 91 days"
+  ],
+  "a": 2,
+  "w": "Park p.816-817: employer 4.75%, employee 1.75%; sickness benefit up to 91 days in 365."
+ },
+ {
+  "c": "o4",
+  "q": "Factories Act: adult weekly hours and creche threshold (women workers)",
+  "o": [
+   "40 hours; more than 30",
+   "48 hours; more than 50",
+   "60 hours; more than 20",
+   "48 hours; more than 30"
+  ],
+  "a": 3,
+  "w": "Park p.815: adults 48 h/week; creche for more than 30 women."
+ },
+ {
+  "c": "o5",
+  "q": "Commonest route of absorption of lead in industry is",
+  "o": [
+   "Inhalation",
+   "Ingestion",
+   "Skin",
+   "Injection"
+  ],
+  "a": 0,
+  "w": "Park p.807-808: inhalation is commonest; skin only for organic lead."
+ },
+ {
+  "c": "o5",
+  "q": "Which is NOT a feature of inorganic lead poisoning?",
+  "o": [
+   "Blue line on gums",
+   "Delirium and confusion",
+   "Wrist drop",
+   "Basophilic stippling"
+  ],
+  "a": 1,
+  "w": "Park p.808: delirium/CNS signs are organic (tetraethyl) lead; inorganic gives colic, blue line, wrist drop."
+ },
+ {
+  "c": "o6",
+  "q": "Human factors account for what percentage of industrial accidents?",
+  "o": [
+   "50%",
+   "65%",
+   "85%",
+   "98%"
+  ],
+  "a": 2,
+  "w": "Park p.810: human factors 85%; environmental/unsafe machines 10-20%."
+ },
+ {
+  "c": "o6",
+  "q": "What proportion of industrial accidents is preventable?",
+  "o": [
+   "85%",
+   "75%",
+   "50%",
+   "98%"
+  ],
+  "a": 3,
+  "w": "Park p.810: 98% of accidents are preventable."
+ },
+ {
+  "c": "o7",
+  "q": "Paid sick leave as a cause of sickness absenteeism is a/an ___ cause",
+  "o": [
+   "Economic",
+   "Social",
+   "Medical",
+   "Non-occupational"
+  ],
+  "a": 0,
+  "w": "Park p.810: economic causes include paid sick leave."
+ },
+ {
+  "c": "o7",
+  "q": "Which helps prevent sickness absenteeism according to Park?",
+  "o": [
+   "Longer working hours",
+   "Ergonomics",
+   "Withdrawing paid leave",
+   "Piece-rate pay only"
+  ],
+  "a": 1,
+  "w": "Park p.810: prevention includes good management, pre-placement exam, human relations, ergonomics."
+ },
+ {
+  "c": "o8",
+  "q": "Percival Pott (1775) described scrotal cancer in",
+  "o": [
+   "Coal miners",
+   "Dye workers",
+   "Chimney sweeps",
+   "Asbestos workers"
+  ],
+  "a": 2,
+  "w": "Park p.808: Pott described scrotal cancer in chimney sweeps."
+ },
+ {
+  "c": "o8",
+  "q": "Latent period of occupational cancer is usually",
+  "o": [
+   "1-2 years",
+   "3-5 years",
+   "40-50 years",
+   "10-25 years"
+  ],
+  "a": 3,
+  "w": "Park p.808-809: latency 10-25 years."
+ },
+ {
+  "c": "o9",
+  "q": "Which is NOT listed as an agricultural worker hazard?",
+  "o": [
+   "Asbestosis",
+   "Anthrax",
+   "Leptospirosis",
+   "Snake bites"
+  ],
+  "a": 0,
+  "w": "Park p.809-810: zoonoses, accidents, toxic, physical and dust diseases are listed; asbestosis is not."
+ },
+ {
+  "c": "o9",
+  "q": "Toxic hazards of pesticides in farm workers are worse with",
+  "o": [
+   "Obesity",
+   "Malnutrition",
+   "High fluid intake",
+   "Night work"
+  ],
+  "a": 1,
+  "w": "Park p.809-810: pesticide effects are worse with malnutrition."
+ },
+ {
+  "c": "o10",
+  "q": "Canteen is compulsory in a factory with more than ___ workers",
+  "o": [
+   "100",
+   "500",
+   "250",
+   "1,000"
+  ],
+  "a": 2,
+  "w": "Park p.811: canteen compulsory if more than 250 workers."
+ },
+ {
+  "c": "o10",
+  "q": "Space allowed per worker in ILO/WHO sanitation measures is",
+  "o": [
+   "250 cu ft",
+   "350 cu ft",
+   "1,000 cu ft",
+   "500 cu ft"
+  ],
+  "a": 3,
+  "w": "Park p.811-812: space 500 cu ft."
+ },
+ {
+  "c": "o11",
+  "q": "Film badge monitoring for radiation workers is done at least every",
+  "o": [
+   "6 months",
+   "Day",
+   "Week",
+   "3 years"
+  ],
+  "a": 0,
+  "w": "Park p.809: film badge monitoring at 6-monthly or shorter intervals."
+ },
+ {
+  "c": "o11",
+  "q": "Radiation prevention: who should avoid continuous exposure?",
+  "o": [
+   "Adolescent males",
+   "Pregnant women",
+   "Elderly men",
+   "Office workers"
+  ],
+  "a": 1,
+  "w": "Park p.809: no pregnant women in continuous exposure."
+ },
+ {
+  "c": "o12",
+  "q": "Central Labour Institute (1960) is located at",
+  "o": [
+   "Kolkata",
+   "Chennai",
+   "Mumbai",
+   "Kanpur"
+  ],
+  "a": 2,
+  "w": "Park p.818-819: Central Labour Institute, Mumbai (1960)."
+ },
+ {
+  "c": "o12",
+  "q": "Industrial Toxicology Research Centre is at",
+  "o": [
+   "Ahmedabad",
+   "Nagpur",
+   "Dhanbad",
+   "Lucknow"
+  ],
+  "a": 3,
+  "w": "Park p.818-819: ITRC Lucknow; OHRI is at Ahmedabad."
+ },
+ {
+  "c": "o14",
+  "q": "Uprooting from village life with industrialization leads to",
+  "o": [
+   "Psychoneurosis and delinquency",
+   "Rickets",
+   "Filariasis",
+   "Silicosis"
+  ],
+  "a": 0,
+  "w": "Park p.810-811: mental health problems of industrialization include psychoneurosis and delinquency."
+ },
+ {
+  "c": "o14",
+  "q": "Filariasis in industrial areas is linked to",
+  "o": [
+   "Dust exposure",
+   "Poor sewage disposal",
+   "Noise",
+   "Heat stress"
+  ],
+  "a": 1,
+  "w": "Park p.810-811: filariasis where sewage is poor."
+ },
+ {
+  "c": "o13",
+  "q": "Employers covered by the ESI Act are",
+  "o": [
+   "Liable under both Acts",
+   "Exempt from the Factories Act",
+   "Exempt from the Workmen's Compensation Act 1923",
+   "Exempt from all inspection"
+  ],
+  "a": 2,
+  "w": "Park p.818: ESI-covered employers are exempt from the Workmen's Compensation Act 1923."
+ },
+ {
+  "c": "o13",
+  "q": "Coal miners' pneumoconiosis became compensatable through",
+  "o": [
+   "Factories Act 1948",
+   "ESI Act 1948",
+   "Mines Act 1952 alone",
+   "Workmen's Compensation (Amendment) Act 1959"
+  ],
+  "a": 3,
+  "w": "Park p.806: Workmen's Compensation (Amendment) Act 1959."
+ },
+ {
+  "c": "m1",
+  "q": "A child of two schizophrenic parents is ___ more likely to develop schizophrenia",
+  "o": [
+   "40 times",
+   "4 times",
+   "10 times",
+   "100 times"
+  ],
+  "a": 0,
+  "w": "Park p.832: 40 times more likely."
+ },
+ {
+  "c": "m1",
+  "q": "Screening for early diagnosis in schools and industry is which level of prevention?",
+  "o": [
+   "Primary",
+   "Secondary",
+   "Tertiary",
+   "Primordial"
+  ],
+  "a": 1,
+  "w": "Park p.833: secondary prevention = early diagnosis by screening, counselling."
+ },
+ {
+  "c": "m1",
+  "q": "Which is a major mental illness (psychosis)?",
+  "o": [
+   "Phobia",
+   "Obsessive compulsive neurosis",
+   "Schizophrenia",
+   "Personality disorder"
+  ],
+  "a": 2,
+  "w": "Park p.832: psychoses (out of touch with reality) include schizophrenia and manic-depressive psychosis."
+ },
+ {
+  "c": "m2",
+  "q": "Alcohol acts on the CNS as a",
+  "o": [
+   "Stimulant",
+   "Hallucinogen",
+   "Analgesic only",
+   "Depressant"
+  ],
+  "a": 3,
+  "w": "Park p.834-837: alcohol is a CNS depressant, not a stimulant."
+ },
+ {
+  "c": "m2",
+  "q": "If an addict does not break completely from his group, the chance of relapse is",
+  "o": [
+   "100%",
+   "25%",
+   "50%",
+   "75%"
+  ],
+  "a": 0,
+  "w": "Park p.838: relapse chance is 100% without complete break from group."
+ },
+ {
+  "c": "m2",
+  "q": "Which drug does NOT produce physical dependence and distorts perception?",
+  "o": [
+   "Heroin",
+   "LSD",
+   "Barbiturates",
+   "Alcohol"
+  ],
+  "a": 1,
+  "w": "Park p.834-837: LSD distorts perception; no physical dependence."
+ },
+ {
+  "c": "m3",
+  "q": "GATS India 2009-10: prevalence of any tobacco use in adult males",
+  "o": [
+   "24%",
+   "33%",
+   "48%",
+   "20%"
+  ],
+  "a": 2,
+  "w": "Park p.836: males 48%, females 20%."
+ },
+ {
+  "c": "m3",
+  "q": "Hirayama (1981) showed higher lung cancer deaths in",
+  "o": [
+   "Smoking husbands",
+   "Coal miners",
+   "Pipe smokers",
+   "Non-smoking wives of smokers"
+  ],
+  "a": 3,
+  "w": "Park p.835: non-smoking Japanese wives of smokers."
+ },
+ {
+  "c": "m4",
+  "q": "According to Menninger, help is needed if",
+  "o": [
+   "Answer to any question is definitely yes",
+   "Answers to all are yes",
+   "Most answers are yes",
+   "Three or more are yes"
+  ],
+  "a": 0,
+  "w": "Park p.831-832: help needed if any answer is definitely 'yes'."
+ },
+ {
+  "c": "m4",
+  "q": "Which is a Menninger warning signal?",
+  "o": [
+   "Fear of a known danger",
+   "Aches and pains with no physical cause",
+   "Occasional worry before exams",
+   "Short sleep once a month"
+  ],
+  "a": 1,
+  "w": "Park p.831-832: numerous aches and pains with no physical cause."
+ },
+ {
+  "c": "m5",
+  "q": "Community Mental Health Programme: proportion of psychiatric cases treatable close to home",
+  "o": [
+   "50%",
+   "75%",
+   "95%",
+   "99%"
+  ],
+  "a": 2,
+  "w": "Park p.833: 95%."
+ },
+ {
+  "c": "m5",
+  "q": "Which is NOT an element of the Community Mental Health Programme?",
+  "o": [
+   "Partial hospitalization",
+   "Pre-care and after-care",
+   "Research and evaluation",
+   "Compulsory lifelong institutionalization"
+  ],
+  "a": 3,
+  "w": "Park p.833: elements are in-patient, out-patient, partial hospitalization, emergency, diagnostic, pre/after-care, education, training, research."
+ },
+ {
+  "c": "m6",
+  "q": "Rehabilitation of drug users needs",
+  "o": [
+   "Vocational training and sheltered work",
+   "Complete isolation",
+   "Legal punishment only",
+   "Hospital stay for life"
+  ],
+  "a": 0,
+  "w": "Park p.838: vocational training and sheltered work."
+ },
+ {
+  "c": "m6",
+  "q": "Park lists mental health services as including",
+  "o": [
+   "Only in-patient care",
+   "Rehabilitation and after-care",
+   "Only drug therapy",
+   "Only screening"
+  ],
+  "a": 1,
+  "w": "Park p.833: includes rehabilitation and after-care."
+ },
+ {
+  "c": "h1",
+  "q": "Which approach failed because it was not based on felt needs (free latrines unused)?",
+  "o": [
+   "Regulatory approach",
+   "Health education approach",
+   "Service approach",
+   "Primary health care approach"
+  ],
+  "a": 2,
+  "w": "Park p.858-859: service approach failed as not based on felt needs."
+ },
+ {
+  "c": "h1",
+  "q": "Motivation model sequence is",
+  "o": [
+   "Action - Awareness - Motivation",
+   "Motivation - Awareness - Action",
+   "Awareness - Action - Motivation",
+   "Awareness - Motivation - Action"
+  ],
+  "a": 3,
+  "w": "Park p.859-860: Awareness, Motivation (interest, evaluation, decision), Action."
+ },
+ {
+  "c": "h1",
+  "q": "Compared with propaganda, health education appeals to",
+  "o": [
+   "Reason",
+   "Emotion",
+   "Authority",
+   "Fear"
+  ],
+  "a": 0,
+  "w": "Park p.859: HE appeals to reason; propaganda to emotion."
+ },
+ {
+  "c": "h2",
+  "q": "\"If I hear, I forget; if I see, I remember; if I do, I know\" illustrates",
+  "o": [
+   "Reinforcement",
+   "Learning by doing",
+   "Credibility",
+   "Feedback"
+  ],
+  "a": 1,
+  "w": "Park p.862: learning by doing."
+ },
+ {
+  "c": "h2",
+  "q": "A smoking health educator cannot teach against smoking: principle of",
+  "o": [
+   "Comprehension",
+   "Participation",
+   "Setting an example",
+   "Known to unknown"
+  ],
+  "a": 2,
+  "w": "Park p.862: setting an example."
+ },
+ {
+  "c": "h2",
+  "q": "Which is NOT one of the 12 principles of health education?",
+  "o": [
+   "Credibility",
+   "Interest",
+   "Reinforcement",
+   "Coercion"
+  ],
+  "a": 3,
+  "w": "Park p.861-862: principles include credibility, interest, participation, motivation; coercion is not one."
+ },
+ {
+  "c": "h3",
+  "q": "Illiteracy, customs and beliefs are ___ barriers to communication",
+  "o": [
+   "Cultural",
+   "Physiological",
+   "Psychological",
+   "Environmental"
+  ],
+  "a": 0,
+  "w": "Park p.856: cultural barriers."
+ },
+ {
+  "c": "h3",
+  "q": "Most persuasive channel of communication is",
+  "o": [
+   "Mass media",
+   "Interpersonal",
+   "Folk media",
+   "Printed posters"
+  ],
+  "a": 1,
+  "w": "Park p.854-855: interpersonal is most persuasive."
+ },
+ {
+  "c": "h3",
+  "q": "One-way (didactic) communication is exemplified by",
+  "o": [
+   "Group discussion",
+   "Counselling",
+   "Lecture",
+   "Demonstration with feedback"
+  ],
+  "a": 2,
+  "w": "Park p.855-856: lecture; no feedback."
+ },
+ {
+  "c": "h4",
+  "q": "Role play (socio-drama) group size is about",
+  "o": [
+   "8",
+   "12",
+   "50",
+   "25"
+  ],
+  "a": 3,
+  "w": "Park p.865: ~25."
+ },
+ {
+  "c": "h4",
+  "q": "Chalk and talk (lecture) group size and duration",
+  "o": [
+   "Up to 30 persons; 15-20 minutes",
+   "Up to 12; 5 minutes",
+   "Up to 100; 45 minutes",
+   "Up to 8; 30 minutes"
+  ],
+  "a": 0,
+  "w": "Park p.863-864: group <=30, talk 15-20 min."
+ },
+ {
+  "c": "h4",
+  "q": "The most personal of the mass media is",
+  "o": [
+   "Television",
+   "Direct mailing",
+   "Newspapers",
+   "Posters"
+  ],
+  "a": 1,
+  "w": "Park p.866-867: direct mailing."
+ },
+ {
+  "c": "h5",
+  "q": "Main factor in accidents, per health education content, is",
+  "o": [
+   "Poverty",
+   "Weather",
+   "Carelessness",
+   "Machines"
+  ],
+  "a": 2,
+  "w": "Park p.860-861: carelessness."
+ },
+ {
+  "c": "h5",
+  "q": "Human biology is best taught at",
+  "o": [
+   "Workplace",
+   "Hospital",
+   "Mass media",
+   "School"
+  ],
+  "a": 3,
+  "w": "Park p.860-861: best taught at school."
+ },
+ {
+  "c": "h6",
+  "q": "Group discussion ideal membership is",
+  "o": [
+   "6-12 in a circle",
+   "4-8",
+   "15-20",
+   "25-30"
+  ],
+  "a": 0,
+  "w": "Park p.864-865: 6-12 with leader and recorder."
+ },
+ {
+  "c": "h6",
+  "q": "Panel differs from symposium: in a panel the experts",
+  "o": [
+   "Give separate speeches",
+   "Discuss among themselves",
+   "Do not speak to the audience",
+   "Are 12 or more"
+  ],
+  "a": 1,
+  "w": "Park p.864-865: panel (4-8 experts) discuss among themselves; symposium has separate speeches."
+ },
+ {
+  "c": "h7",
+  "q": "Counselling differs from advising because it",
+  "o": [
+   "Gives instructions",
+   "Imposes decisions",
+   "Implies choice, not force",
+   "Avoids listening"
+  ],
+  "a": 2,
+  "w": "Park p.857: implies choice, not force."
+ },
+ {
+  "c": "h7",
+  "q": "Which is NOT expected of a counsellor?",
+  "o": [
+   "Gaining trust",
+   "Listening sympathetically",
+   "Understanding feelings",
+   "Imposing his own decision"
+  ],
+  "a": 3,
+  "w": "Park p.857: counsellor gains trust, listens, understands feelings."
+ }
+]);
+
+QUIZ.push(...[
+{"c":"c1","q":"Who first used the term 'comprehensive health care'?","o":["Bhore Committee, 1946","Mudaliar Committee, 1962","Shrivastav Committee, 1975","Alma-Ata Conference, 1978"],"a":0,"w":"Park p.891: comprehensive health care was first used by the Bhore Committee, 1946."},
+{"c":"c1","q":"Which level of care in India comprises district hospitals and community health centres?","o":["Primary level","Secondary level","Tertiary level","Basic level"],"a":1,"w":"Park p.890: secondary (intermediate) level = district hospitals and CHCs, also the first referral level."},
+{"c":"c1","q":"Which is NOT a criticism of present health services in India?","o":["Predominantly urban-oriented","Mostly curative","Predominantly rural-oriented","Accessible to a small part of the population"],"a":2,"w":"Park p.890: services are urban-oriented, mostly curative and reach only a small part of the population."},
+{"c":"c2","q":"Alma-Ata: PHC is made universally accessible at a cost that ...","o":["the individual alone can pay","the State can fully subsidise","WHO and UNICEF can provide","the community and country can afford"],"a":3,"w":"Park p.891: at a cost the community and country can afford."},
+{"c":"c2","q":"Which is NOT among the 8 elements of PHC in the Alma-Ata Declaration?","o":["Establishment of medical colleges","Provision of essential drugs","Immunization against major infectious diseases","Safe water and basic sanitation"],"a":0,"w":"Park p.891: the 8 elements include essential drugs, immunization, water and sanitation; medical colleges are not an element."},
+{"c":"c2","q":"Village health guides and trained dais illustrate which principle of PHC?","o":["Equitable distribution","Community participation","Intersectoral coordination","Appropriate technology"],"a":1,"w":"Park p.892: they are selected by and trained in the local community, an Indian example of community participation."},
+{"c":"c3","q":"NHP 1983 goal for IMR by 2000 AD (from 125 in 1978)?","o":["Below 40 per 1000","Below 50 per 1000","Below 60 per 1000","Below 80 per 1000"],"a":2,"w":"Park p.893: IMR from 125 (1978) to below 60."},
+{"c":"c3","q":"NHP 1983 goal for crude birth rate by 2000 AD (from 33)?","o":["15 per 1000","25 per 1000","28 per 1000","21 per 1000"],"a":3,"w":"Park p.893: CBR from 33 to 21 per 1000."},
+{"c":"c4","q":"How many of the 8 Millennium Development Goals are health related?","o":["3","2","4","5"],"a":0,"w":"Park p.893: 3 of 8 goals, 8 of 18 targets and 18 of 48 indicators are health related."},
+{"c":"c4","q":"Which is NOT counted as skilled birth attendance for MDG 5?","o":["Doctors","Traditional birth attendants","Nurses","Midwives"],"a":1,"w":"Park p.894: skilled attendance = doctors, nurses, midwives; traditional birth attendants (trained or untrained) are not included."},
+{"c":"c5","q":"In Park's model of health care delivery, the output is ...","o":["health problems and needs","resources","changed health status","health care services"],"a":2,"w":"Park p.897: output = change in health status (lives saved, diseases prevented)."},
+{"c":"c5","q":"Which state has the lowest IMR in India (12 in 2012)?","o":["Tamil Nadu","Goa","Delhi","Kerala"],"a":3,"w":"Park p.898: IMR lowest in Kerala (12), highest in Madhya Pradesh (56)."},
+{"c":"c6","q":"Which is NOT one of the six major health problem groups of India in Park?","o":["Occupational health problems","Nutritional problems","Environmental sanitation problems","Medical care problems"],"a":0,"w":"Park p.898: communicable, non-communicable, nutritional, environmental sanitation, medical care, population."},
+{"c":"c6","q":"Regarding medical care, India has a national health policy but no ...","o":["national health programme","national health service","national health plan","national health insurance"],"a":1,"w":"Park p.900: India has a national health policy but no national health service."},
+{"c":"c6","q":"The twin problems of environmental sanitation in India are lack of safe water and ...","o":["poor housing","air pollution","primitive excreta disposal","lack of vector control"],"a":2,"w":"Park p.900: lack of safe water and primitive excreta disposal."},
+{"c":"c7","q":"Suggested norm for ASHA in the population?","o":["1 per 500","1 per 2,000","1 per 5,000","1 per 1,000"],"a":3,"w":"Park p.900 (Table 6): ASHA 1 per 1,000 population."},
+{"c":"c7","q":"Suggested norm for a health assistant (plains)?","o":["1 per 30,000","1 per 5,000","1 per 10,000","1 per 50,000"],"a":0,"w":"Park p.900 (Table 6): health assistant 1 per 30,000 (20,000 tribal/hilly), supervising 6 health workers."},
+{"c":"c8","q":"Which is NOT one of the five sectors of India's health care system?","o":["Public health sector","Corporate sector","Indigenous systems","Voluntary health agencies"],"a":1,"w":"Park p.901-902: public, private, indigenous, voluntary, national health programmes."},
+{"c":"c8","q":"Which is NOT an ingredient of good health care services (PHC)?","o":["Comprehensive","Acceptable","Free of cost to all","Community participation"],"a":2,"w":"Park p.901: comprehensive, accessible, acceptable, community participation, affordable cost."},
+{"c":"c9","q":"Population norm for a community health centre (CHC)?","o":["20,000 to 30,000","50,000 to 80,000","1.5 to 2 lakh","80,000 to 1.20 lakh"],"a":3,"w":"Park p.907: one CHC per 80,000-1.20 lakh, with 30 beds."},
+{"c":"c9","q":"Sub-centre population norm in hilly, tribal and backward areas?","o":["3,000","2,000","4,000","20,000"],"a":0,"w":"Park p.903: sub-centre 1 per 5,000 in general, 3,000 in hilly, tribal and backward areas."},
+{"c":"c9","q":"The three-tier rural health system of 1977 was based on which committee?","o":["Bhore Committee, 1946","Shrivastav Committee, 1975","Mudaliar Committee, 1962","Central Council of Health, 1953"],"a":1,"w":"Park p.902: three-tier rural system based on the Shrivastav Committee, 1975."},
+{"c":"c10","q":"Village health guides receive training lasting ...","o":["30 working days","4 months","200 hours over 3 months","6 months"],"a":2,"w":"Park p.902: VHG training is 200 hours over 3 months (30 days is for dais, 4 months for AWW)."},
+{"c":"c10","q":"One anganwadi worker is posted per ... population.","o":["200-400","1,000","5,000","400-800"],"a":3,"w":"Park p.903: one AWW per 400-800 population."},
+{"c":"c11","q":"IPHS: postnatal home visits at the sub-centre are first within 48 hours and second within ...","o":["7 days","3 days","14 days","28 days"],"a":0,"w":"Park p.903: minimum 2 home visits, first within 48 hours, second within 7 days."},
+{"c":"c11","q":"IPHS proposes how many female health workers (ANMs) at a sub-centre?","o":["1","2","3","4"],"a":1,"w":"Park p.904: female health worker existing 1, proposed 2."},
+{"c":"c12","q":"Which committee (1962) recommended reducing PHC population to 40,000?","o":["Bhore Committee","Shrivastav Committee","Mudaliar Committee","Central Council of Health"],"a":2,"w":"Park p.904-905: Mudaliar Committee, 1962, recommended 40,000 per PHC."},
+{"c":"c12","q":"IPHS: minimum OPD patients per doctor per day at a PHC?","o":["20","60","80","40"],"a":3,"w":"Park p.905: OPD minimum 40 patients per doctor per day; PHC has 6 beds."},
+{"c":"c12","q":"IPHS recommended number of medical officers at a PHC (existing 1)?","o":["3","2","4","6"],"a":0,"w":"Park p.906: medical officer 1 to 3; total staff 15 to 24/25."},
+{"c":"c13","q":"Which is NOT one of the four basic specialists of a CHC?","o":["Physician","ENT surgeon","Obstetrician-gynaecologist","Paediatrician"],"a":1,"w":"Park p.907: CHC specialists are in surgery, medicine, obstetrics-gynaecology and paediatrics."},
+{"c":"c13","q":"Revised IPHS: eye surgeon posting at CHC level?","o":["1 per CHC","1 for every two CHCs","1 for every five CHCs","1 for every ten CHCs"],"a":2,"w":"Park p.908: eye surgeon 1 for every five CHCs."},
+{"c":"c14","q":"The Medical Officer of a PHC is described as ...","o":["head of the district health system","supervisor of CHC staff only","chief of the block office","captain of the health team"],"a":3,"w":"Park p.908: MO is captain of the health team."},
+{"c":"c14","q":"The MO keeps one day each month for ...","o":["staff meetings at the PHC","school immunization","vaccine stock-taking","tubectomy camps"],"a":0,"w":"Park p.908: one day each month for staff meetings at the PHC."},
+{"c":"c15","q":"An ANM (HW-F) limits her work to how many families?","o":["100-200","350-500","600-800","1,000"],"a":1,"w":"Park p.908: HW(F) limits work to 350-500 families."},
+{"c":"c15","q":"The ANM submits JSY accounts by which day of each month?","o":["1st","15th","7th","30th"],"a":2,"w":"Park p.908-909: JSY accounts submitted by the 7th of each month."},
+{"c":"c16","q":"Malaria smears collected by HW(M) are sent to the PHC laboratory ...","o":["daily","once a week","once a month","twice a week"],"a":3,"w":"Park p.910-911: dispatched to the PHC lab twice a week."},
+{"c":"c16","q":"HW(M) suspects kala-azar in a patient with fever lasting more than ...","o":["15 days","7 days","10 days","30 days"],"a":0,"w":"Park p.911: kala-azar suspected if fever more than 15 days."},
+{"c":"c17","q":"The LHV visits each sub-centre ...","o":["daily","at least once a week on a fixed day","once a fortnight","once a month"],"a":1,"w":"Park p.912: LHV visits each sub-centre at least once a week on a fixed day (covers 6 sub-centres)."},
+{"c":"c17","q":"LHV ensures drug compliance above what level during filaria MDA?","o":["50%","60%","80%","95%"],"a":2,"w":"Park p.912-913: drug compliance more than 80% during MDA."},
+{"c":"c18","q":"HA(M) checks at least what proportion of houses for malaria?","o":["5%","25%","50%","10%"],"a":3,"w":"Park p.913: HA(M) checks minimum 10% of houses."},
+{"c":"c18","q":"HA(M) arranges, with HW(M), destruction of ...","o":["stray dogs","stray cattle","mosquito larvae only","rat burrows"],"a":0,"w":"Park p.913: destruction of stray dogs with HW(M)."},
+{"c":"c19","q":"Which feature distinguishes a hospital from a health centre?","o":["Integrated preventive and curative care","No definite catchment area","Responsible for a defined population","Mix of medical and paramedical team"],"a":1,"w":"Park p.914: hospital has no catchment area; health centre is responsible for a definite area and population."},
+{"c":"c19","q":"Under the MPW scheme, the district CMO is assisted by how many Deputy CMOs?","o":["2","4","3","5"],"a":2,"w":"Park p.914: CMO with 3 Deputy CMOs, each in charge of one-third of the district."},
+{"c":"c20","q":"ESI covers employees with wages not exceeding ... per month.","o":["Rs 5,000","Rs 10,000","Rs 25,000","Rs 15,000"],"a":3,"w":"Park p.914: ESI covers wages not exceeding Rs 15,000 per month."},
+{"c":"c20","q":"The Central Government Health Scheme was first started in ...","o":["New Delhi, 1954","Mumbai, 1954","New Delhi, 1948","Kolkata, 1948"],"a":0,"w":"Park p.914: CGHS first in New Delhi, 1954 (ESI was 1948)."},
+{"c":"c21","q":"General practitioners form what share of private allopathic doctors?","o":["40%","70%","50%","90%"],"a":1,"w":"Park p.915: GPs are 70% of the profession."},
+{"c":"c21","q":"The Central Council of Indian Medicine, setting minimum educational standards, was set up in ...","o":["1948","1956","1971","1983"],"a":2,"w":"Park p.915: Central Council of Indian Medicine (1971)."},
+{"c":"c22","q":"A voluntary health agency collects funds chiefly from ...","o":["government grants","WHO","taxes","private sources"],"a":3,"w":"Park p.915: autonomous board, funds chiefly from private sources."},
+{"c":"c22","q":"Start of family planning in India by voluntary agencies illustrates which function?","o":["Pioneering","Supplementing","Guarding","Demonstration"],"a":0,"w":"Park p.915-916: pioneering, trying new things before they become national policy."},
+{"c":"c22","q":"The Red Cross Home at Bangalore is for ...","o":["orphaned children","permanently disabled ex-servicemen","leprosy patients","tuberculosis patients"],"a":1,"w":"Park p.916: Indian Red Cross Home at Bangalore for permanently disabled ex-servicemen."},
+{"c":"x1","q":"In the 14th century, quarantine against plague detained ships and travellers for ...","o":["10 days","30 days","40 days","60 days"],"a":2,"w":"Park p.918: ships, crews and cargo were detained 40 days."},
+{"c":"x1","q":"The world's first international health agency was the ...","o":["Office International d'Hygiene Publique, 1907","League of Nations Health Organization, 1923","UNRRA, 1943","Pan American Sanitary Bureau, 1902"],"a":3,"w":"Park p.918: Pan American Sanitary Bureau, 1902."},
+{"c":"x2","q":"The objective of WHO is the attainment by all peoples of ...","o":["the highest possible level of health","freedom from all communicable disease","free medical care","Health for All by 2000 AD"],"a":0,"w":"Park p.919: attainment by all peoples of the highest level of health."},
+{"c":"x2","q":"The WHO Executive Board now has how many members?","o":["24","34","30","36"],"a":1,"w":"Park p.921: Executive Board originally 18, now 34 members."},
+{"c":"x2","q":"Associate members of WHO participate ...","o":["with one vote","with two votes","without vote","only on the Executive Board"],"a":2,"w":"Park p.920: territories not responsible for international relations are associate members without vote."},
+{"c":"x3","q":"WHO Eastern Mediterranean Region headquarters?","o":["Cairo","Brazzaville","Manila","Alexandria"],"a":3,"w":"Park p.921: Eastern Mediterranean - Alexandria (Egypt)."},
+{"c":"x3","q":"How many member countries are in the WHO South-East Asia Region?","o":["11","8","10","13"],"a":0,"w":"Park p.921-922: SEARO has 11 members (India joined 1948)."},
+{"c":"x4","q":"In UNICEF's GOBI campaign, 'O' stands for ...","o":["Oral hygiene","Oral rehydration","Obstetric care","Optimal nutrition"],"a":1,"w":"Park p.922-923: Growth charts, Oral rehydration, Breast feeding, Immunization."},
+{"c":"x4","q":"UNICEF headquarters is at ...","o":["Geneva","New Delhi","New York","Rome"],"a":2,"w":"Park p.922: HQ United Nations, New York (regional office New Delhi)."},
+{"c":"x4","q":"UNICEF was established in 1946 mainly to ...","o":["eradicate smallpox","promote family planning","fund technical assistance","rehabilitate children in war-ravaged countries"],"a":3,"w":"Park p.922: set up by UN General Assembly 1946 to rehabilitate children in war-ravaged countries."},
+{"c":"x5","q":"Which agency is the main source of funds for UN technical assistance?","o":["UNDP","UNFPA","UNICEF","FAO"],"a":0,"w":"Park p.923: UNDP (1966) is the main source of funds for technical assistance."},
+{"c":"x5","q":"UNFPA area projects in India cover 11 districts of Bihar and 4 districts of ...","o":["Kerala","Rajasthan","Tamil Nadu","Odisha"],"a":1,"w":"Park p.923: 11 districts of Bihar and 4 of Rajasthan; UNFPA in India since 1974."},
+{"c":"x6","q":"Which was the first UN specialized agency created (1945, Rome)?","o":["ILO","WHO","FAO","World Bank"],"a":2,"w":"Park p.923: FAO, 1945, Rome."},
+{"c":"x6","q":"Which agency, a League of Nations affiliate (1919), framed the International Labour Code?","o":["WHO","FAO","World Bank","ILO"],"a":3,"w":"Park p.923: ILO, 1919, HQ Geneva; International Labour Code."},
+{"c":"x7","q":"AIIMS, New Delhi was established under the Colombo Plan with aid from ...","o":["New Zealand","Canada","Australia","United Kingdom"],"a":0,"w":"Park p.924: AIIMS built with New Zealand assistance (Canada gave cobalt units)."},
+{"c":"x7","q":"SIDA has assisted which Indian national programme since 1979?","o":["National Blindness Control Programme","National TB Control Programme","National Leprosy Programme","Malaria Programme"],"a":1,"w":"Park p.924: SIDA - TB since 1979 (DANIDA - blindness since 1978)."},
+{"c":"x8","q":"The Rockefeller Foundation began work in India in 1920 with control of ...","o":["malaria","leprosy","hookworm","cholera"],"a":2,"w":"Park p.924: hookworm control in the Madras Presidency, 1920."},
+{"c":"x8","q":"The Ford Foundation in India was mainly active in ...","o":["university research and medical libraries","hookworm control","smallpox eradication","rural health services and family planning"],"a":3,"w":"Park p.924: Ford active in rural health services and family planning (Gandhigram pilot project)."},
+{"c":"x9","q":"The founder of the Red Cross, Henry Dunant, was moved by the battle of ...","o":["Solferino","Waterloo","Crimea","Verdun"],"a":0,"w":"Park p.925: Dunant after Solferino, 1859; First Geneva Convention 1864."},
+{"c":"x9","q":"From 1950 until the 1980s, CARE in India mainly supplied food to children aged ...","o":["0-3 years","6-11 years","3-6 years","12-15 years"],"a":1,"w":"Park p.924-925: CARE in India from 1950, food for children aged 6-11 years."}
+]);
+
+
+(function(){
 const K="cmRecall:",MEM={};
 const get=k=>{if(k in MEM)return MEM[k];try{return localStorage.getItem(K+k)}catch(e){return null}};
 const set=(k,v)=>{MEM[k]=v||null;try{v?localStorage.setItem(K+k,v):localStorage.removeItem(K+k)}catch(e){}};
+const jget=(k,d)=>{try{const v=get(k);return v?JSON.parse(v):d}catch(e){return d}};
+const jset=(k,v)=>set(k,JSON.stringify(v));
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const fmt=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const $=id=>document.getElementById(id);
+const norm=s=>s.toLowerCase();
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const root=document.documentElement,app=$("app");
+const PRINT=!!window.PRINT;
 
-/* theme */
-const root=document.documentElement,tb=document.getElementById("theme");
+/* indexes */
+const CARD={},CH={};
+CHAPTERS.forEach(c=>{CH[c.no]=c;c.items.forEach(i=>{CARD[i.id]=i;i.ch=c.no})});
+const QBY={};(typeof QUIZ!=="undefined"?QUIZ:[]).forEach(x=>{(QBY[x.c]=QBY[x.c]||[]).push(x)});
+const qkey=x=>x.c+"|"+x.q;
+const poolFor=id=>{const c=CARD[id];if(!c)return[];return c.from?c.from.split(", ").flatMap(k=>QBY[k]||[]):(QBY[id]||[])};
+const poolCh=no=>[...new Set(CH[no].items.flatMap(i=>poolFor(i.id)))];
+const allQ=()=>[...new Set(Object.values(QBY).flat())];
+const realChapters=()=>CHAPTERS.filter(c=>!/^L/.test(String(c.no)));
+
+/* theme + language */
+const tb=$("theme"),lb=$("lang");
 const sysDark=()=>matchMedia("(prefers-color-scheme: dark)").matches;
-function applyTheme(t){if(t)root.setAttribute("data-theme",t);else root.removeAttribute("data-theme");const dark=t?t==="dark":sysDark();tb.textContent=dark?"Light mode":"Dark mode"}
+function applyTheme(t){if(t)root.setAttribute("data-theme",t);else root.removeAttribute("data-theme");const d=t?t==="dark":sysDark();tb.textContent=d?"Light mode":"Dark mode"}
 applyTheme(get("theme"));
-tb.onclick=()=>{const dark=root.getAttribute("data-theme")?root.getAttribute("data-theme")==="dark":sysDark();const t=dark?"light":"dark";set("theme",t);applyTheme(t)};
-
-/* hook language: "ml" = English + Malayalam (default), "en" = English only */
-const lb=document.getElementById("lang");
+tb.onclick=()=>{const d=root.getAttribute("data-theme")?root.getAttribute("data-theme")==="dark":sysDark();const t=d?"light":"dark";set("theme",t);applyTheme(t)};
 function applyLang(l){root.setAttribute("data-lang",l);lb.textContent=l==="en"?"Hooks: English + Malayalam":"Hooks: English only"}
 applyLang(window.FORCE_LANG||get("lang")||"ml");
 lb.onclick=()=>{const l=root.getAttribute("data-lang")==="en"?"ml":"en";set("lang",l);applyLang(l)};
-/* render */
-const list=document.getElementById("list"),nav=document.getElementById("nav");
-let n=0;
-CHAPTERS.forEach(ch=>{
-  nav.insertAdjacentHTML("beforeend",`<a href="#ch${ch.no}">${esc(ch.nav||("Ch "+ch.no+" · "+ch.short))}</a>`);
-  const sec=document.createElement("section");sec.className="chap";sec.id="ch"+ch.no;
-  sec.innerHTML=`<div class="chaphead"><span class="eyebrow">${esc(ch.label||("Park chapter "+ch.no))} · pages ${ch.pages} · syllabus ${esc(ch.unit)}</span><h2>${esc(ch.name)}</h2>${ch.note?`<p class="mu" style="font-size:.92rem">${fmt(ch.note)}</p>`:""}</div>`;
-  ch.items.forEach(q=>{
-    n++;const id=q.id;
-    const c=document.createElement("article");c.className="q"+(q.type==="short"?" short":"");c.id=id;c.dataset.type=q.type;
-    c.innerHTML=`<div class="src"><span class="tag${q.type==="short"?" sn":""}">${q.type==="short"?"Short note":"15 marks"}</span>Park p.${esc(q.pages)}</div>
-      <h3>${fmt(q.q)}</h3>
-      <p class="mu" style="font-size:.92rem">Write your headings first. Hint: <b>${q.sk.length} heading${q.sk.length>1?"s":""}</b>.</p>
-      <button type="button" class="reveal">Show skeleton</button>
-      <div class="skel" hidden>
-        ${q.hook?`<p class="hook hk-ml"><b>Ormikkan:</b> ${fmt(q.hook)}</p><p class="hook hk-en"><b>Remember:</b> ${fmt(q.hookEn||q.hook)}</p>`:""}
-        ${q.draw?`<p class="draw"><b>Draw:</b> ${fmt(q.draw)}</p>`:""}
-        ${q.fig&&FIGS[q.fig]?FIGS[q.fig]:""}
-        ${q.sk.map(([h,pts,pg])=>`<h4>${fmt(h)} ${pg?`<span class="ref">· p.${esc(pg)}</span>`:""}</h4><ul>${pts.map(p=>p.startsWith("≈")?`<li class="g">≈ ${fmt(p.slice(1).trim())}</li>`:`<li>${fmt(p)}</li>`).join("")}</ul>`).join("")}
-      </div>
-      <div class="marks"><button type="button" class="ok">✓ Got it</button><button type="button" class="bad">✗ Revise</button></div>`;
-    sec.appendChild(c);
-    const sk=c.querySelector(".skel"),rb=c.querySelector(".reveal");
-    rb.onclick=()=>{sk.hidden=!sk.hidden;rb.textContent=sk.hidden?"Show skeleton":"Hide skeleton"};
-    const ok=c.querySelector(".ok"),bad=c.querySelector(".bad");
-    const paint=()=>{const v=get(id);ok.classList.toggle("on",v==="ok");bad.classList.toggle("on",v==="bad");c.dataset.mark=v||""};
-    ok.onclick=()=>{set(id,get(id)==="ok"?null:"ok");paint();applyFilter()};
-    bad.onclick=()=>{set(id,get(id)==="bad"?null:"bad");paint();applyFilter()};
-    paint();
-  });
-  if(ch.check&&ch.check.length){
-    const box=document.createElement("article");box.className="q chk";
-    box.innerHTML=`<h3>${esc(ch.nav||("Ch "+ch.no))} check: is anything missing?</h3><p class="mu" style="font-size:.92rem">Flip through Park pages ${ch.pages}. Tick each book heading as you find it here.</p>`+
-      ch.check.map((t,i)=>`<label><input type="checkbox" id="c${ch.no}_${i}"><span>${fmt(t)}</span></label>`).join("");
-    sec.appendChild(box);
-    box.querySelectorAll("input").forEach(x=>{x.checked=get(x.id)==="1";x.onchange=()=>set(x.id,x.checked?"1":null)});
-  }
-  list.appendChild(sec);
-});
-document.getElementById("sub").textContent+=` ${n} questions.`;
 
-/* filters */
-let F="all";
-const qi=document.getElementById("q"),qn=document.getElementById("qn");
-const norm=s=>s.toLowerCase();
-function clearMarks(el){el.querySelectorAll("mark").forEach(m=>{m.replaceWith(document.createTextNode(m.textContent))});el.normalize()}
-function markWords(el,words){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest("button,script,style,mark")?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
-  const re=new RegExp("("+words.map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")","gi");
-  nodes.forEach(n=>{if(!re.test(n.nodeValue)){re.lastIndex=0;return}re.lastIndex=0;const f=document.createDocumentFragment();let last=0,m;n.nodeValue.replace(re,(s,g,i)=>{f.append(n.nodeValue.slice(last,i));const k=document.createElement("mark");k.textContent=s;f.append(k);last=i+s.length;return s});f.append(n.nodeValue.slice(last));n.replaceWith(f)})}
-function applyFilter(){
-  const words=norm(qi.value).split(/\s+/).filter(x=>x.length>1);let shown=0,total=0;
-  document.querySelectorAll("article.q:not(.chk)").forEach(c=>{
-    total++;clearMarks(c);
-    let show=F==="all"||(F==="bad"?c.dataset.mark==="bad":c.dataset.type===F);
-    if(show&&words.length){const txt=norm(c.textContent);show=words.every(w=>txt.includes(w))}
-    c.classList.toggle("hidden-by-filter",!show);
-    if(show){shown++;if(words.length){const sk=c.querySelector(".skel"),rb=c.querySelector(".reveal");sk.hidden=false;rb.textContent="Hide skeleton";markWords(c,words)}}
-  });
-  document.querySelectorAll("section.chap").forEach(s=>{s.classList.toggle("hidden-by-filter",words.length>0&&!s.querySelector("article.q:not(.chk):not(.hidden-by-filter)"));});
-  document.querySelectorAll("article.chk").forEach(c=>c.classList.toggle("hidden-by-filter",words.length>0));
-  qn.textContent=words.length?(shown?`${shown} of ${total} cards match`:"No cards match. Try fewer or different words."):"";
+/* ---------- cards ---------- */
+const skelHTML=q=>`${q.hook?`<p class="hook hk-ml"><b>Ormikkan:</b> ${fmt(q.hook)}</p><p class="hook hk-en"><b>Remember:</b> ${fmt(q.hookEn||q.hook)}</p>`:""}${q.draw?`<p class="draw"><b>Draw:</b> ${fmt(q.draw)}</p>`:""}${q.fig&&FIGS[q.fig]?FIGS[q.fig]:""}${q.sk.map(([h,pts,pg])=>`<h4>${fmt(h)} ${pg?`<span class="ref">· p.${esc(pg)}</span>`:""}</h4><ul>${pts.map(p=>p.startsWith("≈")?`<li class="g">≈ ${fmt(p.slice(1).trim())}</li>`:`<li>${fmt(p)}</li>`).join("")}</ul>`).join("")}`;
+const tagHTML=q=>`<span class="tag${q.type==="short"?" sn":""}">${q.type==="short"?"Short note":q.type==="long"?"Full long essay":"15 marks"}</span>`;
+const shortTitle=q=>{let s=q.q.replace(/^Short note:\s*/,"").split(/[:.?]/)[0].trim();return s.length>38?s.slice(0,36)+"…":s};
+function cardEl(q,expanded){
+  const c=document.createElement("article");c.className="q"+(q.type==="short"?" short":"");c.dataset.type=q.type;c.dataset.id=q.id;c.id="card-"+q.id;
+  c.innerHTML=`<div class="src">${tagHTML(q)}Park p.${esc(q.pages)}</div><h3>${fmt(q.q)}</h3>
+    ${q.from?`<p class="mu sm">Built from these cards: ${esc(q.from)}</p>`:""}
+    <p class="mu sm hint">Write your headings first. Hint: <b>${q.sk.length} heading${q.sk.length>1?"s":""}</b>.</p>
+    <button type="button" class="reveal">${expanded?"Hide skeleton":"Show skeleton"}</button>
+    <div class="skel"${expanded?"":" hidden"}>${skelHTML(q)}</div>
+    <div class="marks"><button type="button" class="ok">✓ Got it</button><button type="button" class="bad">✗ Revise</button>${poolFor(q.id).length?'<button type="button" class="qb">Quiz me</button>':""}</div>`;
+  const sk=c.querySelector(".skel"),rb=c.querySelector(".reveal"),ok=c.querySelector(".ok"),bad=c.querySelector(".bad"),qb=c.querySelector(".qb");
+  rb.onclick=()=>{sk.hidden=!sk.hidden;rb.textContent=sk.hidden?"Show skeleton":"Hide skeleton"};
+  c._paint=()=>{const v=get(q.id);ok.classList.toggle("on",v==="ok");bad.classList.toggle("on",v==="bad");c.dataset.mark=v||""};
+  ok.onclick=()=>{const was=get(q.id)==="ok";set(q.id,was?null:"ok");paintAll();if(!was)afterOk(q)};
+  bad.onclick=()=>{set(q.id,get(q.id)==="bad"?null:"bad");paintAll()};
+  if(qb)qb.onclick=()=>openCardQuiz(q,false);
+  c._paint();return c;
 }
-let qt;qi.oninput=()=>{clearTimeout(qt);qt=setTimeout(applyFilter,150)};
-document.querySelectorAll("#filters button").forEach(b=>b.onclick=()=>{F=b.dataset.f;document.querySelectorAll("#filters button").forEach(x=>x.classList.toggle("on",x===b));applyFilter()});
+const paintAll=()=>document.querySelectorAll("article.q[data-id]").forEach(c=>c._paint&&c._paint());
+
+/* ---------- quiz engine ---------- */
+function modal(fn){
+  const o=document.createElement("div");o.className="ov";o.innerHTML='<div class="dlg" role="dialog" aria-modal="true"><button class="x" type="button" aria-label="Close">×</button><div class="dbody"></div></div>';
+  document.body.appendChild(o);document.body.classList.add("noscroll");
+  const close=()=>{o.remove();document.body.classList.remove("noscroll")};
+  o.querySelector(".x").onclick=close;o.onclick=e=>{if(e.target===o)close()};
+  fn(o.querySelector(".dbody"),close);
+}
+function recordAnswer(x,right){
+  const s=jget("qstat",{a:0,c:0,ch:{}});s.a++;if(right)s.c++;
+  const ch=(CARD[x.c]||{}).ch;if(ch!==undefined){const k=String(ch);s.ch[k]=s.ch[k]||[0,0];s.ch[k][0]++;if(right)s.ch[k][1]++}
+  jset("qstat",s);
+  const w=jget("qweak",{});if(right)delete w[qkey(x)];else w[qkey(x)]=1;jset("qweak",w);
+}
+function runQuiz(box,qs,o){
+  qs=qs.map(q=>{const idx=shuffle([0,1,2,3]);return Object.assign({},q,{o:idx.map(k=>q.o[k]),a:idx.indexOf(q.a),_orig:q})});
+  let i=0,score=0;const wrong=[];
+  const show=()=>{
+    if(i>=qs.length)return end();
+    const q=qs[i];
+    box.innerHTML=`<div class="qz"><div class="qz-h"><span>${esc(o.title||"Quiz")}</span><span>${i+1} / ${qs.length}</span></div><div class="pbar"><i style="width:${i/qs.length*100}%"></i></div>
+      <p class="qz-q">${fmt(q.q)}</p><div class="qz-o">${q.o.map((t,k)=>`<button type="button" data-k="${k}">${esc(t)}</button>`).join("")}</div><div class="qz-fb" hidden></div><div class="row2"><button type="button" class="primary nx" hidden>${i+1<qs.length?"Next":"See result"}</button></div></div>`;
+    const btns=[...box.querySelectorAll(".qz-o button")],fb=box.querySelector(".qz-fb"),nx=box.querySelector(".nx");
+    btns.forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k,right=k===q.a;btns.forEach(x=>x.disabled=true);
+      btns[q.a].classList.add("good");if(!right)b.classList.add("wrong");
+      fb.hidden=false;fb.className="qz-fb "+(right?"good":"wrong");fb.innerHTML=(right?"✓ Correct. ":"✗ Not quite. ")+fmt(q.w||"");
+      if(right)score++;else wrong.push(q);recordAnswer(q._orig,right);nx.hidden=false;nx.focus();
+    });
+    nx.onclick=()=>{i++;show()};
+  };
+  const end=()=>{
+    const pct=Math.round(score/qs.length*100);
+    box.innerHTML=`<div class="qz"><div class="qz-h"><span>${esc(o.title||"Quiz")}</span><span>Finished</span></div><div class="score">${score} / ${qs.length}</div>
+      <p style="text-align:center" class="mu">${pct>=80?"Excellent. This topic is solid.":pct>=60?"Good. Revisit the ones you missed.":"Needs another pass. Re-read the skeleton, then retry."}</p>
+      ${wrong.length?`<div class="rev"><b>Review your mistakes</b>${wrong.map(q=>`<div style="margin-top:6px"><b>${fmt(q.q)}</b><br>Answer: ${esc(q.o[q.a])}<br><span class="mu">${fmt(q.w||"")}</span></div>`).join("")}</div>`:""}
+      <div class="row2" id="qa"></div></div>`;
+    const qa=box.querySelector("#qa");
+    (o.extra||[]).forEach(x=>{if(x.when&&!x.when(score,qs.length))return;const b=document.createElement("button");b.type="button";b.textContent=x.label;b.onclick=()=>{x.fn(score,qs.length,wrong);if(x.keep!==true)b.disabled=true};qa.appendChild(b)});
+    if(wrong.length){const r=document.createElement("button");r.type="button";r.textContent="Retry the ones I missed";r.onclick=()=>runQuiz(box,wrong.map(w=>w._orig),Object.assign({},o,{title:(o.title||"Quiz")+" · retry"}));qa.appendChild(r)}
+    const d=document.createElement("button");d.type="button";d.className="primary";d.textContent=o.doneLabel||"Done";d.onclick=()=>{if(o.done)o.done(score,qs.length);};qa.appendChild(d);
+  };
+  show();
+}
+function openCardQuiz(q,fromOk){
+  const pool=poolFor(q.id);if(!pool.length){if(fromOk)chapterCheck(q.ch);return}
+  modal((box,close)=>runQuiz(box,pick(pool,3),{title:"Quick check · "+shortTitle(q),doneLabel:"Continue",
+    extra:[{label:"Mark this card ✗ to revise",when:(s,t)=>s<t,fn:()=>{set(q.id,"bad");paintAll()}}],
+    done:()=>{close();if(fromOk)chapterCheck(q.ch)}}));
+}
+function chapterCheck(no){
+  const c=CH[no];if(!c||get("chq:"+no))return;
+  if(!c.items.every(i=>get(i.id)==="ok"))return;
+  const pool=poolCh(no);if(pool.length<4)return;
+  set("chq:"+no,"1");
+  modal((box,close)=>runQuiz(box,pick(pool,Math.min(8,pool.length)),{title:"Chapter complete 🎉 "+(c.nav||c.short),doneLabel:"Finish",done:()=>close()}));
+}
+function afterOk(q){
+  const pool=poolFor(q.id);
+  if(pool.length)openCardQuiz(q,true);else chapterCheck(q.ch);
+}
+
+/* ---------- search ---------- */
+function textOf(i){return i._t||(i._t=norm(i.q+" "+(i.hook||"")+" "+(i.hookEn||"")+" "+i.sk.map(s=>s[0]+" "+s[1].join(" ")).join(" ")))}
+function markWords(el,words){
+  const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest("button,script,style,mark,svg")?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+  const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+  const re=new RegExp("("+words.map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")","gi");
+  nodes.forEach(n=>{const v=n.nodeValue;re.lastIndex=0;if(!re.test(v))return;re.lastIndex=0;const f=document.createDocumentFragment();let last=0;
+    v.replace(re,(s,g,i)=>{f.append(v.slice(last,i));const k=document.createElement("mark");k.textContent=s;f.append(k);last=i+s.length;return s});f.append(v.slice(last));n.replaceWith(f)});
+}
+function searchView(words){
+  const hits=[];CHAPTERS.forEach(c=>c.items.forEach(i=>{if(words.every(w=>textOf(i).includes(w)))hits.push(i)}));
+  $("qn").textContent=hits.length?`${hits.length} card${hits.length>1?"s":""} match`+(hits.length>40?" (showing 40)":""):"No cards match. Try fewer or different words.";
+  app.innerHTML=`<div class="list" id="res"></div>`;const res=$("res");
+  hits.slice(0,40).forEach(i=>{const c=cardEl(i,true);res.appendChild(c);markWords(c,words)});
+}
+
+/* ---------- views ---------- */
+const progress=c=>{const t=c.items.length,d=c.items.filter(i=>get(i.id)==="ok").length;return[d,t]};
+function homeView(){
+  const real=realChapters(),all=CHAPTERS.flatMap(c=>c.items).filter(i=>i.type!=="long");
+  const done=all.filter(i=>get(i.id)==="ok").length,bad=all.filter(i=>get(i.id)==="bad").length;
+  const s=jget("qstat",{a:0,c:0,ch:{}}),acc=s.a?Math.round(s.c/s.a*100)+"%":"–";
+  const tile=c=>{const [d,t]=progress(c);return `<a class="tile" href="#/ch/${c.no}"><b>${esc(c.nav||("Ch "+c.no+" · "+c.short))}</b><small>${c.items.length} cards · Park ${esc(c.pages)}</small><div class="pbar"><i style="width:${t?d/t*100:0}%"></i></div><small>${d} of ${t} done</small></a>`};
+  const g=(t,list)=>list.length?`<div class="grp">${t}</div><div class="tiles">${list.map(tile).join("")}</div>`:"";
+  app.innerHTML=`<div class="hero"><h1>Community Medicine</h1><p class="mu">Park's Textbook of Preventive and Social Medicine, 23rd ed. Every point shows its Park page. Mark a card ✓ and a quick quiz pops up.</p></div>
+    <div class="stats"><div class="stat"><b>${done}</b><span>cards done</span></div><div class="stat"><b>${acc}</b><span>quiz accuracy</span></div><div class="stat"><b>${bad}</b><span>to revise</span></div></div>
+    <div class="quick"><a class="btn primary" href="#/quiz">Quiz centre</a><a class="btn primary" href="#/exam">MCQ mock test</a><a class="btn" href="#/revise">Revise ✗ (${bad})</a></div>
+    ${g("Long essays: one full 15-mark essay per disease",CHAPTERS.filter(c=>/^L/.test(String(c.no))))}
+    ${g("Park chapter 5 · Communicable diseases",real.filter(c=>/^5/.test(String(c.no))))}
+    ${g("Park chapter 6 · Non-communicable diseases",real.filter(c=>String(c.no)==="6"))}
+    ${g("Other ticked units",real.filter(c=>/^(15|17|19|21|22)$/.test(String(c.no))))}`;
+}
+function chapterView(no){
+  const c=CH[no];if(!c){location.hash="#/";return}
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><div class="chaphead"><span class="eyebrow">${esc(c.label||("Park chapter "+c.no))} · pages ${esc(c.pages)} · syllabus ${esc(c.unit)}</span><h2>${esc(c.name)}</h2>${c.note?`<p class="mu sm">${fmt(c.note)}</p>`:""}</div>
+    <div class="row2">${poolCh(no).length?`<button type="button" id="cq">Chapter quiz (${Math.min(10,poolCh(no).length)} questions)</button>`:""}</div>
+    <div class="filters" id="fl"><button type="button" data-f="all" class="on">All</button><button type="button" data-f="essay">Essays</button><button type="button" data-f="short">Short notes</button><button type="button" data-f="bad">✗ only</button></div><div class="list" id="ls"></div>`;
+  const ls=$("ls");c.items.forEach(i=>ls.appendChild(cardEl(i,false)));
+  if(c.check&&c.check.length){const b=document.createElement("article");b.className="q chk";b.innerHTML=`<h3>${esc(c.nav||("Ch "+c.no))} check: is anything missing?</h3><p class="mu sm">Flip through Park pages ${esc(c.pages)}. Tick each book heading as you find it here.</p>`+c.check.map((t,k)=>`<label><input type="checkbox" id="c${c.no}_${k}"><span>${fmt(t)}</span></label>`).join("");ls.appendChild(b);b.querySelectorAll("input").forEach(x=>{x.checked=get(x.id)==="1";x.onchange=()=>set(x.id,x.checked?"1":null)})}
+  let F="all";const ap=()=>document.querySelectorAll("#ls article.q[data-id]").forEach(a=>{const show=F==="all"||(F==="bad"?a.dataset.mark==="bad":(F==="essay"?a.dataset.type!=="short":a.dataset.type==="short"));a.style.display=show?"":"none"});
+  document.querySelectorAll("#fl button").forEach(b=>b.onclick=()=>{F=b.dataset.f;document.querySelectorAll("#fl button").forEach(x=>x.classList.toggle("on",x===b));ap()});
+  const cq=$("cq");if(cq)cq.onclick=()=>modal((box,close)=>runQuiz(box,pick(poolCh(no),10),{title:"Chapter quiz · "+(c.nav||c.short),doneLabel:"Close",done:close}));
+}
+function reviseView(){
+  const bad=CHAPTERS.flatMap(c=>c.items).filter(i=>get(i.id)==="bad");
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>Revise: cards marked ✗</h2><p class="mu sm" style="margin:4px 0 12px">${bad.length?`${bad.length} card${bad.length>1?"s":""}. Mark ✓ when you can recall them.`:"Nothing marked ✗ yet. Mark cards ✗ Revise as you go, or finish a quiz and let it flag them."}</p><div class="list" id="ls"></div>`;
+  bad.forEach(i=>$("ls").appendChild(cardEl(i,false)));
+}
+function quizView(){
+  const s=jget("qstat",{a:0,c:0,ch:{}}),weak=Object.keys(jget("qweak",{})),total=allQ().length;
+  if(!total){app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>Quiz centre</h2><p class="mu">Questions are still being added to this pack.</p>`;return}
+  const chs=realChapters().filter(c=>poolCh(c.no).length);
+  const bars=chs.map(c=>{const st=(s.ch||{})[String(c.no)]||[0,0],p=st[0]?Math.round(st[1]/st[0]*100):0;return `<div><span>${esc(c.nav||c.short)}</span><span class="pbar"><i style="width:${p}%"></i></span></div>`}).join("");
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>Quiz centre</h2><p class="mu sm" style="margin:4px 0 12px">${total} questions written from the cards. Wrong answers are remembered and come back under "My weak questions".</p>
+    <div class="form"><label>Topic<select id="qs"><option value="all">Everything (${total})</option><option value="weak">My weak questions (${weak.length})</option>${chs.map(c=>`<option value="${c.no}">${esc(c.nav||c.short)} (${poolCh(c.no).length})</option>`).join("")}</select></label>
+    <label>How many questions<select id="qc"><option>10</option><option>20</option><option>30</option><option>50</option></select></label><button type="button" class="primary" id="go">Start quiz</button></div>
+    <div id="run"></div><div class="grp">Your accuracy by chapter</div><div class="bars">${bars}</div><p class="mu sm" style="margin-top:10px">Answered ${s.a} · correct ${s.c}</p>`;
+  $("go").onclick=()=>{
+    const v=$("qs").value,n=+$("qc").value;let pool=v==="all"?allQ():v==="weak"?allQ().filter(x=>weak.includes(qkey(x))):poolCh(v);
+    if(!pool.length){$("run").innerHTML='<p class="mu" style="margin-top:10px">No questions for that choice yet.</p>';return}
+    const box=$("run");box.className="form";box.style.marginTop="12px";runQuiz(box,pick(pool,n),{title:$("qs").selectedOptions[0].text.replace(/\s*\(\d+\)$/,""),doneLabel:"Back to quiz centre",done:()=>{quizView()}});box.scrollIntoView({behavior:"smooth"});
+  };
+}
+
+/* ---------- MCQ mock test ---------- */
+let EXT=null;
+const KEYMAP=()=>{if(!KEYMAP.m){KEYMAP.m={};allQ().forEach(x=>{KEYMAP.m[qkey(x)]=x})}return KEYMAP.m};
+function examView(){
+  const ex=jget("mcq",null);
+  if(ex&&ex.keys)return examRun(ex);
+  const total=allQ().length,chs=realChapters().filter(c=>poolCh(c.no).length);
+  if(total<10){app.innerHTML='<a class="back" href="#/">← All chapters</a><h2>MCQ mock test</h2><p class="mu">Questions are still being added.</p>';return}
+  app.innerHTML=`<a class="back" href="#/">← All chapters</a><h2>MCQ mock test</h2><p class="mu sm" style="margin:4px 0 12px">A timed paper of multiple-choice questions. Answer all, then submit: you see your score and every explanation. Your answers are saved if you leave.</p>
+    <div class="form"><label>Topic<select id="es"><option value="all">Everything (${total} questions)</option>${chs.map(c=>`<option value="${c.no}">${esc(c.nav||c.short)} (${poolCh(c.no).length})</option>`).join("")}</select></label>
+    <label>Paper size<select id="en"><option value="25">25 questions · 25 min</option><option value="50">50 questions · 50 min</option><option value="100">100 questions · 100 min</option></select></label>
+    <button type="button" class="primary" id="eg">Start test</button></div>`;
+  $("eg").onclick=()=>{
+    const v=$("es").value,n=+$("en").value,pool=v==="all"?allQ():poolCh(v),qs=pick(pool,n);
+    jset("mcq",{keys:qs.map(qkey),end:Date.now()+qs.length*60000,ans:{},done:false});examView();
+  };
+}
+function examRun(ex){
+  const m=KEYMAP(),qs=ex.keys.map(k=>m[k]).filter(Boolean);
+  app.innerHTML=`<a class="back" href="#/">← Home (your test is saved)</a><div class="row2" style="justify-content:space-between;align-items:center"><h2>MCQ mock test</h2><span class="timer" id="tm"></span></div><div id="er"></div><div id="eq"></div>
+    <div class="row2" style="margin-top:6px"><button type="button" class="primary" id="fin">${ex.done?"Test finished":"Submit and see my score"}</button><button type="button" id="rst">${ex.done?"New test":"Discard test"}</button></div>`;
+  const eq=$("eq");
+  qs.forEach((q,k)=>{
+    const d=document.createElement("div");d.className="exq";
+    d.innerHTML=`<div class="src">Question ${k+1} of ${qs.length}</div><p class="qz-q">${fmt(q.q)}</p><div class="qz-o">${q.o.map((t,j)=>`<button type="button" data-j="${j}">${esc(t)}</button>`).join("")}</div><div class="qz-fb" hidden></div>`;
+    eq.appendChild(d);
+    const btns=[...d.querySelectorAll(".qz-o button")],fb=d.querySelector(".qz-fb");
+    const paintQ=()=>{btns.forEach((b,j)=>{b.classList.remove("good","wrong");b.style.borderColor="";b.style.background="";if(ex.done){if(j===q.a)b.classList.add("good");else if(ex.ans[k]===j)b.classList.add("wrong");b.disabled=true}else if(ex.ans[k]===j){b.style.borderColor="var(--accent)";b.style.background="var(--accent-soft)"}});
+      if(ex.done){fb.hidden=false;const r=ex.ans[k]===q.a;fb.className="qz-fb "+(r?"good":"wrong");fb.innerHTML=(ex.ans[k]===undefined?"Not answered. ":r?"✓ ":"✗ ")+fmt(q.w||"")}};
+    btns.forEach((b,j)=>b.onclick=()=>{if(ex.done)return;ex.ans[k]=j;jset("mcq",ex);paintQ()});
+    paintQ();
+  });
+  const tm=$("tm"),tick=()=>{if(ex.done){tm.textContent="";return}const left=ex.end-Date.now(),a=Math.abs(left),h=Math.floor(a/3600000),mm=String(Math.floor(a%3600000/60000)).padStart(2,"0"),ss=String(Math.floor(a%60000/1000)).padStart(2,"0");tm.textContent=(left<0?"+":"")+(h?h+":":"")+mm+":"+ss;tm.classList.toggle("low",left<300000)};
+  tick();EXT=setInterval(tick,1000);
+  const result=()=>{
+    let c=0,un=0;qs.forEach((q,k)=>{if(ex.ans[k]===undefined)un++;else if(ex.ans[k]===q.a)c++});
+    const pct=Math.round(c/qs.length*100);
+    $("er").innerHTML=`<div class="form" style="margin:10px 0 14px"><div class="score">${c} / ${qs.length}</div><p class="mu" style="text-align:center">${pct}%${un?` · ${un} not answered`:""} · ${pct>=80?"Excellent":pct>=60?"Good, review the red ones":"Revise the weak topics and retry"}. Scroll down for each explanation.</p></div>`;
+  };
+  if(ex.done)result();
+  $("fin").onclick=()=>{
+    if(ex.done)return;ex.done=true;
+    qs.forEach((q,k)=>{if(ex.ans[k]!==undefined)recordAnswer(q,ex.ans[k]===q.a)});
+    jset("mcq",ex);examView();window.scrollTo(0,0);
+  };
+  $("rst").onclick=()=>{set("mcq",null);examView()};
+}
+
+/* ---------- print (PDF) ---------- */
+function renderPrint(){
+  document.body.classList.add("print");
+  const map={};CHAPTERS.forEach(c=>c.items.forEach(i=>{if(i.from)i.from.split(", ").forEach(f=>{map[f]=i.id})}));
+  let h=`<div class="chaphead note"><span class="eyebrow">Park's Textbook of Preventive and Social Medicine, 23rd ed.</span><h2>Community Medicine: exam recall pack</h2><p class="mu sm">Every heading shows its Park page. Short cards that are already inside a Full long essay are not repeated; look them up under that essay (the 'check' lines say where each page went). Lines marked ≈ are not in Park.</p></div>`;
+  CHAPTERS.forEach(c=>{
+    const items=c.items.filter(i=>!map[i.id]);if(!items.length&&!(c.check&&c.check.length))return;
+    h+=`<div class="chaphead"><span class="eyebrow">${esc(c.label||("Park chapter "+c.no))} · pages ${esc(c.pages)}</span><h2>${esc(c.name)}</h2>${c.note?`<p class="mu sm">${fmt(c.note)}</p>`:""}</div>`;
+    items.forEach(i=>{h+=`<article class="q" data-type="${i.type}"><div class="src">${tagHTML(i)}Park p.${esc(i.pages)}</div><h3>${fmt(i.q)}</h3>${i.from?`<p class="mu sm">Built from: ${esc(i.from)}</p>`:""}<div class="skel">${skelHTML(i)}</div></article>`});
+    if(c.check&&c.check.length&&!/^L/.test(String(c.no))){
+      const mapped=c.check.map(t=>{const k=t.lastIndexOf("→");if(k<0)return t;return t.slice(0,k+1)+t.slice(k+1).replace(/\b([a-z]{1,2}\d{1,2})\b/g,(m)=>map[m]?map[m]:m)});
+      h+=`<article class="q"><h3>Check: is anything missing?</h3><ul>${mapped.map(t=>`<li>${fmt(t)}</li>`).join("")}</ul></article>`;
+    }
+  });
+  app.innerHTML=h;
+}
+
+/* ---------- router ---------- */
+let SEARCHING=false;
+function route(){
+  if(EXT){clearInterval(EXT);EXT=null}
+  const q=norm($("q").value).split(/\s+/).filter(x=>x.length>1);
+  if(q.length){SEARCHING=true;searchView(q);return}
+  SEARCHING=false;$("qn").textContent="";
+  const [v,a]=location.hash.replace(/^#\/?/,"").split("/");
+  if(v==="ch")chapterView(a);else if(v==="quiz")quizView();else if(v==="exam")examView();else if(v==="revise")reviseView();else homeView();
+  window.scrollTo(0,0);
+}
+if(PRINT){renderPrint()}else{
+  let qt;$("q").oninput=()=>{clearTimeout(qt);qt=setTimeout(route,180)};
+  window.addEventListener("hashchange",()=>{$("q").value="";route()});
+  route();
+}
+})();
 </script>
 
 </html>
